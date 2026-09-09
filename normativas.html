@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Normativas Internas | Dark Unity Esports</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-deep: #0a0c10;
+            --bg-card: #121620;
+            --bg-card-hover: #1b2230;
+            --accent-blue-dark: #1e3a8a;
+            --accent-blue-light: #38bdf8;
+            --text-white: #ffffff;
+            --text-gray-light: #cbd5e1;
+            --text-gray-dark: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-white);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .brand {
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* HEADER & NAV */
+        header {
+            background-color: rgba(10, 12, 16, 0.95);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--accent-blue-dark);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 2rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-white);
+            letter-spacing: 1px;
+        }
+
+        .logo-text span {
+            color: var(--accent-blue-light);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-gray-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-blue-light);
+        }
+
+        /* MAIN CONTENT CONTAINER */
+        .normativa-container {
+            max-width: 900px;
+            margin: 120px auto 4rem auto;
+            padding: 2.5rem;
+            background-color: var(--bg-card);
+            border: 1px solid var(--accent-blue-dark);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .normativa-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 2px solid var(--accent-blue-dark);
+            padding-bottom: 1.5rem;
+        }
+
+        .normativa-header h1 {
+            font-size: 2.8rem;
+            color: var(--text-white);
+            margin-bottom: 0.5rem;
+        }
+
+        .normativa-header h1 span {
+            color: var(--accent-blue-light);
+        }
+
+        .normativa-header p {
+            color: var(--text-gray-dark);
+            font-size: 1.1rem;
+        }
+
+        /* DOWNLOAD BUTTON BOX */
+        .download-box {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.4), rgba(56, 189, 248, 0.1));
+            border: 1px solid var(--accent-blue-light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .download-box p {
+            color: var(--text-gray-light);
+            font-size: 1rem;
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--accent-blue-dark), var(--accent-blue-light));
+            color: var(--text-white);
+            padding: 0.8rem 1.8rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+        }
+
+        /* SECTIONS / CONTENT STYLING */
+        .content-section {
+            margin-bottom: 2.2rem;
+        }
+
+        .content-section h2 {
+            font-size: 1.6rem;
+            color: var(--accent-blue-light);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-section h3 {
+            font-size: 1.2rem;
+            color: var(--text-white);
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .content-section p, .content-section li {
+            color: var(--text-gray-light);
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .content-section ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* REGLA GENERAL PARA DESTACAR LOS SUBTÍTULOS / NEGRITAS EN LAS LISTAS */
+        .content-section li strong {
+            color: var(--text-white);
+            font-weight: 700;
+            background: rgba(56, 189, 248, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border-left: 3px solid var(--accent-blue-light);
+            display: inline-block;
+            margin-right: 4px;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: var(--bg-card);
+            border-top: 1px solid var(--accent-blue-dark);
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-gray-dark);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            .normativa-container {
+                margin: 90px 1rem 2rem 1rem;
+                padding: 1.5rem;
+            }
+            .normativa-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo-container">
+                <img src="logo.png" alt="Dark Unity Esports Logo" class="logo-img" onerror="this.style.display='none'">
+                <div class="logo-text">DARK <span>UNITY</span></div>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html#inicio">Inicio</a></li>
+                    <li><a href="index.html#rosters">Secciones</a></li>
+                    <li><a href="index.html#torneos">Torneos</a></li>
+                    <li><a href="index.html#contacto">Comunidad</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- CONTAINER DE NORMATIVAS -->
+    <main class="normativa-container">
+        <div class="normativa-header">
+            <h1>Reglamento Competitivo <span>Dark Unity</span></h1>
+            <p>Normas oficiales, criterios de participación y fair play para nuestras salas y scrims semanales.</p>
+        </div>
+
+        <!-- BOTÓN DE DESCARGA PDF -->
+        <div class="download-box">
+            <div>
+                <h3>¿Prefieres leerlo sin conexión?</h3>
+                <p>Descarga el documento oficial completo en formato PDF directamente a tu dispositivo.</p>
+            </div>
+            <a href="reglamento-dark-unity.pdf" download="Reglamento_Dark_Unity_Esports.pdf" class="btn-download">
+                <i class="fa-solid fa-file-arrow-down"></i> Descargar PDF
+            </a>
+        </div>
+
+        <!-- CONTENIDO DETALLADO DEL REGLAMENTO -->
+        <div class="content-section">
+            <h2><i class="fa-solid fa-circle-info"></i> Sobre la Comunidad</h2>
+            <p>En esta organización se busca realizar salas competitivas en el modo multijugador del juego Call of Duty Mobile. Los equipos podrán participar de forma libre en estas salas que se hacen regularmente durante la semana.</p>
+            <p>No somos una organización con fines de lucro; estamos enfocados en mantener la participación constante de los equipos con el fin de que se mantengan en forma, sigan puliendo sus habilidades de juego y así continúen generando condiciones para torneos o ligas de mayor categoría.</p>
+            <p>Sitio web oficial de referencia del reglamento Champs: <a href="https://www.callofduty.com/es/mobile/esports/rules" target="_blank" style="color: var(--accent-blue-light);">Call of Duty Mobile Esports Rules</a></p>
+        </div>
+
+        <div class="content-section">
+            <h2><i class="fa-solid fa-calendar-days"></i> 1. Días de Participación y Horarios</h2>
+            <p>Los juegos competitivos se realizarán regularmente los días: <strong>Lunes, Miércoles y Viernes</strong>.</p>
+            <h3>Horarios Locales (Según Zona Horaria):</h3>
+            <ul>
+                <li><strong>07:00 PM:</strong> América Central (UTC-6)</li>
+                <li><strong>08:00 PM:</strong> México, Panamá, América Central (UTC-5)</li>
+                <li><strong>09:00 PM:</strong> Colombia, Ecuador, Perú, USA Región Central (UTC-5)</li>
+                <li><strong>10:00 PM:</strong> Venezuela, Paraguay, Bolivia, Chile, Cuba, USA Región Este (UTC-4)</li>
+                <li><strong>11:00 PM:</strong> Argentina, Chile (UTC-3)</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2><i class="fa-solid fa-shield-halved"></i> 2. Reglamento de Equipos</h2>
+            <ul>
+                <li><strong>Requisito de Clan y Tag:</strong> Todo equipo que desee participar debe estar constituido como clan. Sus jugadores deben portar obligatoriamente el tag del clan al que pertenecen.</li>
+                <li><strong>Jugadores sin Tag:</strong> Si un jugador no posee el tag, deberá estar unido al clan dentro del juego para poder participar. Luego del scrim, deberá actualizar su nickname con el tag correspondiente. Si en el siguiente encuentro persiste sin el tag, no podrá jugar y solo se le permitirá el acceso como espectador.</li>
+                <li><strong>Jugadores de prueba (Tryouts):</strong> Se permite la entrada de aspirantes siempre que no superen a los miembros oficiales del clan. El límite es de 1 jugador de prueba. No se permitirá la participación de equipos con 2 o más jugadores de prueba.</li>
+                <li><strong>Limitación de Tryouts:</strong> Un clan solo podrá incluir jugadores de prueba una vez por semana. El líder debe ser discreto y no excederse para evitar retrasos.</li>
+                <li><strong>Notificación Previa:</strong> El líder debe notificar con antelación si llevará un jugador de prueba; de lo contrario, el rival tiene derecho a no aceptarlo.</li>
+                <li><strong>Capacidad del Equipo:</strong> Máximo de 7 jugadores por equipo (5 en partida y 2 en la silla de espectadores).</li>
+                <li><strong>Rotaciones:</strong> Permitidas al finalizar cada ronda, entre jugadores del mismo tier.</li>
+                <li><strong>Visibilidad de Perfil:</strong> Prohibido el uso del "Modo Transmisión". Nombre y perfil visibles en todo momento.</li>
+                <li><strong>Conducta y Comunicación:</strong> Los líderes son los únicos responsables de lo que suceda en las salas. Cero insultos o toxicidad. Uso de canales externos (Discord) para comunicación interna.</li>
+                <li><strong>Espectadores Externos:</strong> No se permiten invitados o espectadores ajenos al clan.</li>
+                <li><strong>Regla para Buscar y Destruir (S&D):</strong> Al ser el modo más táctico, el uso de espectadores queda sujeto a un acuerdo mutuo (se recomienda jugar sin espectadores para evitar filtraciones de callouts).</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2><i class="fa-solid fa-layer-group"></i> 3. Participación por Niveles de Equipos</h2>
+            <ul>
+                <li>Los equipos de los niveles <strong>(T4 LOW, T4 Y T4 HIGH)</strong> compiten juntos en el ranking T4.</li>
+                <li>Los equipos de los niveles <strong>(T3, T2, T1)</strong> compiten juntos en el ranking T3-T2-T1.</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2><i class="fa-solid fa-trophy"></i> 4. Ranking de Puntos</h2>
+            <p>Cada líder o colíder es responsable de registrar el resultado del scrim en el formulario correspondiente. Al finalizar la semana, se evaluarán los resultados para definir el Top 3 de cada ranking.</p>
+            <h3>Cronograma Semanal:</h3>
+            <ul>
+                <li><strong>Lunes:</strong> Ronda Regular</li>
+                <li><strong>Martes:</strong> Recuperación</li>
+                <li><strong>Miércoles:</strong> Ronda Regular</li>
+                <li><strong>Jueves:</strong> Recuperación</li>
+                <li><strong>Viernes:</strong> Ronda Regular</li>
+                <li><strong>Sábado:</strong> Recuperación</li>
+                <li><strong>Domingo:</strong> Desempate / Resultados Finales</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> 5. Recuperación de Puntos</h2>
+            <p>Si existe algún inconveniente que impida la participación normal de un equipo en los días regulares (lunes, miércoles y viernes), este no perderá los puntos automáticamente, sino que tendrá la oportunidad de recuperarlos al día siguiente.</p>
+        </div>
+
+        <div class="content-section">
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 7. Penalizaciones</h2>
+            <ul>
+                <li><strong>Abandono de Sala:</strong> Pérdida automática del encuentro sin derecho a recuperación (excepción si se demuestra uso de hacks o faltas graves del rival).</li>
+                <li><strong>Incumplimiento de Reglas:</strong> Si un jugador utiliza armamento prohibido (baneado), el punto de esa ronda pasa al rival y se continúa con el juego.</li>
+                <li><strong>Asistencia y Puntualidad:</strong> Victoria por Forfeit si el equipo visitante tarda más de 20 minutos. Margen de espera de 10 minutos por ronda.</li>
+                <li><strong>Uso de VPN:</strong> Totalmente prohibido. Primera falta: advertencia. Reincidencia: el rival puede reclamar la victoria inmediata.</li>
+                <li><strong>Juego Antideportivo:</strong> Uso de hacks, autoeliminación intencionada o suplantación de identidad resulta en pérdida automática del scrim.</li>
+                <li><strong>Comportamientos Tóxicos:</strong> Mensajes ofensivos, emotes de burla o body shot reciben llamada de atención; reincidencia ocasiona la pérdida del punto de la ronda.</li>
+                <li><strong>Doxing y Acoso:</strong> Tolerancia cero. Intento de obtener o difundir información personal de otro miembro conlleva expulsión inmediata de la comunidad.</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2><i class="fa-solid fa-chess-board"></i> 8. Orden de Juego</h2>
+            <p>Se determinan los roles de <strong>Equipo Local</strong> y <strong>Equipo Visitante</strong> mediante sorteo:</p>
+            <ul>
+                <li><strong>Equipo Local:</strong> Responsable de crear la sala, enviar invitación y elegir los mapas para los modos <strong>Buscar y Destruir</strong> y <strong>Control</strong>.</li>
+                <li><strong>Equipo Visitante:</strong> Ingresa a la sala mediante invitación y tiene la responsabilidad de elegir el mapa para el modo <strong>Punto Caliente</strong>.</li>
+            </ul>
+        </div>
+
+        <div class="content-section" style="border-top: 1px solid var(--accent-blue-dark); padding-top: 1.5rem; margin-top: 2rem;">
+            <h2><i class="fa-solid fa-id-card"></i> Notas Finales y Contacto</h2>
+            <p><strong>CEO de la Organización Dark Unity Esports:</strong> Carlewis Eduardo Cortez</p>
+            <p><strong>Afiliación:</strong> Staff de Emperium Esports</p>
+            <p><strong>Contactos:</strong> +584121345786 | Loot Box Store: +584222270007</p>
+            <p><strong>Correo Electrónico:</strong> carlewiscortez44@gmail.com / lootboxstore2026@gmail.com</p>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Dark Unity Esports. Todos los derechos reservados. | Diseñado para la comunidad de CODM.</p>
+    </footer>
+
+</body>
+</html>
