@@ -445,12 +445,11 @@
     <script>
     // Poblar los países en los selects
     const paises = [
-        "Argentina", "Bolivia", "Brasil", "Chile", "Colombia", 
-        "Costa Rica", "Cuba", "Ecuador", "El Salvador", "España", 
-        "Estados Unidos", "Guatemala", "Honduras", "México", 
-        "Nicaragua", "Panamá", "Paraguay", "Perú", 
-        "República Dominicana", "Uruguay", "Venezuela", "Otro"
-    ];
+    "Argentina", "Bahamas", "Belice", "Bolivia", "Brasil", "Canadá", "Chile",
+    "Colombia", "Costa Rica", "Cuba", "Ecuador", "El Salvador", "España", "Estados Unidos",
+    "Guatemala", "Honduras", "Jamaica", "México", "Nicaragua", "Panamá", "Paraguay",
+    "Perú", "Puerto Rico", "República Dominicana", "Uruguay", "Venezuela", "Otro"
+];
 
     document.querySelectorAll('.pais-select').forEach(select => {
         paises.forEach(pais => {
@@ -477,7 +476,7 @@
             btn.disabled = false;
             return;
         }
-
+    
         const file = fileInput.files[0];
         const reader = new FileReader();
         
