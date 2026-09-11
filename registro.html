@@ -576,6 +576,46 @@
             this.value = this.value.replace(/[^0-9]/g, '').slice(0, 19);
         });
     });
+
+    function validarDuplicados() {
+    const setNicknames = new Set();
+    const setUids = new Set();
+    const setDiscords = new Set();
+
+    for (let i = 1; i <= 7; i++) {
+        let nick = getValueByName(`p${i}_nick`).trim().toLowerCase();
+        let uid = getValueByName(`p${i}_uid`).trim();
+        let discord = getValueByName(`p${i}_discord`).trim();
+
+        // Si el jugador de suplentes está completamente vacío, lo salta
+        if (!nick && !uid && !discord) continue;
+
+        if (nick) {
+            if (setNicknames.has(nick)) {
+                alert(`Error: El Nickname "${nick}" está repetido en el formulario.`);
+                return false;
+            }
+            setNicknames.add(nick);
+        }
+
+        if (uid) {
+            if (setUids.has(uid)) {
+                alert(`Error: La UID de juego "${uid}" está repetida entre los jugadores.`);
+                return false;
+            }
+            setUids.add(uid);
+        }
+
+        if (discord) {
+            if (setDiscords.has(discord)) {
+                alert(`Error: El Discord ID "${discord}" está repetido entre los jugadores.`);
+                return false;
+            }
+            setDiscords.add(discord);
+        }
+    }
+    return true;
+}
     </script>
 </body>
 </html>
