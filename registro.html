@@ -442,7 +442,7 @@
         </form>
     </div>
 
-    <script>
+<script>
     // Poblar los países en los selects
     const paises = [
     "Argentina", "Bahamas", "Belice", "Bolivia", "Brasil", "Canadá", "Chile",
@@ -509,6 +509,12 @@
 
     document.getElementById('registroForm').addEventListener('submit', e => {
         e.preventDefault();
+
+        // 1. Validar duplicados PRIMERO de todo
+        if (!validarDuplicados()) {
+            return; // Detiene el envío inmediatamente si hay duplicados
+        }
+
         const btn = document.querySelector('button[type="submit"]');
         const originalText = btn.innerText;
         btn.innerText = 'Enviando...';
@@ -528,15 +534,8 @@
         reader.readAsDataURL(file);
         reader.onload = function () {
             const base64Data = reader.result.split(',')[1];
-            
-            // 1. Validar que no existan datos repetidos antes de empaquetar y enviar
-            if (!validarDuplicados()) {
-                btn.innerText = originalText;
-                btn.disabled = false;
-                return; // Detiene el envío si hay algún duplicado
-            }
 
-            // 2. Construcción de los datos del formulario (una sola vez)
+            // 2. Construcción de los datos del formulario
             const formData = {
                 nombreEquipo: getValueByName('team_name'),
                 imageBytes: base64Data,
