@@ -56,15 +56,15 @@
             display: grid;
             grid-template-columns: 260px 260px 260px;
             gap: 50px;
-            align-items: start; /* Alinea los bloques arriba */
+            align-items: start;
             width: max-content;
             margin: 0 auto;
         }
 
-        /* Cada columna actúa como un grid para fijar el título arriba exactamente a la misma altura */
+        /* Cada columna fija el título arriba */
         .round-column {
             display: grid;
-            grid-template-rows: 35px 1fr; /* Fila 1 fija para el título, Fila 2 para las cajas */
+            grid-template-rows: 35px 1fr;
             gap: 20px;
         }
 
@@ -80,7 +80,6 @@
             align-items: center;
         }
 
-        /* Contenido de las columnas */
         .column-content {
             display: flex;
             flex-direction: column;
@@ -122,27 +121,29 @@
             font-weight: bold;
         }
 
-        /* Separaciones internas */
         .matchup-pair {
             display: flex;
             flex-direction: column;
             margin-bottom: 20px;
         }
 
+        /* Desplazamiento ajustado para centrar las semifinales frente a cuartos */
         .semi-container {
             display: flex;
             flex-direction: column;
-            justify-content: space-around;
-            height: 100%;
-            min-height: 320px;
+            justify-content: flex-start;
+            margin-top: 55px; /* Empuja el bloque de semifinales hacia abajo para centrarlo */
+        }
+        
+        .semi-container .matchup-pair:first-child {
+            margin-bottom: 95px; /* Espacio vertical exacto entre la primera y segunda semi */
         }
 
         .final-container {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            height: 100%;
-            min-height: 450px;
+            justify-content: flex-start;
+            margin-top: 140px; /* Centra la gran final respecto a las semifinales */
         }
 
         .back-btn {
@@ -201,7 +202,7 @@
                     </div>
                 </div>
 
-                <!-- COLUMNA 2: Semifinales -->
+                <!-- COLUMNA 2: Semifinales (Bloque rebajado al centro) -->
                 <div class="round-column">
                     <div class="round-title">Semifinales</div>
                     <div class="column-content semi-container">
