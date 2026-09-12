@@ -54,7 +54,7 @@
 
         .bracket-grid {
             display: grid;
-            grid-template-columns: 260px 260px 260px;
+            grid-template-columns: 260px 260px 260px 260px;
             gap: 50px;
             align-items: start;
             width: max-content;
@@ -173,6 +173,14 @@
             margin-bottom: 20px;
         }
 
+        /* Contenedor específico para alinear el Team Winner a la altura de TOP B */
+        .winner-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            margin-top: 290px;
+        }
+
         .back-btn {
             display: inline-block;
             margin-top: 30px;
@@ -249,7 +257,7 @@
                     </div>
                 </div>
 
-                <!-- COLUMNA 3: Gran Final y Team Winner -->
+                <!-- COLUMNA 3: Gran Final -->
                 <div class="round-column">
                     <div class="round-title">Gran Final 🏆</div>
                     <div class="column-content final-container">
@@ -270,9 +278,14 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
 
-                        <!-- SECCIÓN TEAM WINNER AGREGADA -->
-                        <div class="section-label" style="color: #38bdf8; margin-top: 15px;">TEAM WINNER</div>
+                <!-- COLUMNA 4: Team Winner -->
+                <div class="round-column">
+                    <div class="round-title">Campeón</div>
+                    <div class="column-content winner-container">
+                        <div class="section-label" style="color: #38bdf8;">TEAM WINNER</div>
                         <div class="matchup-pair">
                             <div class="team-box" style="border-color: #38bdf8;">
                                 <div class="team-inner" style="background: rgba(56, 189, 248, 0.05);">
@@ -281,7 +294,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
