@@ -127,19 +127,24 @@
             margin-bottom: 20px;
         }
 
-        /* Semifinales bajadas un poco más para un centrado perfecto */
+        /* Separación extra entre el bloque superior y el inferior de Cuartos de Final */
+        .matchup-pair.qf-split {
+            margin-bottom: 60px; /* Genera el espacio central en los cuartos */
+        }
+
+        /* Semifinales alineadas con los dos grandes bloques de cuartos */
         .semi-container {
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            margin-top: 75px; 
+            margin-top: 45px; 
         }
         
         .semi-container .matchup-pair:first-child {
-            margin-bottom: 115px; 
+            margin-bottom: 145px; /* Espacio central exacto entre las 2 semifinales */
         }
 
-        /* Gran Final ajustada proporcionalmente */
+        /* Gran Final centrada respecto a las semifinales */
         .final-container {
             display: flex;
             flex-direction: column;
@@ -186,7 +191,8 @@
                             <div class="team-box"><div class="team-inner"><span>8. EQUIPO 8</span><span class="score">1</span></div></div>
                         </div>
 
-                        <div class="matchup-pair">
+                        <!-- Este matchup lleva la separación central de los 2 bloques de 4 -->
+                        <div class="matchup-pair qf-split">
                             <div class="team-box"><div class="team-inner"><span>4. EQUIPO 4</span><span class="score">0</span></div></div>
                             <div class="team-box"><div class="team-inner winner"><span>5. EQUIPO 5</span><span class="score">3</span></div></div>
                         </div>
