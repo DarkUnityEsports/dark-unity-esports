@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playoffs Bracket | Dark Unity eSports</title>
+    <title>Playoffs 8 Equipos | Dark Unity eSports</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -66,12 +66,12 @@
             padding-left: 8px;
         }
         
-        /* Estilo de los Enfrentamientos (Partidos) */
+        /* Estilo de los Enfrentamientos */
         .matchup {
             background: var(--bg-card);
             border: 1px solid var(--accent-blue-dark);
             border-radius: 6px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
@@ -79,23 +79,19 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 12px;
-            font-size: 0.9rem;
+            padding: 9px 12px;
+            font-size: 0.85rem;
             background: rgba(0,0,0,0.2);
         }
         .team-row:not(:last-child) {
             border-bottom: 1px solid rgba(30, 58, 138, 0.4);
-        }
-        .team-row.winner {
-            background: rgba(56, 189, 248, 0.1);
-            font-weight: bold;
         }
         .score {
             background: var(--accent-blue-dark);
             color: var(--text-white);
             padding: 2px 8px;
             border-radius: 4px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         .back-btn {
@@ -119,89 +115,64 @@
     <div class="container">
         <div class="header-title">
             <span class="subtitle">Dark Unity eSports Tournament</span>
-            <h1>PLAYOFFS BRACKET</h1>
+            <h1>PLAYOFFS BRACKET - 8 EQUIPOS</h1>
             <p style="color: var(--text-gray-light); font-size: 0.9rem;">SINGLE ELIMINATION | BEST OF 5</p>
         </div>
 
-        <!-- Contenedor de las llaves estilo árbol -->
+        <!-- Contenedor de las llaves para 8 equipos -->
         <div class="bracket-wrapper">
             
-            <!-- COLUMNA 1: Cuartos de Final -->
+            <!-- COLUMNA 1: Cuartos de Final (4 Partidos para los 8 equipos) -->
             <div class="round-column">
                 <div class="round-title">Cuartos de Final</div>
                 
                 <div class="matchup">
-                    <div class="team-row winner">
-                        <span>1. SHARPER ESPORT</span>
-                        <span class="score">2</span>
-                    </div>
-                    <div class="team-row">
-                        <span>2. BLACKLIST INTL.</span>
-                        <span class="score">3</span>
-                    </div>
+                    <div class="team-row"><span>EQUIPO 1</span><span class="score">0</span></div>
+                    <div class="team-row"><span>EQUIPO 8</span><span class="score">0</span></div>
                 </div>
 
                 <div class="matchup">
-                    <div class="team-row winner">
-                        <span>3. DG ESPORTS</span>
-                        <span class="score">3</span>
-                    </div>
-                    <div class="team-row">
-                        <span>4. OMEGA ESPORTS</span>
-                        <span class="score">1</span>
-                    </div>
+                    <div class="team-row"><span>EQUIPO 4</span><span class="score">0</span></div>
+                    <div class="team-row"><span>EQUIPO 5</span><span class="score">0</span></div>
                 </div>
 
                 <div class="matchup">
-                    <div class="team-row winner">
-                        <span>5. WDC. FREESLOT</span>
-                        <span class="score">3</span>
-                    </div>
-                    <div class="team-row">
-                        <span>6. RIMO SADEWA</span>
-                        <span class="score">2</span>
-                    </div>
+                    <div class="team-row"><span>EQUIPO 2</span><span class="score">0</span></div>
+                    <div class="team-row"><span>EQUIPO 7</span><span class="score">0</span></div>
+                </div>
+
+                <div class="matchup">
+                    <div class="team-row"><span>EQUIPO 3</span><span class="score">0</span></div>
+                    <div class="team-row"><span>EQUIPO 6</span><span class="score">0</span></div>
                 </div>
             </div>
 
-            <!-- COLUMNA 2: Semifinales -->
+            <!-- COLUMNA 2: Semifinales (2 Partidos) -->
             <div class="round-column">
-                <div class="round-title">Semifinales A y B</div>
+                <div class="round-title">Semifinales</div>
                 
-                <div class="matchup" style="margin-bottom: 60px;">
-                    <div class="team-row">
-                        <span>WINNER QF 1</span>
-                        <span class="score">0</span>
-                    </div>
-                    <div class="team-row">
-                        <span>WINNER QF 2</span>
-                        <span class="score">0</span>
-                    </div>
+                <div class="matchup" style="margin-bottom: 80px;">
+                    <div class="team-row"><span>GANADOR QF 1</span><span class="score">0</span></div>
+                    <div class="team-row"><span>GANADOR QF 2</span><span class="score">0</span></div>
                 </div>
 
                 <div class="matchup">
-                    <div class="team-row">
-                        <span>WINNER QF 3</span>
-                        <span class="score">0</span>
-                    </div>
-                    <div class="team-row">
-                        <span>WINNER QF 4</span>
-                        <span class="score">0</span>
-                    </div>
+                    <div class="team-row"><span>GANADOR QF 3</span><span class="score">0</span></div>
+                    <div class="team-row"><span>GANADOR QF 4</span><span class="score">0</span></div>
                 </div>
             </div>
 
-            <!-- COLUMNA 3: Gran Final -->
+            <!-- COLUMNA 3: Gran Final (1 Partido) -->
             <div class="round-column">
                 <div class="round-title">Gran Final 🏆</div>
                 
                 <div class="matchup" style="border: 2px solid #f1c40f;">
                     <div class="team-row" style="background: rgba(241, 196, 15, 0.05);">
-                        <span>WINNER SF A</span>
+                        <span>GANADOR SEMI 1</span>
                         <span class="score" style="background: #f1c40f; color: #000;">0</span>
                     </div>
                     <div class="team-row">
-                        <span>WINNER SF B</span>
+                        <span>GANADOR SEMI 2</span>
                         <span class="score">0</span>
                     </div>
                 </div>
