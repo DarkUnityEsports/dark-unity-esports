@@ -69,8 +69,8 @@
         }
 
         .round-title {
-            font-size: 0.95rem; /* Ligeramente más grande */
-            color: var(--text-white); /* Color blanco */
+            font-size: 0.95rem;
+            color: var(--text-white);
             text-transform: uppercase;
             font-weight: bold;
             border-left: 3px solid var(--accent-blue-light);
@@ -170,7 +170,7 @@
         }
         
         .final-container .matchup-pair:first-child {
-            margin-bottom: 60px;
+            margin-bottom: 20px;
         }
 
         .back-btn {
@@ -209,24 +209,24 @@
                     <div class="column-content">
                         <div class="section-label">GRUPO A</div>
                         <div class="matchup-pair">
-                            <div class="team-box"><div class="team-inner winner"><span>1. EQUIPO 1</span><span class="score">3</span></div></div>
-                            <div class="team-box"><div class="team-inner"><span>8. EQUIPO 8</span><span class="score">1</span></div></div>
+                            <div class="team-box"><div class="team-inner winner"><span id="name_team_1">1. EQUIPO 1</span><span class="score" id="score_team_1">3</span></div></div>
+                            <div class="team-box"><div class="team-inner"><span id="name_team_2">8. EQUIPO 8</span><span class="score" id="score_team_2">1</span></div></div>
                         </div>
 
                         <div class="matchup-pair qf-split">
-                            <div class="team-box"><div class="team-inner"><span>4. EQUIPO 4</span><span class="score">0</span></div></div>
-                            <div class="team-box"><div class="team-inner winner"><span>5. EQUIPO 5</span><span class="score">3</span></div></div>
+                            <div class="team-box"><div class="team-inner"><span id="name_team_3">4. EQUIPO 4</span><span class="score" id="score_team_3">0</span></div></div>
+                            <div class="team-box"><div class="team-inner winner"><span id="name_team_4">5. EQUIPO 5</span><span class="score" id="score_team_4">3</span></div></div>
                         </div>
 
                         <div class="section-label">GRUPO B</div>
                         <div class="matchup-pair">
-                            <div class="team-box"><div class="team-inner winner"><span>2. EQUIPO 2</span><span class="score">3</span></div></div>
-                            <div class="team-box"><div class="team-inner"><span>7. EQUIPO 7</span><span class="score">2</span></div></div>
+                            <div class="team-box"><div class="team-inner winner"><span id="name_team_5">2. EQUIPO 2</span><span class="score" id="score_team_5">3</span></div></div>
+                            <div class="team-box"><div class="team-inner"><span id="name_team_6">7. EQUIPO 7</span><span class="score" id="score_team_6">2</span></div></div>
                         </div>
 
                         <div class="matchup-pair">
-                            <div class="team-box"><div class="team-inner"><span>3. EQUIPO 3</span><span class="score">1</span></div></div>
-                            <div class="team-box"><div class="team-inner winner"><span>6. EQUIPO 6</span><span class="score">3</span></div></div>
+                            <div class="team-box"><div class="team-inner"><span id="name_team_7">3. EQUIPO 3</span><span class="score" id="score_team_7">1</span></div></div>
+                            <div class="team-box"><div class="team-inner winner"><span id="name_team_8">6. EQUIPO 6</span><span class="score" id="score_team_8">3</span></div></div>
                         </div>
                     </div>
                 </div>
@@ -237,19 +237,19 @@
                     <div class="column-content semi-container">
                         <div class="section-label">GRUPO A</div>
                         <div class="matchup-pair">
-                            <div class="team-box"><div class="team-inner"><span>GANADOR QF 1</span><span class="score">0</span></div></div>
-                            <div class="team-box"><div class="team-inner"><span>GANADOR QF 2</span><span class="score">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><span id="name_semi_1">GANADOR QF 1</span><span class="score" id="score_semi_1">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><span id="name_semi_2">GANADOR QF 2</span><span class="score" id="score_semi_2">0</span></div></div>
                         </div>
                         
                         <div class="section-label">GRUPO B</div>
                         <div class="matchup-pair">
-                            <div class="team-box"><div class="team-inner"><span>GANADOR QF 3</span><span class="score">0</span></div></div>
-                            <div class="team-box"><div class="team-inner"><span>GANADOR QF 4</span><span class="score">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><span id="name_semi_3">GANADOR QF 3</span><span class="score" id="score_semi_3">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><span id="name_semi_4">GANADOR QF 4</span><span class="score" id="score_semi_4">0</span></div></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- COLUMNA 3: Gran Final -->
+                <!-- COLUMNA 3: Gran Final y Team Winner -->
                 <div class="round-column">
                     <div class="round-title">Gran Final 🏆</div>
                     <div class="column-content final-container">
@@ -257,7 +257,7 @@
                         <div class="matchup-pair">
                             <div class="team-box" style="border-color: #f1c40f;">
                                 <div class="team-inner" style="background: rgba(241,196,15,0.05);">
-                                    <span>GANADOR SEMI 1</span><span class="score" style="background: #f1c40f; color: #000;">0</span>
+                                    <span id="name_final_1">GANADOR SEMI 1</span><span class="score" id="score_final_1" style="background: #f1c40f; color: #000;">0</span>
                                 </div>
                             </div>
                         </div>
@@ -266,10 +266,22 @@
                         <div class="matchup-pair">
                             <div class="team-box" style="border-color: #f1c40f;">
                                 <div class="team-inner" style="background: rgba(241,196,15,0.05);">
-                                    <span>GANADOR SEMI 2</span><span class="score" style="background: #f1c40f; color: #000;">0</span>
+                                    <span id="name_final_2">GANADOR SEMI 2</span><span class="score" id="score_final_2" style="background: #f1c40f; color: #000;">0</span>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- SECCIÓN TEAM WINNER AGREGADA -->
+                        <div class="section-label" style="color: #38bdf8; margin-top: 15px;">TEAM WINNER</div>
+                        <div class="matchup-pair">
+                            <div class="team-box" style="border-color: #38bdf8;">
+                                <div class="team-inner" style="background: rgba(56, 189, 248, 0.05);">
+                                    <span id="name_team_winner" style="font-weight: bold;">CAMPEÓN</span>
+                                    <span class="score" id="score_team_winner" style="background: #38bdf8; color: #000;">🏆</span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -279,5 +291,30 @@
         <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
     </div>
 
+    <!-- Script para conectar con Google Sheets -->
+    <script>
+        const WEB_APP_URL = 'PEGA_AQUI_TU_URL_DE_GOOGLE_APPS_SCRIPT';
+
+        async function cargarDatosBracket() {
+            if (WEB_APP_URL.includes('PEGA_AQUI')) return;
+            try {
+                let response = await fetch(WEB_APP_URL);
+                let data = await response.json();
+
+                for (let key in data) {
+                    let nameSpan = document.getElementById('name_' + key);
+                    let scoreSpan = document.getElementById('score_' + key);
+
+                    if (nameSpan) nameSpan.textContent = data[key].name;
+                    if (scoreSpan) scoreSpan.textContent = data[key].score;
+                }
+            } catch (error) {
+                console.error('Error al sincronizar con Google Sheets:', error);
+            }
+        }
+
+        cargarDatosBracket();
+        setInterval(cargarDatosBracket, 30000);
+    </script>
 </body>
 </html>
