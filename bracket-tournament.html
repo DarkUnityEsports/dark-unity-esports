@@ -85,6 +85,18 @@
             flex-direction: column;
         }
 
+        /* Estilo de las etiquetas intermedias (GRUPO / TOP) */
+        .section-label {
+            font-size: 0.75rem;
+            color: var(--accent-blue-light);
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            margin-top: 4px;
+            opacity: 0.85;
+        }
+
         /* Estilo de los Rectángulos de Equipos */
         .team-box {
             background: var(--card-bg);
@@ -127,12 +139,12 @@
             margin-bottom: 20px;
         }
 
-        /* Separación extra entre el bloque superior y el inferior de Cuartos de Final */
+        /* Separación extra para el bloque central de cuartos */
         .matchup-pair.qf-split {
-            margin-bottom: 60px; /* Genera el espacio central en los cuartos */
+            margin-bottom: 40px; 
         }
 
-        /* Semifinales alineadas con los dos grandes bloques de cuartos */
+        /* Contenedores de secciones con espaciados sincronizados */
         .semi-container {
             display: flex;
             flex-direction: column;
@@ -141,15 +153,18 @@
         }
         
         .semi-container .matchup-pair:first-child {
-            margin-bottom: 145px; /* Espacio central exacto entre las 2 semifinales */
+            margin-bottom: 110px; 
         }
 
-        /* Gran Final centrada respecto a las semifinales */
         .final-container {
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             margin-top: 175px; 
+        }
+        
+        .final-container .matchup-pair:first-child {
+            margin-bottom: 60px;
         }
 
         .back-btn {
@@ -186,17 +201,18 @@
                 <div class="round-column">
                     <div class="round-title">Cuartos de Final</div>
                     <div class="column-content">
+                        <div class="section-label">GRUPO A</div>
                         <div class="matchup-pair">
                             <div class="team-box"><div class="team-inner winner"><span>1. EQUIPO 1</span><span class="score">3</span></div></div>
                             <div class="team-box"><div class="team-inner"><span>8. EQUIPO 8</span><span class="score">1</span></div></div>
                         </div>
 
-                        <!-- Este matchup lleva la separación central de los 2 bloques de 4 -->
                         <div class="matchup-pair qf-split">
                             <div class="team-box"><div class="team-inner"><span>4. EQUIPO 4</span><span class="score">0</span></div></div>
                             <div class="team-box"><div class="team-inner winner"><span>5. EQUIPO 5</span><span class="score">3</span></div></div>
                         </div>
 
+                        <div class="section-label">GRUPO B</div>
                         <div class="matchup-pair">
                             <div class="team-box"><div class="team-inner winner"><span>2. EQUIPO 2</span><span class="score">3</span></div></div>
                             <div class="team-box"><div class="team-inner"><span>7. EQUIPO 7</span><span class="score">2</span></div></div>
@@ -213,11 +229,13 @@
                 <div class="round-column">
                     <div class="round-title">Semifinales</div>
                     <div class="column-content semi-container">
+                        <div class="section-label">GRUPO A</div>
                         <div class="matchup-pair">
                             <div class="team-box"><div class="team-inner"><span>GANADOR QF 1</span><span class="score">0</span></div></div>
                             <div class="team-box"><div class="team-inner"><span>GANADOR QF 2</span><span class="score">0</span></div></div>
                         </div>
                         
+                        <div class="section-label">GRUPO B</div>
                         <div class="matchup-pair">
                             <div class="team-box"><div class="team-inner"><span>GANADOR QF 3</span><span class="score">0</span></div></div>
                             <div class="team-box"><div class="team-inner"><span>GANADOR QF 4</span><span class="score">0</span></div></div>
@@ -229,12 +247,17 @@
                 <div class="round-column">
                     <div class="round-title">Gran Final 🏆</div>
                     <div class="column-content final-container">
+                        <div class="section-label">TOP A</div>
                         <div class="matchup-pair">
                             <div class="team-box" style="border-color: #f1c40f;">
                                 <div class="team-inner" style="background: rgba(241,196,15,0.05);">
                                     <span>GANADOR SEMI 1</span><span class="score" style="background: #f1c40f; color: #000;">0</span>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="section-label">TOP B</div>
+                        <div class="matchup-pair">
                             <div class="team-box" style="border-color: #f1c40f;">
                                 <div class="team-inner" style="background: rgba(241,196,15,0.05);">
                                     <span>GANADOR SEMI 2</span><span class="score" style="background: #f1c40f; color: #000;">0</span>
