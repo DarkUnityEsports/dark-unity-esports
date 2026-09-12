@@ -12,7 +12,6 @@
             --box-inner: #090d14;
             --accent-blue-light: #38bdf8;
             --accent-blue-dark: #1e3a8a;
-            --line-color: #38bdf8;
             --text-white: #ffffff;
             --text-gray: #a0aec0;
         }
@@ -24,12 +23,12 @@
             padding: 20px;
         }
         .container {
-            max-width: 1300px;
+            max-width: 1250px;
             margin: 0 auto;
         }
         .header-title {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
         .header-title h1 {
             color: var(--accent-blue-light);
@@ -44,13 +43,14 @@
             letter-spacing: 2px;
         }
         
-        /* Contenedor del Bracket en 3 Columnas */
+        /* Estructura de Columnas del Bracket */
         .bracket-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 50px;
+            grid-template-columns: 260px 260px 260px;
+            justify-content: center;
+            gap: 60px;
             align-items: center;
-            margin-top: 30px;
+            margin-top: 20px;
             overflow-x: auto;
             padding-bottom: 20px;
         }
@@ -64,31 +64,22 @@
             font-size: 0.85rem;
             color: var(--accent-blue-light);
             text-transform: uppercase;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-weight: bold;
             border-left: 3px solid var(--accent-blue-light);
             padding-left: 8px;
             letter-spacing: 1px;
         }
 
-        /* Estructura de Parejas y Conectores */
-        .matchup-pair {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        /* Rectángulo de cada equipo */
+        /* Estilo de los Rectángulos de Equipos */
         .team-box {
             background: var(--card-bg);
             border: 1px solid var(--accent-blue-dark);
             border-radius: 4px;
             padding: 3px;
-            width: 260px;
+            width: 100%;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            position: relative;
+            margin-bottom: 12px;
         }
 
         .team-inner {
@@ -116,27 +107,26 @@
             font-weight: bold;
         }
 
-        /* Dibujo de las líneas de conectores tipo llave (Corchetes) */
-        /* Línea horizontal saliendo del equipo superior */
-        .matchup-pair > .team-box:nth-child(1)::after {
-            content: '';
-            position: absolute;
-            right: -25px;
-            top: 50%;
-            width: 25px;
-            height: calc(100% + 22px);
-            border-top: 2px solid var(--line-color);
-            border-right: 2px solid var(--line-color);
+        /* Contenedores para separación visual */
+        .matchup-pair {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
         }
 
-        /* Línea horizontal saliendo del equipo inferior */
-        .matchup-pair > .team-box:nth-child(2)::after {
-            content: '';
-            position: absolute;
-            right: -25px;
-            top: 50%;
-            width: 25px;
-            border-bottom: 2px solid var(--line-color);
+        .semi-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 340px;
+            margin-top: 15px;
+        }
+
+        .final-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 480px;
         }
 
         .back-btn {
@@ -166,7 +156,7 @@
 
         <div class="bracket-grid">
             
-            <!-- COLUMNA 1: Cuartos de Final -->
+            <!-- COLUMNA 1: Cuartos de Final (8 equipos) -->
             <div class="round-column">
                 <div class="round-title">Cuartos de Final</div>
                 
@@ -191,34 +181,38 @@
                 </div>
             </div>
 
-            <!-- COLUMNA 2: Semifinales (Espaciadas para que caigan exactamente al centro de los corchetes) -->
-            <div class="round-column" style="justify-content: space-around; height: 100%; padding-top: 45px;">
-                <div class="round-title" style="margin-bottom: 0;">Semifinales</div>
+            <!-- COLUMNA 2: Semifinales -->
+            <div class="round-column">
+                <div class="round-title">Semifinales</div>
                 
-                <div class="matchup-pair" style="margin-top: 40px;">
-                    <div class="team-box" style="width: 260px;"><div class="team-inner"><span>GANADOR QF 1</span><span class="score">0</span></div></div>
-                    <div class="team-box" style="width: 260px;"><div class="team-inner"><span>GANADOR QF 2</span><span class="score">0</span></div></div>
-                </div>
-
-                <div class="matchup-pair" style="margin-top: 40px;">
-                    <div class="team-box" style="width: 260px;"><div class="team-inner"><span>GANADOR QF 3</span><span class="score">0</span></div></div>
-                    <div class="team-box" style="width: 260px;"><div class="team-inner"><span>GANADOR QF 4</span><span class="score">0</span></div></div>
+                <div class="semi-container">
+                    <div class="matchup-pair">
+                        <div class="team-box"><div class="team-inner"><span>GANADOR QF 1</span><span class="score">0</span></div></div>
+                        <div class="team-box"><div class="team-inner"><span>GANADOR QF 2</span><span class="score">0</span></div></div>
+                    </div>
+                    
+                    <div class="matchup-pair" style="margin-top: 30px;">
+                        <div class="team-box"><div class="team-inner"><span>GANADOR QF 3</span><span class="score">0</span></div></div>
+                        <div class="team-box"><div class="team-inner"><span>GANADOR QF 4</span><span class="score">0</span></div></div>
+                    </div>
                 </div>
             </div>
 
             <!-- COLUMNA 3: Gran Final -->
-            <div class="round-column" style="justify-content: center; padding-top: 180px;">
-                <div class="round-title" style="margin-bottom: 0;">Gran Final 🏆</div>
+            <div class="round-column">
+                <div class="round-title">Gran Final 🏆</div>
                 
-                <div class="matchup-pair" style="margin-top: 40px;">
-                    <div class="team-box" style="border-color: #f1c40f; width: 260px;">
-                        <div class="team-inner" style="background: rgba(241,196,15,0.05);">
-                            <span>GANADOR SEMI 1</span><span class="score" style="background: #f1c40f; color: #000;">0</span>
+                <div class="final-container">
+                    <div class="matchup-pair">
+                        <div class="team-box" style="border-color: #f1c40f;">
+                            <div class="team-inner" style="background: rgba(241,196,15,0.05);">
+                                <span>GANADOR SEMI 1</span><span class="score" style="background: #f1c40f; color: #000;">0</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="team-box" style="border-color: #f1c40f; width: 260px;">
-                        <div class="team-inner" style="background: rgba(241,196,15,0.05);">
-                            <span>GANADOR SEMI 2</span><span class="score" style="background: #f1c40f; color: #000;">0</span>
+                        <div class="team-box" style="border-color: #f1c40f;">
+                            <div class="team-inner" style="background: rgba(241,196,15,0.05);">
+                                <span>GANADOR SEMI 2</span><span class="score" style="background: #f1c40f; color: #000;">0</span>
+                            </div>
                         </div>
                     </div>
                 </div>
