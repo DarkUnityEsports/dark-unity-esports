@@ -61,7 +61,6 @@
             margin: 0 auto;
         }
 
-        /* Cada columna fija el título arriba */
         .round-column {
             display: grid;
             grid-template-columns: 1fr;
@@ -86,7 +85,6 @@
             flex-direction: column;
         }
 
-        /* Estilo de las etiquetas intermedias (GRUPO / TOP) */
         .section-label {
             font-size: 0.75rem;
             color: var(--accent-blue-light);
@@ -98,12 +96,10 @@
             opacity: 0.85;
         }
 
-        /* Estilo específico para TOP A y TOP B en color dorado */
         .final-container .section-label {
             color: #f1c40f;
         }
 
-        /* Estilo de los Rectángulos de Equipos */
         .team-box {
             background: var(--card-bg);
             border: 1px solid var(--accent-blue-dark);
@@ -145,50 +141,45 @@
             margin-bottom: 20px;
         }
 
-        /* Separación extra para el bloque central de cuartos */
         .matchup-pair.qf-split {
             margin-bottom: 40px; 
         }
 
-        /* Semifinales: Estructura corregida para posicionar el Grupo B abajo */
+        /* --- CORRECCIÓN EXACTA DE SEMIFINALES --- */
         .semi-container {
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            margin-top: 0px;
         }
         
-        /* Empujamos el bloque completo del Grupo A hacia arriba/abajo mediante margen inferior o contenedor */
-        .semi-group-a {
-            margin-bottom: 220px; /* Espacio exacto para que el Grupo B baje al nivel de Last Respawn / Adromeda */
+        /* Aquí bajamos específicamente el bloque del Grupo A de semifinales */
+        .semi-group-a-shifted {
+            margin-top: 95px; /* Ajusta este valor si necesitas que baje más o menos */
         }
+        /* ---------------------------------------- */
 
-        /* Gran Final: Bajada de bloques TOP A y TOP B para mayor simetría */
         .final-container {
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            margin-top: 0px; 
         }
         
         .final-container .section-label:first-of-type {
-            margin-top: 190px; /* Baja el bloque TOP A */
+            margin-top: 190px;
         }
         
         .final-container .matchup-pair:first-child {
-            margin-bottom: 125px; /* Espacio antes de llegar al bloque TOP B */
+            margin-bottom: 125px;
         }
 
-        /* Contenedor específico para alinear el Team Winner a la altura de TOP A */
         .winner-container {
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            margin-top: 0px;
         }
 
         .winner-container .section-label {
-            margin-top: 190px; /* Sincronizado a la altura del bloque TOP A */
+            margin-top: 190px;
         }
 
         .back-btn {
@@ -217,7 +208,6 @@
             <p style="color: var(--text-gray); font-size: 0.8rem;">SINGLE ELIMINATION | BEST OF 5</p>
         </div>
 
-        <!-- Envoltorio de Scroll Horizontal -->
         <div class="bracket-scroll-wrapper">
             <div class="bracket-grid">
                 
@@ -266,17 +256,17 @@
                         </div>
                     </div>
                     <div class="column-content semi-container">
-                        <!-- Grupo A con espacio inferior controlado -->
-                        <div class="semi-group-a">
+                        <!-- Grupo A con la clase que lo desplaza hacia abajo -->
+                        <div class="semi-group-a-shifted">
                             <div class="section-label">GRUPO A</div>
                             <div class="matchup-pair">
                                 <div class="team-box"><div class="team-inner"><span id="name_semi_1">CARGANDO...</span><span class="score" id="score_semi_1">0</span></div></div>
-                                <div class="team-box"><div class="team-inner"><span id="name_semi_2">CARGANDO</span><span class="score" id="score_semi_2">0</span></div></div>
+                                <div class="team-box"><div class="team-inner"><span id="name_semi_2">CARGANDO...</span><span class="score" id="score_semi_2">0</span></div></div>
                             </div>
                         </div>
                         
-                        <!-- Grupo B ahora bajará exactamente al nivel deseado -->
-                        <div>
+                        <!-- Grupo B -->
+                        <div style="margin-top: 20px;">
                             <div class="section-label">GRUPO B</div>
                             <div class="matchup-pair">
                                 <div class="team-box"><div class="team-inner"><span id="name_semi_3">CARGANDO...</span><span class="score" id="score_semi_3">0</span></div></div>
