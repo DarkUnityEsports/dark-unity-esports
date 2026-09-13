@@ -64,7 +64,7 @@
         /* Cada columna fija el título arriba */
         .round-column {
             display: grid;
-            grid-template-rows: 35px 1fr;
+            grid-template-columns: 1fr;
             gap: 20px;
         }
 
@@ -78,6 +78,7 @@
             letter-spacing: 1px;
             display: flex;
             align-items: center;
+            margin-bottom: 8px;
         }
 
         .column-content {
@@ -154,7 +155,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            margin-top: 104px;
+            margin-top: 0px;
         }
         
         .semi-container .matchup-pair:first-child {
@@ -166,7 +167,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            margin-top: 214px; 
+            margin-top: 0px; 
         }
         
         .final-container .matchup-pair:first-child {
@@ -178,7 +179,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            margin-top: 214px;
+            margin-top: 0px;
         }
 
         .back-btn {
@@ -213,7 +214,14 @@
                 
                 <!-- COLUMNA 1: Cuartos de Final -->
                 <div class="round-column">
-                    <div class="round-title">Cuartos de Final</div>
+                    <div>
+                        <div class="round-title">Cuartos de Final</div>
+                        <div class="team-box">
+                            <div class="team-inner" style="justify-content: center;">
+                                <span id="name_date_cuartos" style="font-weight: bold; text-align: center; width: 100%;">CARGANDO...</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="column-content">
                         <div class="section-label">GRUPO A</div>
                         <div class="matchup-pair">
@@ -240,7 +248,14 @@
 
                 <!-- COLUMNA 2: Semifinales -->
                 <div class="round-column">
-                    <div class="round-title">Semifinales</div>
+                    <div>
+                        <div class="round-title">Semifinales</div>
+                        <div class="team-box">
+                            <div class="team-inner" style="justify-content: center;">
+                                <span id="name_date_semis" style="font-weight: bold; text-align: center; width: 100%;">CARGANDO...</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="column-content semi-container">
                         <div class="section-label">GRUPO A</div>
                         <div class="matchup-pair">
@@ -258,7 +273,14 @@
 
                 <!-- COLUMNA 3: Gran Final -->
                 <div class="round-column">
-                    <div class="round-title">Gran Final 🏆</div>
+                    <div>
+                        <div class="round-title">Gran Final 🏆</div>
+                        <div class="team-box">
+                            <div class="team-inner" style="justify-content: center;">
+                                <span id="name_date_final" style="font-weight: bold; text-align: center; width: 100%;">CARGANDO...</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="column-content final-container">
                         <div class="section-label">TOP A</div>
                         <div class="matchup-pair">
@@ -282,7 +304,14 @@
 
                 <!-- COLUMNA 4: Team Winner -->
                 <div class="round-column">
-                    <div class="round-title">Campeón</div>
+                    <div>
+                        <div class="round-title">Campeón</div>
+                        <div class="team-box">
+                            <div class="team-inner" style="justify-content: center;">
+                                <span id="name_date_champion" style="font-weight: bold; text-align: center; width: 100%;">¡CAMPEÓN DEL TORNEO!</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="column-content winner-container">
                         <div class="section-label" style="color: #38bdf8;">TEAM WINNER</div>
                         <div class="matchup-pair">
