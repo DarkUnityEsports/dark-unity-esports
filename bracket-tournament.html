@@ -150,7 +150,7 @@
             margin-bottom: 40px; 
         }
 
-        /* Semifinales: Ajuste exacto para bajar el Grupo B */
+        /* Semifinales bajadas un poco más para un centrado perfecto */
         .semi-container {
             display: flex;
             flex-direction: column;
@@ -159,10 +159,10 @@
         }
         
         .semi-container .matchup-pair:first-child {
-            margin-bottom: 155px; /* Empuja el Grupo B hacia abajo en consonancia con la izquierda */
+            margin-bottom: 110px; 
         }
 
-        /* Gran Final: Bajada de bloques TOP A y TOP B para mayor simetría */
+        /* Gran Final ajustada proporcionalmente al nuevo margen de semifinales */
         .final-container {
             display: flex;
             flex-direction: column;
@@ -170,12 +170,8 @@
             margin-top: 0px; 
         }
         
-        .final-container .section-label:first-of-type {
-            margin-top: 190px; /* Baja el bloque TOP A */
-        }
-        
         .final-container .matchup-pair:first-child {
-            margin-bottom: 125px; /* Espacio antes de llegar al bloque TOP B */
+            margin-bottom: 20px;
         }
 
         /* Contenedor específico para alinear el Team Winner a la altura de TOP A */
@@ -184,10 +180,6 @@
             flex-direction: column;
             justify-content: flex-start;
             margin-top: 0px;
-        }
-
-        .winner-container .section-label {
-            margin-top: 190px; /* Sincronizado a la altura del bloque TOP A */
         }
 
         .back-btn {
@@ -316,7 +308,7 @@
                         <div class="round-title">Campeón</div>
                         <div class="team-box">
                             <div class="team-inner" style="justify-content: center;">
-                                <span id="name_date_champion" style="font-weight: bold; text-align: center; width: 100%;">CARGANDO...</span>
+                                <span id="name_date_champion" style="font-weight: bold; text-align: center; width: 100%;"></span>
                             </div>
                         </div>
                     </div>
