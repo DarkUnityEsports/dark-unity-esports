@@ -86,13 +86,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* FILA COMPARTIDA PARA TIER Y SERVIDOR */
-        .row-group-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-
         label {
             display: block;
             font-family: 'Rajdhani', sans-serif;
@@ -165,34 +158,27 @@
             padding: 10px;
         }
 
-        /* JUGADORES SECTION - 2 LÍNEAS POR JUGADOR */
+        /* JUGADORES SECTION - 4 COLUMNAS EN UNA MISMA LÍNEA */
         .player-row {
             background-color: rgba(10, 12, 16, 0.5);
             border: 1px solid rgba(23, 37, 84, 0.6);
             padding: 1.2rem;
             border-radius: 8px;
             margin-bottom: 1.2rem;
+            display: grid;
+            grid-template-columns: 2fr 2fr 2fr 1.5fr;
+            gap: 12px;
+            align-items: center;
         }
 
         .player-row-title {
             font-size: 1rem;
             color: var(--accent-blue-light);
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.2rem;
+            grid-column: 1 / -1;
             font-weight: bold;
             font-family: 'Rajdhani', sans-serif;
             text-transform: uppercase;
-        }
-
-        /* Línea 1 y Línea 2 internas del jugador */
-        .player-subline {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 0.8rem;
-        }
-
-        .player-subline:last-child {
-            margin-bottom: 0;
         }
 
         .btn-submit {
@@ -218,8 +204,14 @@
             box-shadow: 0 0 15px rgba(37, 99, 235, 0.5);
         }
 
+        @media (max-width: 900px) {
+            .player-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
         @media (max-width: 600px) {
-            .row-group-2, .player-subline {
+            .player-row {
                 grid-template-columns: 1fr;
             }
             .form-container {
@@ -254,224 +246,194 @@
                 <input type="file" id="team_logo" name="team_logo" accept=".png" required>
             </div>
 
-            <!-- Tier y Servidor en una sola línea juntos -->
-            <div class="row-group-2">
-                <div class="form-group">
-                    <label for="team_tier"><i class="fa-solid fa-layer-group"></i> Tier del Equipo</label>
-                    <select id="team_tier" name="team_tier" required class="glass-select">
-                        <option value="" disabled selected>Seleccionar tier</option>
-                        <option value="T4 Low">T4 LOW (ROKIE)</option>
-                        <option value="T4 Medium">T4 MEDIUM (ROKIE)</option>
-                        <option value="T4 High">T4 HIGH (ROKIE)</option>
-                        <option value="T3 Low">T3 LOW (BEGINER)</option>
-                        <option value="T3 High">T3 HIGH (BEGINER)</option>
-                        <option value="T2">T2 (MASTER)</option>
-                        <option value="T2 High">T2 HIGH (MASTER)</option>
-                        <option value="T1">T1 (PREMIER)</option>
-                    </select>
-                </div>
+            <!-- Tier de Equipo -->
+            <div class="form-group">
+                <label for="team_tier"><i class="fa-solid fa-layer-group"></i> Tier del Equipo</label>
+                <select id="team_tier" name="team_tier" required class="glass-select">
+                    <option value="" disabled selected>Seleccionar tie de equipo</option>
+                    <option value="T4 Low">T4 LOW  (ROKIE)</option>
+                    <option value="T4 Medium">T4 MEDIUM  (ROKIE)</option>
+                    <option value="T4 High">T4 HIGH  (ROKIE)</option>
+                    <option value="T3 Low">T3 LOW  (BEGINER)</option>
+                    <option value="T3 High">T3 HIGH  (BEGINER)</option>
+                    <option value="T2">T2  (MASTER)</option>
+                    <option value="T2 High">T2 HIGH  (MASTER)</option>
+                    <option value="T1">T1  (PREMIER)</option>
+                </select>
+            </div>
 
-                <div class="form-group">
-                    <label for="server"><i class="fa-solid fa-globe"></i> Servidor</label>
-                    <select id="server" name="server" required class="glass-select">
-                        <option value="" disabled selected>Selecciona servidor</option>
-                        <option value="SA">NORTEAMÉRICA (SA)</option>
-                        <option value="NA">LATAM (NA)</option>
-                    </select>
-                </div>
+            <!-- Servidor NA / SA -->
+            <div class="form-group">
+                <label for="server"><i class="fa-solid fa-globe"></i> Servidor</label>
+                <select id="server" name="server" required class="glass-select">
+                    <option value="" disabled selected>Selecciona tu servidor</option>
+                    <option value="SA">NORTEAMÉRICA</option>
+                    <option value="NA">LATAM</option>
+                </select>
             </div>
 
             <hr style="border: 0; border-top: 1px solid var(--accent-blue-dark); margin: 2rem 0;">
 
             <label style="margin-bottom: 1.5rem; font-size: 1.3rem;"><i class="fa-solid fa-users"></i> EQUIPO DE 7 JUGADORES</label>
 
-            <!-- GENERADOR DE JUGADORES (2 LÍNEAS Cuadro): Línea 1 (Nick + UID), Línea 2 (Discord ID + País) -->
             <!-- JUGADOR 1 -->
             <div class="player-row">
                 <div class="player-row-title">Jugador 1 (Capitán / Titular)</div>
-                <div class="player-subline">
-                    <div>
-                        <label style="font-size: 0.75rem;">Nickname</label>
-                        <input type="text" name="p1_nick" required placeholder="Nick en juego">
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem;">UID (Juego)</label>
-                        <input type="text" name="p1_uid" required placeholder="Ej. 6748392019">
-                    </div>
+                <div>
+                    <label style="font-size: 0.75rem;">Nickname</label>
+                    <input type="text" name="p1_nick" required placeholder="Nick en juego">
                 </div>
-                <div class="player-subline">
-                    <div>
-                        <label style="font-size: 0.75rem;">Discord ID</label>
-                        <input type="text" name="p1_discord" required placeholder="Ej. 6748392019">
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem;">País</label>
-                        <select name="p1_pais" required class="glass-select pais-select">
-                            <option value="" disabled selected>Selecciona país</option>
-                        </select>
-                    </div>
+                <div>
+                    <label style="font-size: 0.75rem;">UID (Juego)</label>
+                    <input type="text" name="p1_uid" required placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">Discord ID</label>
+                    <input type="text" name="p1_discord" required placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">País</label>
+                    <select name="p1_pais" required class="glass-select pais-select">
+                        <option value="" disabled selected>Selecciona</option>
+                    </select>
                 </div>
             </div>
 
             <!-- JUGADOR 2 -->
             <div class="player-row">
                 <div class="player-row-title">Jugador 2 (Titular)</div>
-                <div class="player-subline">
-                    <div>
-                        <label style="font-size: 0.75rem;">Nickname</label>
-                        <input type="text" name="p2_nick" required placeholder="Nick en juego">
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem;">UID (Juego)</label>
-                        <input type="text" name="p2_uid" required placeholder="Ej. 6748392019">
-                    </div>
+                <div>
+                    <label style="font-size: 0.75rem;">Nickname</label>
+                    <input type="text" name="p2_nick" required placeholder="Nick en juego">
                 </div>
-                <div class="player-subline">
-                    <div>
-                        <label style="font-size: 0.75rem;">Discord ID</label>
-                        <input type="text" name="p2_discord" required placeholder="Ej. 6748392019">
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem;">País</label>
-                        <select name="p2_pais" required class="glass-select pais-select">
-                            <option value="" disabled selected>Selecciona país</option>
-                        </select>
-                    </div>
+                <div>
+                    <label style="font-size: 0.75rem;">UID (Juego)</label>
+                    <input type="text" name="p2_uid" required placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">Discord ID</label>
+                    <input type="text" name="p2_discord" required placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">País</label>
+                    <select name="p2_pais" required class="glass-select pais-select">
+                        <option value="" disabled selected>Selecciona</option>
+                    </select>
                 </div>
             </div>
 
             <!-- JUGADOR 3 -->
             <div class="player-row">
                 <div class="player-row-title">Jugador 3 (Titular)</div>
-                <div class="player-subline">
-                    <div>
-                        <label style="font-size: 0.75rem;">Nickname</label>
-                        <input type="text" name="p3_nick" required placeholder="Nick en juego">
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem;">UID (Juego)</label>
-                        <input type="text" name="p3_uid" required placeholder="Ej. 6748392019">
-                    </div>
+                <div>
+                    <label style="font-size: 0.75rem;">Nickname</label>
+                    <input type="text" name="p3_nick" required placeholder="Nick en juego">
                 </div>
-                <div class="player-subline">
-                    <div>
-                        <label style="font-size: 0.75rem;">Discord ID</label>
-                        <input type="text" name="p3_discord" required placeholder="Ej. 6748392019">
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem;">País</label>
-                        <select name="p3_pais" required class="glass-select pais-select">
-                            <option value="" disabled selected>Selecciona país</option>
-                        </select>
-                    </div>
+                <div>
+                    <label style="font-size: 0.75rem;">UID (Juego)</label>
+                    <input type="text" name="p3_uid" required placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">Discord ID</label>
+                    <input type="text" name="p3_discord" required placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">País</label>
+                    <select name="p3_pais" required class="glass-select pais-select">
+                        <option value="" disabled selected>Selecciona</option>
+                    </select>
                 </div>
             </div>
 
             <!-- JUGADOR 4 -->
             <div class="player-row">
                 <div class="player-row-title">Jugador 4 (Titular)</div>
-                <div class="player-subline">
-                    <div>
-                        <label style="font-size: 0.75rem;">Nickname</label>
-                        <input type="text" name="p4_nick" required placeholder="Nick en juego">
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem;">UID (Juego)</label>
-                        <input type="text" name="p4_uid" required placeholder="Ej. 6748392019">
-                    </div>
+                <div>
+                    <label style="font-size: 0.75rem;">Nickname</label>
+                    <input type="text" name="p4_nick" required placeholder="Nick en juego">
                 </div>
-                <div class="player-subline">
-                    <div>
-                        <label style="font-size: 0.75rem;">Discord ID</label>
-                        <input type="text" name="p4_discord" required placeholder="Ej. 6748392019">
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem;">País</label>
-                        <select name="p4_pais" required class="glass-select pais-select">
-                            <option value="" disabled selected>Selecciona país</option>
-                        </select>
-                    </div>
+                <div>
+                    <label style="font-size: 0.75rem;">UID (Juego)</label>
+                    <input type="text" name="p4_uid" required placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">Discord ID</label>
+                    <input type="text" name="p4_discord" required placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">País</label>
+                    <select name="p4_pais" required class="glass-select pais-select">
+                        <option value="" disabled selected>Selecciona</option>
+                    </select>
                 </div>
             </div>
 
             <!-- JUGADOR 5 -->
             <div class="player-row">
                 <div class="player-row-title">Jugador 5 (Titular)</div>
-                <div class="player-subline">
-                    <div>
-                        <label style="font-size: 0.75rem;">Nickname</label>
-                        <input type="text" name="p5_nick" required placeholder="Nick en juego">
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem;">UID (Juego)</label>
-                        <input type="text" name="p5_uid" required placeholder="Ej. 6748392019">
-                    </div>
+                <div>
+                    <label style="font-size: 0.75rem;">Nickname</label>
+                    <input type="text" name="p5_nick" required placeholder="Nick en juego">
                 </div>
-                <div class="player-subline">
-                    <div>
-                        <label style="font-size: 0.75rem;">Discord ID</label>
-                        <input type="text" name="p5_discord" required placeholder="Ej. 6748392019">
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem;">País</label>
-                        <select name="p5_pais" required class="glass-select pais-select">
-                            <option value="" disabled selected>Selecciona país</option>
-                        </select>
-                    </div>
+                <div>
+                    <label style="font-size: 0.75rem;">UID (Juego)</label>
+                    <input type="text" name="p5_uid" required placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">Discord ID</label>
+                    <input type="text" name="p5_discord" required placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">País</label>
+                    <select name="p5_pais" required class="glass-select pais-select">
+                        <option value="" disabled selected>Selecciona</option>
+                    </select>
                 </div>
             </div>
 
             <!-- JUGADOR 6 (Suplente 1) -->
             <div class="player-row">
                 <div class="player-row-title">Jugador 6 (Suplente 1)</div>
-                <div class="player-subline">
-                    <div>
-                        <label style="font-size: 0.75rem;">Nickname</label>
-                        <input type="text" name="p6_nick" placeholder="Nick (Opcional)">
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem;">UID (Juego)</label>
-                        <input type="text" name="p6_uid" placeholder="Ej. 6748392019">
-                    </div>
+                <div>
+                    <label style="font-size: 0.75rem;">Nickname</label>
+                    <input type="text" name="p6_nick" placeholder="Nick (Opcional)">
                 </div>
-                <div class="player-subline">
-                    <div>
-                        <label style="font-size: 0.75rem;">Discord ID</label>
-                        <input type="text" name="p6_discord" placeholder="Ej. 6748392019">
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem;">País</label>
-                        <select name="p6_pais" class="glass-select pais-select">
-                            <option value="" disabled selected>Selecciona país</option>
-                        </select>
-                    </div>
+                <div>
+                    <label style="font-size: 0.75rem;">UID (Juego)</label>
+                    <input type="text" name="p6_uid" placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">Discord ID</label>
+                    <input type="text" name="p6_discord" placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">País</label>
+                    <select name="p6_pais" class="glass-select pais-select">
+                        <option value="" disabled selected>Selecciona</option>
+                    </select>
                 </div>
             </div>
 
             <!-- JUGADOR 7 (Suplente 2) -->
             <div class="player-row">
                 <div class="player-row-title">Jugador 7 (Suplente 2)</div>
-                <div class="player-subline">
-                    <div>
-                        <label style="font-size: 0.75rem;">Nickname</label>
-                        <input type="text" name="p7_nick" placeholder="Nick (Opcional)">
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem;">UID (Juego)</label>
-                        <input type="text" name="p7_uid" placeholder="Ej. 6748392019">
-                    </div>
+                <div>
+                    <label style="font-size: 0.75rem;">Nickname</label>
+                    <input type="text" name="p7_nick" placeholder="Nick (Opcional)">
                 </div>
-                <div class="player-subline">
-                    <div>
-                        <label style="font-size: 0.75rem;">Discord ID</label>
-                        <input type="text" name="p7_discord" placeholder="Ej. 6748392019">
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem;">País</label>
-                        <select name="p7_pais" class="glass-select pais-select">
-                            <option value="" disabled selected>Selecciona país</option>
-                        </select>
-                    </div>
+                <div>
+                    <label style="font-size: 0.75rem;">UID (Juego)</label>
+                    <input type="text" name="p7_uid" placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">Discord ID</label>
+                    <input type="text" name="p7_discord" placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">País</label>
+                    <select name="p7_pais" class="glass-select pais-select">
+                        <option value="" disabled selected>Selecciona</option>
+                    </select>
                 </div>
             </div>
 
@@ -481,12 +443,13 @@
     </div>
 
 <script>
+    // Poblar los países en los selects
     const paises = [
-        "Argentina", "Bahamas", "Belice", "Bolivia", "Brasil", "Canadá", "Chile",
-        "Colombia", "Costa Rica", "Cuba", "Ecuador", "El Salvador", "España", "Estados Unidos",
-        "Guatemala", "Honduras", "Jamaica", "México", "Nicaragua", "Panamá", "Paraguay",
-        "Perú", "Puerto Rico", "República Dominicana", "Uruguay", "Venezuela", "Otro"
-    ];
+    "Argentina", "Bahamas", "Belice", "Bolivia", "Brasil", "Canadá", "Chile",
+    "Colombia", "Costa Rica", "Cuba", "Ecuador", "El Salvador", "España", "Estados Unidos",
+    "Guatemala", "Honduras", "Jamaica", "México", "Nicaragua", "Panamá", "Paraguay",
+    "Perú", "Puerto Rico", "República Dominicana", "Uruguay", "Venezuela", "Otro"
+];
 
     document.querySelectorAll('.pais-select').forEach(select => {
         paises.forEach(pais => {
@@ -498,11 +461,13 @@
     });
 
     const scriptURL = 'https://script.google.com/macros/s/AKfycbxvKWqX8Dvdj0a0cZfwyg6a2hmfD8g35TmTYJbJwyjs46QDC6dtSViRJmeIotZAJ6I2Bg/exec';
+    
+    // URL de tu Webhook de Discord
     const discordWebhookURL = 'https://discord.com/api/webhooks/1548869341905293414/J-5aJmqFKl4SIeeg8HNj2RSTTOzWELQjAV_ctkvVGtk0lPYdUsJi2IA3fTQC9PBqq2WS';
 
     const getValueByName = (name) => {
         const el = document.querySelector(`[name="${name}"]`);
-        return el ? el.value.trim() : '';
+        return el ? el.value : '';
     };
 
     function validarDuplicados() {
@@ -511,10 +476,11 @@
         const setDiscords = new Set();
 
         for (let i = 1; i <= 7; i++) {
-            let nick = getValueByName(`p${i}_nick`).toLowerCase();
-            let uid = getValueByName(`p${i}_uid`);
-            let discord = getValueByName(`p${i}_discord`);
+            let nick = getValueByName(`p${i}_nick`).trim().toLowerCase();
+            let uid = getValueByName(`p${i}_uid`).trim();
+            let discord = getValueByName(`p${i}_discord`).trim();
 
+            // Si el jugador de suplentes está completamente vacío, lo salta
             if (!nick && !uid && !discord) continue;
 
             if (nick) {
@@ -544,35 +510,38 @@
         return true;
     }
 
-    document.getElementById('registroForm').addEventListener('submit', async e => {
+    document.getElementById('registroForm').addEventListener('submit', e => {
         e.preventDefault();
 
+        // 1. Validar duplicados PRIMERO de todo
         if (!validarDuplicados()) {
-            return;
+            return; // Detiene el envío inmediatamente si hay duplicados
         }
 
         const btn = document.querySelector('button[type="submit"]');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
+        const originalText = btn.innerText;
+        btn.innerText = 'Enviando...';
         btn.disabled = true;
 
-        const fileInput = document.getElementById('team_logo');
+        const fileInput = document.getElementById('team_logo') || document.querySelector('input[type="file"]');
         if (!fileInput || !fileInput.files[0]) {
             alert('Por favor, selecciona el logo del equipo.');
-            btn.innerHTML = originalText;
+            btn.innerText = originalText;
             btn.disabled = false;
             return;
         }
-
+    
         const file = fileInput.files[0];
         const reader = new FileReader();
-
-        reader.onload = async function () {
+        
+        reader.readAsDataURL(file);
+        reader.onload = function () {
             const base64Data = reader.result.split(',')[1];
             const nombreEquipo = getValueByName('team_name');
             const tierEquipo = getValueByName('team_tier');
             const servidorEquipo = getValueByName('server');
 
+            // 2. Construcción de los datos para Google Apps Script
             const formData = {
                 nombreEquipo: nombreEquipo,
                 imageBytes: base64Data,
@@ -580,20 +549,56 @@
                 fileName: file.name,
                 tier: tierEquipo,
                 servidor: servidorEquipo,
-                p1_nick: getValueByName('p1_nick'), p1_uid: getValueByName('p1_uid'), p1_discord: getValueByName('p1_discord'), p1_pais: getValueByName('p1_pais'),
-                p2_nick: getValueByName('p2_nick'), p2_uid: getValueByName('p2_uid'), p2_discord: getValueByName('p2_discord'), p2_pais: getValueByName('p2_pais'),
-                p3_nick: getValueByName('p3_nick'), p3_uid: getValueByName('p3_uid'), p3_discord: getValueByName('p3_discord'), p3_pais: getValueByName('p3_pais'),
-                p4_nick: getValueByName('p4_nick'), p4_uid: getValueByName('p4_uid'), p4_discord: getValueByName('p4_discord'), p4_pais: getValueByName('p4_pais'),
-                p5_nick: getValueByName('p5_nick'), p5_uid: getValueByName('p5_uid'), p5_discord: getValueByName('p5_discord'), p5_pais: getValueByName('p5_pais'),
-                p6_nick: getValueByName('p6_nick'), p6_uid: getValueByName('p6_uid'), p6_discord: getValueByName('p6_discord'), p6_pais: getValueByName('p6_pais'),
-                p7_nick: getValueByName('p7_nick'), p7_uid: getValueByName('p7_uid'), p7_discord: getValueByName('p7_discord'), p7_pais: getValueByName('p7_pais')
+            
+                // Jugador 1
+                p1_nick: getValueByName('p1_nick'),
+                p1_uid: getValueByName('p1_uid'),
+                p1_discord: getValueByName('p1_discord'),
+                p1_pais: getValueByName('p1_pais'),
+
+                // Jugador 2
+                p2_nick: getValueByName('p2_nick'),
+                p2_uid: getValueByName('p2_uid'),
+                p2_discord: getValueByName('p2_discord'),
+                p2_pais: getValueByName('p2_pais'),
+
+                // Jugador 3
+                p3_nick: getValueByName('p3_nick'),
+                p3_uid: getValueByName('p3_uid'),
+                p3_discord: getValueByName('p3_discord'),
+                p3_pais: getValueByName('p3_pais'),
+
+                // Jugador 4
+                p4_nick: getValueByName('p4_nick'),
+                p4_uid: getValueByName('p4_uid'),
+                p4_discord: getValueByName('p4_discord'),
+                p4_pais: getValueByName('p4_pais'),
+
+                // Jugador 5
+                p5_nick: getValueByName('p5_nick'),
+                p5_uid: getValueByName('p5_uid'),
+                p5_discord: getValueByName('p5_discord'),
+                p5_pais: getValueByName('p5_pais'),
+
+                // Jugador 6 (Suplente 1)
+                p6_nick: getValueByName('p6_nick'),
+                p6_uid: getValueByName('p6_uid'),
+                p6_discord: getValueByName('p6_discord'),
+                p6_pais: getValueByName('p6_pais'),
+
+                // Jugador 7 (Suplente 2)
+                p7_nick: getValueByName('p7_nick'),
+                p7_uid: getValueByName('p7_uid'),
+                p7_discord: getValueByName('p7_discord'),
+                p7_pais: getValueByName('p7_pais')
             };
 
+           // 3. Estructura limpia y forzada a 2 líneas por jugador
             const discordPayload = {
                 content: "🚨 **¡NUEVO EQUIPO INSCRITO!** 🚨",
                 embeds: [{
                     title: `🛡️ ${nombreEquipo}`,
-                    color: 2434305,
+                    color: 2434305, // Azul corporativo Dark Unity
                     fields: [
                         { 
                             name: "🏆 Tier & 🌍 Servidor", 
@@ -602,11 +607,16 @@
                         },
                         { 
                             name: "👥 Lineup Titular", 
-                            value: `1️⃣ **${getValueByName('p1_nick')}** | 🆔 \`${getValueByName('p1_uid')}\`\n💬 <@!${getValueByName('p1_discord')}> | 📍 ${getValueByName('p1_pais')}\n\n` +
-                                   `2️⃣ **${getValueByName('p2_nick')}** | 🆔 \`${getValueByName('p2_uid')}\`\n💬 <@!${getValueByName('p2_discord')}> | 📍 ${getValueByName('p2_pais')}\n\n` +
-                                   `3️⃣ **${getValueByName('p3_nick')}** | 🆔 \`${getValueByName('p3_uid')}\`\n💬 <@!${getValueByName('p3_discord')}> | 📍 ${getValueByName('p3_pais')}\n\n` +
-                                   `4️⃣ **${getValueByName('p4_nick')}** | 🆔 \`${getValueByName('p4_uid')}\`\n💬 <@!${getValueByName('p4_discord')}> | 📍 ${getValueByName('p4_pais')}\n\n` +
-                                   `5️⃣ **${getValueByName('p5_nick')}** | 🆔 \`${getValueByName('p5_uid')}\`\n💬 <@!${getValueByName('p5_discord')}> | 📍 ${getValueByName('p5_pais')}`, 
+                            value: `1️⃣ **${getValueByName('p1_nick')}** | 🆔 \`${getValueByName('p1_uid')}\`\n` +
+                                   `💬 <@!${getValueByName('p1_discord')}> | 📍 ${getValueByName('p1_pais')}\n\n` +
+                                   `2️⃣ **${getValueByName('p2_nick')}** | 🆔 \`${getValueByName('p2_uid')}\`\n` +
+                                   `💬 <@!${getValueByName('p2_discord')}> | 📍 ${getValueByName('p2_pais')}\n\n` +
+                                   `3️⃣ **${getValueByName('p3_nick')}** | 🆔 \`${getValueByName('p3_uid')}\`\n` +
+                                   `💬 <@!${getValueByName('p3_discord')}> | 📍 ${getValueByName('p3_pais')}\n\n` +
+                                   `4️⃣ **${getValueByName('p4_nick')}** | 🆔 \`${getValueByName('p4_uid')}\`\n` +
+                                   `💬 <@!${getValueByName('p4_discord')}> | 📍 ${getValueByName('p4_pais')}\n\n` +
+                                   `5️⃣ **${getValueByName('p5_nick')}** | 🆔 \`${getValueByName('p5_uid')}\`\n` +
+                                   `💬 <@!${getValueByName('p5_discord')}> | 📍 ${getValueByName('p5_pais')}`, 
                             inline: false 
                         },
                         { 
@@ -621,35 +631,45 @@
                 }]
             };
 
-            try {
-                await fetch(scriptURL, {
+            // 4. Ejecución en paralelo (Google Sheets + Discord directo desde el navegador)
+            Promise.all([
+                fetch(scriptURL, {
                     method: 'POST',
                     body: JSON.stringify(formData)
-                });
+                }).then(res => res.json()),
 
-                await fetch(discordWebhookURL, {
+                fetch(discordWebhookURL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(discordPayload)
-                });
-
-                alert('¡Inscripción exitosa! El clan ha quedado registrado correctamente.');
+                })
+            ])
+            .then(() => {
+                alert('¡Inscripción exitosa! El clan ha quedado registrado correctamente y notificado en Discord.');
                 document.getElementById('registroForm').reset();
-            } catch (error) {
-                console.error('Error en el envío:', error);
-                alert('Ocurrió un inconveniente al procesar la solicitud, verifica tu conexión o la respuesta de los servicios.');
-            } finally {
-                btn.innerHTML = originalText;
+                btn.innerText = originalText;
                 btn.disabled = false;
-            }
+            })
+            .catch(error => {
+                console.error('Error!', error);
+                alert('Hubo un error al registrar. Inténtalo de nuevo.');
+                btn.innerText = originalText;
+                btn.disabled = false;
+            });
         };
-
-        reader.readAsDataURL(file);
     });
 
+    // Validación estricta para UIDs y Discord IDs (solo números y máximo 19 caracteres)
     document.querySelectorAll('input[name*="uid"], input[name*="discord"]').forEach(input => {
         input.setAttribute('maxlength', '19');
         input.setAttribute('inputmode', 'numeric');
+
+        input.addEventListener('keypress', function(e) {
+            const charCode = (e.which) ? e.which : e.keyCode;
+            if (charCode < 48 || charCode > 57) {
+                e.preventDefault();
+            }
+        });
 
         input.addEventListener('input', function() {
             this.value = this.value.replace(/[^0-9]/g, '').slice(0, 19);
