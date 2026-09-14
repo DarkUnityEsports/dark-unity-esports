@@ -593,15 +593,14 @@
                 p7_pais: getValueByName('p7_pais')
             };
 
-           // 3. Estructura limpia y forzada a 2 líneas por jugador
-            const discordPayload = {
+           const discordPayload = {
     content: "🚨 **¡NUEVO EQUIPO INSCRITO!** 🚨",
     embeds: [{
         title: `🛡️ ${nombreEquipo}`,
         color: 2434305,
         fields: [
             { 
-                name: "🏆 Tier   🌍 Servidor", 
+                name: "🏆 Tier & 🌍 Servidor", 
                 value: `**Tier:** ${tierEquipo || "No especificado"}  |  **Servidor:** ${servidorEquipo || "No especificado"}`, 
                 inline: false 
             },
