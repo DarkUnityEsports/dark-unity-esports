@@ -599,9 +599,12 @@
                 embeds: [{
                     title: `🛡️ ${nombreEquipo}`,
                     color: 2434305, // Azul corporativo Dark Unity
-                    fields: [
-                        { name: "🏆 Tier", value: tierEquipo || "No especificado", inline: true },
-                        { name: "🌍 Servidor", value: servidorEquipo || "No especificado", inline: true },
+                    fields: [,
+                        { 
+                            name: "🏆 Tier & 🌍 Servidor", 
+                            value: `**Tier:** ${tierEquipo || "No especificado"} | **Servidor:** ${servidorEquipo || "No especificado"}`, 
+                            inline: false 
+                        },
                         { 
                             name: "👥 Lineup Titular", 
                             value: `1️⃣ **${getValueByName('p1_nick')}** | 🆔 \`${getValueByName('p1_uid')}\`\n` +
