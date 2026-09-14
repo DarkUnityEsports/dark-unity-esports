@@ -461,6 +461,9 @@
     });
 
     const scriptURL = 'https://script.google.com/macros/s/AKfycbxvKWqX8Dvdj0a0cZfwyg6a2hmfD8g35TmTYJbJwyjs46QDC6dtSViRJmeIotZAJ6I2Bg/exec';
+    
+    // URL de tu Webhook de Discord
+    const discordWebhookURL = 'https://discord.com/api/webhooks/1549077740454547546/R74x34ex3GU43Pc2pcD-R2APU3dFoDBTtTOW11Ku07U1WwPYvDZaHdIkrDjiz3lXScB-';
 
     const getValueByName = (name) => {
         const el = document.querySelector(`[name="${name}"]`);
@@ -534,15 +537,18 @@
         reader.readAsDataURL(file);
         reader.onload = function () {
             const base64Data = reader.result.split(',')[1];
+            const nombreEquipo = getValueByName('team_name');
+            const tierEquipo = getValueByName('team_tier');
+            const servidorEquipo = getValueByName('server');
 
-            // 2. Construcción de los datos del formulario
+            // 2. Construcción de los datos para Google Apps Script
             const formData = {
-                nombreEquipo: getValueByName('team_name'),
+                nombreEquipo: nombreEquipo,
                 imageBytes: base64Data,
                 mimeType: file.type,
                 fileName: file.name,
-                tier: getValueByName('team_tier'),
-                servidor: getValueByName('server'),
+                tier: tierEquipo,
+                servidor: servidorEquipo,
             
                 // Jugador 1
                 p1_nick: getValueByName('p1_nick'),
@@ -587,14 +593,36 @@
                 p7_pais: getValueByName('p7_pais')
             };
 
-            // 3. Envío de la petición a Google Apps Script
-            fetch(scriptURL, {
-                method: 'POST',
-                body: JSON.stringify(formData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert('¡Inscripción exitosa! El clan ha quedado registrado correctamente.');
+            // 3. Estructura del mensaje para Discord vía Embed
+            const discordPayload = {
+                content: "🚨 **¡NUEVO EQUIPO INSCRITO!** 🚨",
+                embeds: [{
+                    title: `🛡️ ${nombreEquipo}`,
+                    color: 2434305, // Azul corporativo Dark Unity
+                    fields: [
+                        { name: "🏆 Tier", value: tierEquipo, inline: true },
+                        { name: "🌍 Servidor", value: servidorEquipo, inline: true },
+                        { name: "👤 Capitán", value: `${getValueByName('p1_nick')} (UID: \`${getValueByName('p1_uid')}\`)`, inline: false }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
+
+            // 4. Ejecución en paralelo (Google Sheets + Discord directo desde el navegador)
+            Promise.all([
+                fetch(scriptURL, {
+                    method: 'POST',
+                    body: JSON.stringify(formData)
+                }).then(res => res.json()),
+
+                fetch(discordWebhookURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(discordPayload)
+                })
+            ])
+            .then(() => {
+                alert('¡Inscripción exitosa! El clan ha quedado registrado correctamente y notificado en Discord.');
                 document.getElementById('registroForm').reset();
                 btn.innerText = originalText;
                 btn.disabled = false;
@@ -624,6 +652,6 @@
             this.value = this.value.replace(/[^0-9]/g, '').slice(0, 19);
         });
     });
-    </script>
+</script>
 </body>
 </html>
