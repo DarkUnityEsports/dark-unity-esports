@@ -593,6 +593,8 @@
                 p7_pais: getValueByName('p7_pais')
             };
 
+                // 3. Estructura de respuesta automatica Keiko-Sam Unity
+
            const discordPayload = {
     content: "🚨 **¡NUEVO EQUIPO INSCRITO!** 🚨",
     embeds: [{
@@ -606,17 +608,17 @@
             },
             { 
                 name: "👥 Lineup Titular", 
-                value: `1️⃣ **${getValueByName('p1_nick')}** • 🆔 \`${getValueByName('p1_uid')}\`\n   └ 💬 <@!${getValueByName('p1_discord')}> • 📍 ${getValueByName('p1_pais')}\n\n` +
-                       `2️⃣ **${getValueByName('p2_nick')}** • 🆔 \`${getValueByName('p2_uid')}\`\n   └ 💬 <@!${getValueByName('p2_discord')}> • 📍 ${getValueByName('p2_pais')}\n\n` +
-                       `3️⃣ **${getValueByName('p3_nick')}** • 🆔 \`${getValueByName('p3_uid')}\`\n   └ 💬 <@!${getValueByName('p3_discord')}> • 📍 ${getValueByName('p3_pais')}\n\n` +
-                       `4️⃣ **${getValueByName('p4_nick')}** • 🆔 \`${getValueByName('p4_uid')}\`\n   └ 💬 <@!${getValueByName('p4_discord')}> • 📍 ${getValueByName('p4_pais')}\n\n` +
-                       `5️⃣ **${getValueByName('p5_nick')}** • 🆔 \`${getValueByName('p5_uid')}\`\n   └ 💬 <@!${getValueByName('p5_discord')}> • 📍 ${getValueByName('p5_pais')}`, 
+                value: `1️⃣ **${getValueByName('p1_nick')}** • 🆔 \`${getValueByName('p1_uid')}\`\n   └ 💬 <@${getValueByName('p1_discord')}> • 📍 ${getValueByName('p1_pais')}\n\n` +
+                       `2️⃣ **${getValueByName('p2_nick')}** • 🆔 \`${getValueByName('p2_uid')}\`\n   └ 💬 <@${getValueByName('p2_discord')}> • 📍 ${getValueByName('p2_pais')}\n\n` +
+                       `3️⃣ **${getValueByName('p3_nick')}** • 🆔 \`${getValueByName('p3_uid')}\`\n   └ 💬 <@${getValueByName('p3_discord')}> • 📍 ${getValueByName('p3_pais')}\n\n` +
+                       `4️⃣ **${getValueByName('p4_nick')}** • 🆔 \`${getValueByName('p4_uid')}\`\n   └ 💬 <@${getValueByName('p4_discord')}> • 📍 ${getValueByName('p4_pais')}\n\n` +
+                       `5️⃣ **${getValueByName('p5_nick')}** • 🆔 \`${getValueByName('p5_uid')}\`\n   └ 💬 <@${getValueByName('p5_discord')}> • 📍 ${getValueByName('p5_pais')}`, 
                 inline: false 
             },
             { 
                 name: "🔄 Suplentes", 
-                value: (getValueByName('p6_nick') ? `S1: **${getValueByName('p6_nick')}** (\`${getValueByName('p6_uid')}\`) — <@!${getValueByName('p6_discord')}> (${getValueByName('p6_pais')})\n` : '') +
-                       (getValueByName('p7_nick') ? `S2: **${getValueByName('p7_nick')}** (\`${getValueByName('p7_uid')}\`) — <@!${getValueByName('p7_discord')}> (${getValueByName('p7_pais')})` : '') +
+                value: (getValueByName('p6_nick') ? `S1️⃣ **${getValueByName('p6_nick')}** • 🆔 \`${getValueByName('p6_uid')}\`\n   └ 💬 <@${getValueByName('p6_discord')}> • 📍 ${getValueByName('p6_pais')}\n\n` : '') +
+                       (getValueByName('p7_nick') ? `S2️⃣ **${getValueByName('p7_nick')}** • 🆔 \`${getValueByName('p7_uid')}\`\n   └ 💬 <@${getValueByName('p7_discord')}> • 📍 ${getValueByName('p7_pais')}` : '') +
                        (!getValueByName('p6_nick') && !getValueByName('p7_nick') ? '*Ninguno*' : ''), 
                 inline: false 
             }
