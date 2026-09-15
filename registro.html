@@ -593,17 +593,27 @@
                 p7_pais: getValueByName('p7_pais')
             };
 
-                // 3. Estructura de respuesta automatica Keiko-Sam Unity
+               // 3. Estructura de respuesta automatica Keiko-Sam Unity
+           let servidorLimpio = (servidorEquipo || "").trim().toUpperCase();
+           let servidorTextoDiscord = "No especificado";
 
-           const discordPayload = {
-    content: "🚨 **¡NUEVO EQUIPO INSCRITO!** 🚨",
-    embeds: [{
-        title: `🛡️ ${nombreEquipo}`,
-        color: 2434305,
-        fields: [
+           if (servidorLimpio === "SA" || servidorLimpio === "LATAM" || servidorLimpio.includes("SOUTH")) {
+               servidorTextoDiscord = "LATAM";
+           } else if (servidorLimpio === "NA" || servidorLimpio === "NORTEAMERICA" || servidorLimpio.includes("NORTH")) {
+               servidorTextoDiscord = "NORTEAMERICA";
+           } else {
+               servidorTextoDiscord = servidorEquipo || "No especificado";
+           }
+
+            const discordPayload = {
+            content: "🚨 **¡NUEVO EQUIPO INSCRITO!** 🚨",
+            embeds: [{
+            title: `🛡️ ${nombreEquipo}`,
+            color: 2434305,
+            fields: [
             { 
                 name: "🏆 Tier & 🌍 Servidor", 
-                value: `**Tier:** ${tierEquipo || "No especificado"}  |  **Servidor:** ${servidorEquipo || "No especificado"}`, 
+                value: `**Tier:** ${tierEquipo || "No especificado"}  |  **Servidor:** ${servidorTextoDiscord}`, 
                 inline: false 
             },
             { 
