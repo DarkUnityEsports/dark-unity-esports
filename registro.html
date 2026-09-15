@@ -603,7 +603,7 @@
         fields: [
             { 
                 name: "🏆 Tier & 🌍 Servidor", 
-                value: `**Tier:** ${tierEquipo || "No especificado"}  |  **Servidor:** ${servidorEquipo || "No especificado"}`, 
+                value: `**Tier:** ${tierEquipo || "No especificado"} | **Servidor:** ${servidorEquipo === 'SA' ? 'LATAM' : (servidorEquipo === 'NA' ? 'NORTEAMERICA' : (servidorEquipo || 'No especificado'))}`, 
                 inline: false 
             },
             { 
