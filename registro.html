@@ -593,24 +593,25 @@
                 p7_pais: getValueByName('p7_pais')
             };
 
-               // 3. Estructura de respuesta automatica Keiko-Sam Unity
-           let servidorLimpio = (servidorEquipo || "").trim().toUpperCase();
-           let servidorTextoDiscord = "No especificado";
+          // 3. Estructura de respuesta automatica Keiko-Sam Unity
+         let rawServidor = (document.getElementById('servidor') ? document.getElementById('servidor').value : (typeof servidorEquipo !== 'undefined' ? servidorEquipo : "")) || "";
+         let servidorLimpio = rawServidor.trim().toUpperCase();
+         let servidorTextoDiscord = "No especificado";
 
-           if (servidorLimpio === "SA" || servidorLimpio === "LATAM" || servidorLimpio.includes("SOUTH")) {
-               servidorTextoDiscord = "LATAM";
-           } else if (servidorLimpio === "NA" || servidorLimpio === "NORTEAMERICA" || servidorLimpio.includes("NORTH")) {
-               servidorTextoDiscord = "NORTEAMERICA";
-           } else {
-               servidorTextoDiscord = servidorEquipo || "No especificado";
-           }
+         if (servidorLimpio === "SA" || servidorLimpio === "LATAM" || servidorLimpio.includes("SOUTH")) {
+             servidorTextoDiscord = "LATAM";
+             } else if (servidorLimpio === "NA" || servidorLimpio === "NORTEAMERICA" || servidorLimpio.includes("NORTH")) {
+            servidorTextoDiscord = "NORTEAMERICA";
+        } else {
+           servidorTextoDiscord = rawServidor || "No especificado";
+}
 
-            const discordPayload = {
-            content: "🚨 **¡NUEVO EQUIPO INSCRITO!** 🚨",
-            embeds: [{
-            title: `🛡️ ${nombreEquipo}`,
-            color: 2434305,
-            fields: [
+const discordPayload = {
+    content: "🚨 **¡NUEVO EQUIPO INSCRITO!** 🚨",
+    embeds: [{
+        title: `🛡️ ${nombreEquipo}`,
+        color: 2434305,
+        fields: [
             { 
                 name: "🏆 Tier & 🌍 Servidor", 
                 value: `**Tier:** ${tierEquipo || "No especificado"}  |  **Servidor:** ${servidorTextoDiscord}`, 
