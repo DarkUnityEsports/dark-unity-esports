@@ -594,15 +594,15 @@
             };
 
           // 3. Estructura de respuesta automatica Keiko-Sam Unity
-         let rawServidor = (document.getElementById('servidor') ? document.getElementById('servidor').value : (typeof servidorEquipo !== 'undefined' ? servidorEquipo : "")) || "";
-         let servidorLimpio = rawServidor.trim().toUpperCase();
-         let servidorTextoDiscord = "No especificado";
+          let rawServidor = typeof servidorEquipo !== 'undefined' ? servidorEquipo : (document.getElementById('server') ? document.getElementById('server').value : "");
+          let servidorLimpio = rawServidor.trim().toUpperCase();
+          let servidorTextoDiscord = "No especificado";
 
-         if (servidorLimpio === "SA" || servidorLimpio === "LATAM" || servidorLimpio.includes("SOUTH")) {
-             servidorTextoDiscord = "LATAM";
-             } else if (servidorLimpio === "NA" || servidorLimpio === "NORTEAMERICA" || servidorLimpio.includes("NORTH")) {
-            servidorTextoDiscord = "NORTEAMERICA";
-        } else {
+          if (servidorLimpio === "SA") {
+          servidorTextoDiscord = "NORTEAMERICA"; 
+          } else if (servidorLimpio === "NA") {
+           servidorTextoDiscord = "LATAM";
+          } else {
            servidorTextoDiscord = rawServidor || "No especificado";
 }
 
