@@ -10,13 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        .hero {
-     background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('FONDO.jpg');
-     background-size: cover;
-     background-position: center;
-     background-repeat: no-repeat;
-     min-height: 100vh; }
-
         :root {
             --bg-deep: #0a0c10;
             --bg-card: #121620;
@@ -64,6 +57,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 0.8rem 2rem;
+            position: relative;
         }
 
         .logo-container {
@@ -91,6 +85,7 @@
             color: var(--accent-blue-light);
         }
 
+        /* NAVEGACIÓN ESCRITORIO */
         nav ul {
             display: flex;
             list-style: none;
@@ -108,11 +103,23 @@
             color: var(--accent-blue-light);
         }
 
+        /* BOTÓN HAMBURGUESA (Oculto en PC) */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-white);
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
         /* HERO SECTION */
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(10, 12, 16, 0.7), rgba(10, 12, 16, 0.9)), 
-                        radial-gradient(circle at center, var(--accent-blue-dark) 0%, var(--bg-deep) 70%);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('FONDO.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -254,19 +261,36 @@
             font-size: 0.9rem;
         }
 
-        /* RESPONSIVE CORREGIDO PARA MÓVILES */
+        /* RESPONSIVE MÓVIL CON MENÚ HAMBURGUESA PLEGABLE */
         @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 12px;
-                padding: 0.8rem 1rem;
+            .menu-toggle {
+                display: block; /* Muestra el botón en teléfonos */
             }
+
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: rgba(10, 12, 16, 0.98);
+                border-bottom: 1px solid var(--accent-blue-dark);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-in-out;
+            }
+
+            /* Clase que activa la apertura del menú vía JS */
+            nav.active {
+                max-height: 250px; 
+            }
+
             nav ul {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 15px;
+                flex-direction: column;
+                align-items: center;
+                padding: 1.5rem 0;
+                gap: 1.2rem;
             }
+
             .hero-content h1 {
                 font-size: 2.5rem;
             }
@@ -282,12 +306,18 @@
                 <img src="logo.png" alt="Dark Unity Esports Logo" class="logo-img" onerror="this.style.display='none'">
                 <div class="logo-text">DARK <span>UNITY ESPORTS</span></div>
             </a>
-            <nav>
+            
+            <!-- Botón Hamburguesa -->
+            <button class="menu-toggle" id="menu-btn" aria-label="Abrir Menú">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <nav id="nav-menu">
                 <ul>
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#rosters">Secciones</a></li>
-                    <li><a href="#torneos">Torneos</a></li>
-                    <li><a href="#contacto">Comunidad</a></li>
+                    <li><a href="#inicio" class="nav-link">Inicio</a></li>
+                    <li><a href="#rosters" class="nav-link">Secciones</a></li>
+                    <li><a href="#torneos" class="nav-link">Torneos</a></li>
+                    <li><a href="#contacto" class="nav-link">Comunidad</a></li>
                 </ul>
             </nav>
         </div>
@@ -307,14 +337,14 @@
         <h2 class="section-title">Accesos y <span>Gestión</span></h2>
         <div class="grid-rosters">
             
-    <!-- TARJETA CON ENLACE A BRACKET -->
-    <a href="bracket-tournament.html" style="text-decoration: none; color: inherit; display: block;">
-        <div class="card" style="cursor: pointer;">
-            <i class="fa-solid fa-crosshairs"></i>
-            <h3>BRACKET-TOURNAMENT S1</h3>
-            <p>Plantel táctico enfocado en dominio de mapas, rotaciones y competencias de alta exigencia.</p>
-        </div>
-    </a>
+            <!-- TARJETA CON ENLACE A BRACKET -->
+            <a href="bracket-tournament.html" style="text-decoration: none; color: inherit; display: block;">
+                <div class="card" style="cursor: pointer;">
+                    <i class="fa-solid fa-crosshairs"></i>
+                    <h3>BRACKET-TOURNAMENT S1</h3>
+                    <p>Plantel táctico enfocado en dominio de mapas, rotaciones y competencias de alta exigencia.</p>
+                </div>
+            </a>
             
             <!-- TARJETA CON ENLACE A REGISTRO -->
             <a href="registro.html" style="text-decoration: none; color: inherit; display: block;">
@@ -337,78 +367,73 @@
     </section>
     
     <div class="torneo-container" style="padding: 20px; max-width: 1200px; margin: 0 auto;">
-    <h2 style="font-family: 'Rajdhani', sans-serif; font-size: 2.2rem; color: var(--accent-blue-light, #38bdf8); text-align: center; margin-bottom: 20px;">RANKING & BRACKETS DE TORNEOS</h2>
-    
-    <!-- Contenedor Principal de Fases -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+        <h2 style="font-family: 'Rajdhani', sans-serif; font-size: 2.2rem; color: var(--accent-blue-light, #38bdf8); text-align: center; margin-bottom: 20px;">RANKING & BRACKETS DE TORNEOS</h2>
         
-        <!-- Tarjeta de Fase / Grupo -->
-        <div style="background: var(--bg-card, #121620); border: 1px solid var(--accent-blue-dark, #1e3a8a); border-radius: 8px; padding: 15px;">
-            <h3 style="color: var(--text-white, #fff); font-size: 1.2rem; border-bottom: 2px solid var(--accent-blue-light, #38bdf8); padding-bottom: 8px; margin-bottom: 12px;">GRUPO A</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
             
-            <!-- Partido 1 -->
-            <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px; margin-bottom: 10px;">
-                <div style="display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 6px;">
-                    <span>ZEROMERCY NEW SCHOOL</span>
-                    <strong style="color: var(--accent-blue-light, #38bdf8);">1</strong>
+            <div style="background: var(--bg-card, #121620); border: 1px solid var(--accent-blue-dark, #1e3a8a); border-radius: 8px; padding: 15px;">
+                <h3 style="color: var(--text-white, #fff); font-size: 1.2rem; border-bottom: 2px solid var(--accent-blue-light, #38bdf8); padding-bottom: 8px; margin-bottom: 12px;">GRUPO A</h3>
+                
+                <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px; margin-bottom: 10px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 6px;">
+                        <span>ZEROMERCY NEW SCHOOL</span>
+                        <strong style="color: var(--accent-blue-light, #38bdf8);">1</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.95rem;">
+                        <span>DEMONS OF COD</span>
+                        <strong style="color: var(--accent-blue-light, #38bdf8);">2</strong>
+                    </div>
                 </div>
-                <div style="display: flex; justify-content: space-between; font-size: 0.95rem;">
-                    <span>DEMONS OF COD</span>
-                    <strong style="color: var(--accent-blue-light, #38bdf8);">2</strong>
+
+                <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 6px;">
+                        <span>EMPERIUM ACADEMY GOLD</span>
+                        <strong style="color: var(--accent-blue-light, #38bdf8);">3</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.95rem;">
+                        <span>RANK WARRIOS</span>
+                        <strong style="color: var(--accent-blue-light, #38bdf8);">0</strong>
+                    </div>
                 </div>
             </div>
 
-            <!-- Partido 2 -->
-            <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px;">
-                <div style="display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 6px;">
-                    <span>EMPERIUM ACADEMY GOLD</span>
-                    <strong style="color: var(--accent-blue-light, #38bdf8);">3</strong>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 0.95rem;">
-                    <span>RANK WARRIOS</span>
-                    <strong style="color: var(--accent-blue-light, #38bdf8);">0</strong>
+            <div style="background: var(--bg-card, #121620); border: 2px solid var(--accent-blue-light, #38bdf8); border-radius: 8px; padding: 15px;">
+                <h3 style="color: #f1c40f; font-size: 1.2rem; border-bottom: 2px solid #f1c40f; padding-bottom: 8px; margin-bottom: 12px;">🏆 GRAN FINAL</h3>
+                
+                <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 6px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 1rem; margin-bottom: 8px; font-weight: bold;">
+                        <span>DEMONS OF COD 🥇</span>
+                        <span style="color: #f1c40f;">3</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 1rem; font-weight: bold;">
+                        <span>EMPERIUM ACADEMY DARK 🥈</span>
+                        <span style="color: #a0aec0;">0</span>
+                    </div>
                 </div>
             </div>
+
         </div>
-
-        <!-- Tarjeta de Gran Final -->
-        <div style="background: var(--bg-card, #121620); border: 2px solid var(--accent-blue-light, #38bdf8); border-radius: 8px; padding: 15px;">
-            <h3 style="color: #f1c40f; font-size: 1.2rem; border-bottom: 2px solid #f1c40f; padding-bottom: 8px; margin-bottom: 12px;">🏆 GRAN FINAL</h3>
-            
-            <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 6px;">
-                <div style="display: flex; justify-content: space-between; font-size: 1rem; margin-bottom: 8px; font-weight: bold;">
-                    <span>DEMONS OF COD 🥇</span>
-                    <span style="color: #f1c40f;">3</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 1rem; font-weight: bold;">
-                    <span>EMPERIUM ACADEMY DARK 🥈</span>
-                    <span style="color: #a0aec0;">0</span>
-                </div>
-            </div>
-        </div>
-
     </div>
- </div>
 
     <!-- TORNEOS / PALMARES -->
-<section id="torneos">
-    <h2 class="section-title">Sala de <span>Torneos</span></h2>
-    <div class="grid-rosters">
-        <div class="card">
-            <i class="fa-solid fa-trophy"></i>
-            <h3>Dark Unity 1ª Edición</h3>
-            <p>Torneo oficial organizado con éxito por el clan, reuniendo a los mejores exponentes competitivos de la región.</p>
-        </div>
-        
-        <a href="ranking.html" style="text-decoration: none; color: inherit; display: block;">
+    <section id="torneos">
+        <h2 class="section-title">Sala de <span>Torneos</span></h2>
+        <div class="grid-rosters">
             <div class="card">
-                <i class="fa-solid fa-medal"></i>
-                <h3>RANKING SEMANAL</h3>
-                <p>Organización continua de enfrentamientos de práctica para mantener el nivel de juego al máximo rendimiento.</p>
+                <i class="fa-solid fa-trophy"></i>
+                <h3>Dark Unity 1ª Edición</h3>
+                <p>Torneo oficial organizado con éxito por el clan, reuniendo a los mejores exponentes competitivos de la región.</p>
             </div>
-        </a>
-    </div>
-</section>
+            
+            <a href="ranking.html" style="text-decoration: none; color: inherit; display: block;">
+                <div class="card">
+                    <i class="fa-solid fa-medal"></i>
+                    <h3>RANKING SEMANAL</h3>
+                    <p>Organización continua de enfrentamientos de práctica para mantener el nivel de juego al máximo rendimiento.</p>
+                </div>
+            </a>
+        </div>
+    </section>
 
     <!-- COMUNIDAD / CONTACTO -->
     <section id="contacto">
@@ -424,5 +449,35 @@
         <p>&copy; 2026 Dark Unity Esports. Todos los derechos reservados. | Diseñado para la comunidad competitiva de CODM.</p>
     </footer>
 
+    <!-- SCRIPT PARA EL MENÚ PLEGABLE -->
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const navMenu = document.getElementById('nav-menu');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        // Abrir/Cerrar menú al hacer clic en el botón de hamburguesa
+        menuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            // Cambia el icono de barras a una "X" y viceversa
+            const icon = menuBtn.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Cerrar automáticamente el menú al hacer clic en cualquier opción
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                const icon = menuBtn.querySelector('i');
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            });
+        });
+    </script>
 </body>
 </html>
