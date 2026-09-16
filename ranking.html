@@ -18,21 +18,36 @@
         }
         header {
             text-align: center;
-            padding: 40px 0;
+            padding: 30px 0;
             border-bottom: 2px solid #1e293b;
             margin-bottom: 30px;
         }
         header h2 {
             color: #00e5ff;
-            font-size: 2.5rem;
-            margin-bottom: 15px; /* Separación exacta con el subtítulo */
+            font-size: 1.7rem; /* Tamaño adaptado y fluido para móviles */
+            margin-bottom: 10px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
         }
+        
+        /* En pantallas medianas o PC vuelve a verse más grande */
+        @media (min-width: 768px) {
+            header h2 {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+        }
+
         header p {
             color: #94a3b8;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
         }
+        @media (min-width: 768px) {
+            header p {
+                font-size: 1.1rem;
+            }
+        }
+
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -89,7 +104,7 @@
             background: #111827;
             border: 1px solid #1f2937;
             border-radius: 12px;
-            overflow-x: auto; /* Permite desplazamiento horizontal fluido en móviles */
+            overflow-x: auto;
             overflow-y: hidden;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             -webkit-overflow-scrolling: touch;
@@ -98,11 +113,11 @@
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            min-width: 600px; /* Ancho base para que las columnas no se compriman de más */
+            min-width: 600px;
         }
         th, td {
             padding: 14px 20px;
-            white-space: nowrap; /* Mantiene el contenido en una sola línea */
+            white-space: nowrap;
         }
 
         /* ANCHOS Y ALINEACIONES DE COLUMNAS */
@@ -146,8 +161,8 @@
         <a href="index.html" class="btn-volver">← Volver al Inicio</a>
         
          <header>
-         <h2 style="margin-bottom: 15px;">RANKING COMPETITIVO SEMANAL 🏆</h2>
-         <p>Tabla de posiciones oficial | Dark Unity eSports</p>
+             <h2>RANKING COMPETITIVO SEMANAL 🏆</h2>
+             <p>Tabla de posiciones oficial | Dark Unity eSports</p>
          </header>
 
         <!-- ================= CATEGORÍA ROCKY ================= -->
