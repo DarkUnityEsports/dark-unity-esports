@@ -24,13 +24,12 @@
         }
         header h2 {
             color: #00e5ff;
-            font-size: 1.7rem; /* Tamaño adaptado y fluido para móviles */
+            font-size: 1.7rem;
             margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 1.5px;
         }
         
-        /* En pantallas medianas o PC vuelve a verse más grande */
         @media (min-width: 768px) {
             header h2 {
                 font-size: 2.5rem;
@@ -61,10 +60,11 @@
             text-decoration: none;
             border-radius: 6px;
             font-weight: bold;
-            transition: background 0.3s;
+            transition: background 0.3s, color 0.3s;
         }
         .btn-volver:hover {
             background: #374151;
+            color: #00e5ff;
         }
 
         /* Estilos por Categoría */
@@ -113,27 +113,37 @@
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            min-width: 600px;
+            min-width: 720px; /* Ancho ajustado para que quepan bien las nuevas columnas */
         }
         th, td {
-            padding: 14px 20px;
+            padding: 14px 16px;
             white-space: nowrap;
         }
 
         /* ANCHOS Y ALINEACIONES DE COLUMNAS */
         th.posicion, td.posicion {
-            width: 70px;
+            width: 60px;
             text-align: center;
         }
         th.col-equipo, td.col-equipo {
-            width: 43%;
+            width: 38%;
         }
-        th.col-partidas, td.col-partidas {
-            width: 27%;
+        th.col-juegos, td.col-juegos {
+            width: 14%;
             text-align: center;
         }
+        th.col-jg, td.col-jg {
+            width: 14%;
+            text-align: center;
+            color: #10b981; /* Verde sutil para ganados */
+        }
+        th.col-jp, td.col-jp {
+            width: 14%;
+            text-align: center;
+            color: #ef4444; /* Rojo sutil para perdidos */
+        }
         th.col-puntos, td.col-puntos {
-            width: 30%;
+            width: 20%;
             text-align: right;
         }
 
@@ -177,21 +187,15 @@
                         <tr>
                             <th class="posicion">Pos</th>
                             <th class="col-equipo">Equipo</th>
-                            <th class="col-partidas">JUEGOS</th>
+                            <th class="col-juegos">Juegos</th>
+                            <th class="col-jg">JG</th>
+                            <th class="col-jp">JP</th>
                             <th class="col-puntos">Puntos</th>
                         </tr>
                     </thead>
                     <tbody id="cuerpo-rocky">
-                        <tr><td class="posicion top-1">#1</td><td class="col-equipo"><strong></strong></td><td class="col-partidas">8</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">200 pts</td></tr>
-                        <tr><td class="posicion top-2">#2</td><td class="col-equipo"><strong></strong></td><td class="col-partidas">8</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">180 pts</td></tr>
-                        <tr><td class="posicion top-3">#3</td><td class="col-equipo"><strong></strong></td><td class="col-partidas">10</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">250 pts</td></tr>
-                        <tr><td class="posicion">#4</td><td class="col-equipo"><strong></strong></td><td class="col-partidas">11</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">210 pts</td></tr>
-                        <tr><td class="posicion">#5</td><td class="col-equipo"><strong></strong></td><td class="col-partidas">11</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">210 pts</td></tr>
-                        <tr><td class="posicion">#6</td><td class="col-equipo"><strong></strong></td><td class="col-partidas">11</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">210 pts</td></tr>
-                        <tr><td class="posicion">#7</td><td class="col-equipo"><strong></strong></td><td class="col-partidas">11</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">210 pts</td></tr>
-                        <tr><td class="posicion">#8</td><td class="col-equipo"><strong></strong></td><td class="col-partidas">11</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">210 pts</td></tr>
-                        <tr><td class="posicion">#9</td><td class="col-equipo"><strong></strong></td><td class="col-partidas">11</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">210 pts</td></tr>
-                        <tr><td class="posicion">#10</td><td class="col-equipo"><strong></strong></td><td class="col-partidas">11</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">210 pts</td></tr>
+                        <tr><td class="posicion top-1">#1</td><td class="col-equipo"><strong>Equipo Ejemplo 1</strong></td><td class="col-juegos">8</td><td class="col-jg">6</td><td class="col-jp">2</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">200 pts</td></tr>
+                        <tr><td class="posicion top-2">#2</td><td class="col-equipo"><strong>Equipo Ejemplo 2</strong></td><td class="col-juegos">8</td><td class="col-jg">5</td><td class="col-jp">3</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">180 pts</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -209,13 +213,15 @@
                         <tr>
                             <th class="posicion">Pos</th>
                             <th class="col-equipo">Equipo</th>
-                            <th class="col-partidas">JUEGOS</th>
+                            <th class="col-juegos">Juegos</th>
+                            <th class="col-jg">JG</th>
+                            <th class="col-jp">JP</th>
                             <th class="col-puntos">Puntos</th>
                         </tr>
                     </thead>
                     <tbody id="cuerpo-beginner">
-                        <tr><td class="posicion top-1">#1</td><td class="col-equipo"><strong>CLAN EJEMPLO B1</strong></td><td class="col-partidas">10</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">300 pts</td></tr>
-                        <tr><td class="posicion top-2">#2</td><td class="col-equipo"><strong>CLAN EJEMPLO B2</strong></td><td class="col-partidas">9</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">270 pts</td></tr>
+                        <tr><td class="posicion top-1">#1</td><td class="col-equipo"><strong>CLAN EJEMPLO B1</strong></td><td class="col-juegos">10</td><td class="col-jg">8</td><td class="col-jp">2</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">300 pts</td></tr>
+                        <tr><td class="posicion top-2">#2</td><td class="col-equipo"><strong>CLAN EJEMPLO B2</strong></td><td class="col-juegos">9</td><td class="col-jg">6</td><td class="col-jp">3</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">270 pts</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -233,15 +239,17 @@
                         <tr>
                             <th class="posicion">Pos</th>
                             <th class="col-equipo">Equipo</th>
-                            <th class="col-partidas">JUEGOS</th>
+                            <th class="col-juegos">Juegos</th>
+                            <th class="col-jg">JG</th>
+                            <th class="col-jp">JP</th>
                             <th class="col-puntos">Puntos</th>
                         </tr>
                     </thead>
                     <tbody id="cuerpo-master">
-                        <tr><td class="posicion top-1">#1</td><td class="col-equipo"><strong>DEMONS OF COD</strong></td><td class="col-partidas">12</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">340 pts</td></tr>
-                        <tr><td class="posicion top-2">#2</td><td class="col-equipo"><strong>EMPERIUM ACADEMY DARK</strong></td><td class="col-partidas">12</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">290 pts</td></tr>
-                        <tr><td class="posicion top-3">#3</td><td class="col-equipo"><strong>ZEROMERCY NEW SCHOOL</strong></td><td class="col-partidas">10</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">250 pts</td></tr>
-                        <tr><td class="posicion">#4</td><td class="col-equipo"><strong>EMPERIUM ACADEMY GOLD</strong></td><td class="col-partidas">11</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">210 pts</td></tr>
+                        <tr><td class="posicion top-1">#1</td><td class="col-equipo"><strong>DEMONS OF COD</strong></td><td class="col-juegos">12</td><td class="col-jg">10</td><td class="col-jp">2</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">340 pts</td></tr>
+                        <tr><td class="posicion top-2">#2</td><td class="col-equipo"><strong>EMPERIUM ACADEMY DARK</strong></td><td class="col-juegos">12</td><td class="col-jg">9</td><td class="col-jp">3</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">290 pts</td></tr>
+                        <tr><td class="posicion top-3">#3</td><td class="col-equipo"><strong>ZEROMERCY NEW SCHOOL</strong></td><td class="col-juegos">10</td><td class="col-jg">7</td><td class="col-jp">3</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">250 pts</td></tr>
+                        <tr><td class="posicion">#4</td><td class="col-equipo"><strong>EMPERIUM ACADEMY GOLD</strong></td><td class="col-juegos">11</td><td class="col-jg">6</td><td class="col-jp">5</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">210 pts</td></tr>
                     </tbody>
                 </table>
             </div>
