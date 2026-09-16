@@ -22,10 +22,10 @@
             border-bottom: 2px solid #1e293b;
             margin-bottom: 30px;
         }
-        header h1 {
+        header h2 {
             color: #00e5ff;
             font-size: 2.5rem;
-            margin-bottom: 10px;
+            margin-bottom: 15px; /* Separación exacta con el subtítulo */
             text-transform: uppercase;
             letter-spacing: 2px;
         }
@@ -84,27 +84,28 @@
             text-transform: uppercase;
         }
 
+        /* CONTENEDOR CON SCROLL HORIZONTAL */
         .tabla-container {
             background: #111827;
             border: 1px solid #1f2937;
             border-radius: 12px;
-            overflow: hidden;
+            overflow-x: auto; /* Permite desplazamiento horizontal fluido en móviles */
+            overflow-y: hidden;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            -webkit-overflow-scrolling: touch;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            table-layout: fixed; /* <-- EVITA QUE SE DESALINEEN LAS COLUMNAS */
+            min-width: 600px; /* Ancho base para que las columnas no se compriman de más */
         }
         th, td {
-            padding: 14px 15px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            padding: 14px 20px;
+            white-space: nowrap; /* Mantiene el contenido en una sola línea */
         }
 
-        /* ANCHOS FIJOS PARA CADA COLUMNA */
+        /* ANCHOS Y ALINEACIONES DE COLUMNAS */
         th.posicion, td.posicion {
             width: 70px;
             text-align: center;
