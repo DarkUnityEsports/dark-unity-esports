@@ -172,7 +172,7 @@
         }
 
         .manager-row {
-            grid-template-columns: 2fr 2fr 2fr;
+            grid-template-columns: 2fr 1.8fr 1.8fr 1.5fr;
         }
 
         .player-row-title, .manager-row-title {
@@ -278,7 +278,7 @@
 
             <hr style="border: 0; border-top: 1px solid var(--accent-blue-dark); margin: 2rem 0;">
 
-            <!-- INFORMACIÓN DEL MANAGER (JUSTO ANTES DEL CAPITÁN) -->
+            <!-- INFORMACIÓN DEL MANAGER (CON PAÍS INCLUIDO) -->
             <div class="manager-row">
                 <div class="manager-row-title">Información del Manager</div>
                 <div>
@@ -292,6 +292,12 @@
                 <div>
                     <label style="font-size: 0.75rem;">WhatsApp / Contacto</label>
                     <input type="text" name="manager_whatsapp" required placeholder="Ej. +584120000000">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">País</label>
+                    <select name="manager_pais" required class="glass-select pais-select">
+                        <option value="" disabled selected>Selecciona</option>
+                    </select>
                 </div>
             </div>
 
@@ -466,11 +472,11 @@
 <script>
     // Poblar los países en los selects
     const paises = [
-    "Argentina", "Bahamas", "Belice", "Bolivia", "Brasil", "Canadá", "Chile",
-    "Colombia", "Costa Rica", "Cuba", "Ecuador", "El Salvador", "España", "Estados Unidos",
-    "Guatemala", "Honduras", "Jamaica", "México", "Nicaragua", "Panamá", "Paraguay",
-    "Perú", "Puerto Rico", "República Dominicana", "Uruguay", "Venezuela", "Otro"
-];
+        "Argentina", "Bahamas", "Belice", "Bolivia", "Brasil", "Canadá", "Chile",
+        "Colombia", "Costa Rica", "Cuba", "Ecuador", "El Salvador", "España", "Estados Unidos",
+        "Guatemala", "Honduras", "Jamaica", "México", "Nicaragua", "Panamá", "Paraguay",
+        "Perú", "Puerto Rico", "República Dominicana", "Uruguay", "Venezuela", "Otro"
+    ];
 
     document.querySelectorAll('.pais-select').forEach(select => {
         paises.forEach(pais => {
@@ -599,6 +605,7 @@
             const managerNombre = getValueByName('manager_nombre');
             const managerDiscord = getValueByName('manager_discord');
             const managerWhatsapp = getValueByName('manager_whatsapp');
+            const managerPais = getValueByName('manager_pais');
 
             const formData = {
                 nombreEquipo: nombreEquipo,
@@ -608,10 +615,11 @@
                 tier: tierEquipo,
                 servidor: servidorEquipo,
                 
-                // Manager (Se envía completo a Google Sheets)
+                // Manager
                 manager_nombre: managerNombre,
                 manager_discord: managerDiscord,
                 manager_whatsapp: managerWhatsapp,
+                manager_pais: managerPais,
 
                 // Jugador 1
                 p1_nick: getValueByName('p1_nick'),
@@ -656,19 +664,20 @@
                 p7_pais: getValueByName('p7_pais')
             };
 
-          let rawServidor = typeof servidorEquipo !== 'undefined' ? servidorEquipo : (document.getElementById('server') ? document.getElementById('server').value : "");
-          let servidorLimpio = rawServidor.trim().toUpperCase();
-          let servidorTextoDiscord = "No especificado";
+            let rawServidor = typeof servidorEquipo !== 'undefined' ? servidorEquipo : (document.getElementById('server') ? document.getElementById('server').value : "");
+            let servidorLimpio = rawServidor.trim().toUpperCase();
+            let servidorTextoDiscord = "No especificado";
 
-          if (servidorLimpio === "SA") {
-          servidorTextoDiscord = "NORTEAMERICA"; 
-          } else if (servidorLimpio === "NA") {
-           servidorTextoDiscord = "LATAM";
-          } else {
-           servidorTextoDiscord = rawServidor || "No especificado";
-}
+            if (servidorLimpio === "SA") {
+                servidorTextoDiscord = "NORTEAMERICA"; 
+            } else if (servidorLimpio === "NA") {
+                servidorTextoDiscord = "LATAM";
+            } else {
+                servidorTextoDiscord = rawServidor || "No especificado";
+            }
 
-            // Capturar banderas para el mensaje de Discord
+            // Capturar banderas para el mensaje de Discord (Incluyendo el manager)
+            const fManager = obtenerBanderaDiscord(managerPais);
             const f1 = obtenerBanderaDiscord(getValueByName('p1_pais'));
             const f2 = obtenerBanderaDiscord(getValueByName('p2_pais'));
             const f3 = obtenerBanderaDiscord(getValueByName('p3_pais'));
@@ -677,42 +686,42 @@
             const f6 = obtenerBanderaDiscord(getValueByName('p6_pais'));
             const f7 = obtenerBanderaDiscord(getValueByName('p7_pais'));
 
-const discordPayload = {
-    content: "🚨 **¡NUEVO EQUIPO INSCRITO!** 🚨",
-    embeds: [{
-        title: `🛡️ ${nombreEquipo}`,
-        color: 2434305,
-        fields: [
-            { 
-                name: "🏆 Tier & 🌍 Servidor", 
-                value: `**Tier:** ${tierEquipo || "No especificado"}  |  **Servidor:** ${servidorTextoDiscord}`, 
-                inline: false 
-            },
-            {
-                name: "💼 Manager del Equipo",
-                value: `👤 **${managerNombre || "No especificado"}**\n └ 💬 <@${managerDiscord}>`,
-                inline: false
-            },
-            { 
-                name: "👥 Lineup Titular", 
-                value: `\n1️⃣ **${getValueByName('p1_nick')}** • 🆔 \`${getValueByName('p1_uid')}\`\n   └ 💬 <@${getValueByName('p1_discord')}> • ${f1} ${getValueByName('p1_pais')}\n\n` +
-                       `2️⃣ **${getValueByName('p2_nick')}** • 🆔 \`${getValueByName('p2_uid')}\`\n   └ 💬 <@${getValueByName('p2_discord')}> • ${f2} ${getValueByName('p2_pais')}\n\n` +
-                       `3️⃣ **${getValueByName('p3_nick')}** • 🆔 \`${getValueByName('p3_uid')}\`\n   └ 💬 <@${getValueByName('p3_discord')}> • ${f3} ${getValueByName('p3_pais')}\n\n` +
-                       `4️⃣ **${getValueByName('p4_nick')}** • 🆔 \`${getValueByName('p4_uid')}\`\n   └ 💬 <@${getValueByName('p4_discord')}> • ${f4} ${getValueByName('p4_pais')}\n\n` +
-                       `5️⃣ **${getValueByName('p5_nick')}** • 🆔 \`${getValueByName('p5_uid')}\`\n   └ 💬 <@${getValueByName('p5_discord')}> • ${f5} ${getValueByName('p5_pais')}`, 
-                inline: false 
-            },
-            { 
-                name: "🔄 Suplentes", 
-                value: (getValueByName('p6_nick') ? `\nS1️⃣ **${getValueByName('p6_nick')}** • 🆔 \`${getValueByName('p6_uid')}\`\n   └ 💬 <@${getValueByName('p6_discord')}> • ${f6} ${getValueByName('p6_pais')}\n\n` : '') +
-                       (getValueByName('p7_nick') ? `S2️⃣ **${getValueByName('p7_nick')}** • 🆔 \`${getValueByName('p7_uid')}\`\n   └ 💬 <@${getValueByName('p7_discord')}> • ${f7} ${getValueByName('p7_pais')}` : '') +
-                       (!getValueByName('p6_nick') && !getValueByName('p7_nick') ? '\n*Ninguno*' : ''), 
-                inline: false 
-            }
-        ],
-        timestamp: new Date().toISOString()
-    }]
-};
+            const discordPayload = {
+                content: "🚨 **¡NUEVO EQUIPO INSCRITO!** 🚨",
+                embeds: [{
+                    title: `🛡️ ${nombreEquipo}`,
+                    color: 2434305,
+                    fields: [
+                        { 
+                            name: "🏆 Tier & 🌍 Servidor", 
+                            value: `**Tier:** ${tierEquipo || "No especificado"}  |  **Servidor:** ${servidorTextoDiscord}`, 
+                            inline: false 
+                        },
+                        {
+                            name: "💼 Manager del Equipo",
+                            value: `👤 **${managerNombre || "No especificado"}**\n └ 💬 <@${managerDiscord}> • ${fManager} ${managerPais || "No especificado"}`,
+                            inline: false
+                        },
+                        { 
+                            name: "👥 Lineup Titular", 
+                            value: `\n1️⃣ **${getValueByName('p1_nick')}** • 🆔 \`${getValueByName('p1_uid')}\`\n   └ 💬 <@${getValueByName('p1_discord')}> • ${f1} ${getValueByName('p1_pais')}\n\n` +
+                                   `2️⃣ **${getValueByName('p2_nick')}** • 🆔 \`${getValueByName('p2_uid')}\`\n   └ 💬 <@${getValueByName('p2_discord')}> • ${f2} ${getValueByName('p2_pais')}\n\n` +
+                                   `3️⃣ **${getValueByName('p3_nick')}** • 🆔 \`${getValueByName('p3_uid')}\`\n   └ 💬 <@${getValueByName('p3_discord')}> • ${f3} ${getValueByName('p3_pais')}\n\n` +
+                                   `4️⃣ **${getValueByName('p4_nick')}** • 🆔 \`${getValueByName('p4_uid')}\`\n   └ 💬 <@${getValueByName('p4_discord')}> • ${f4} ${getValueByName('p4_pais')}\n\n` +
+                                   `5️⃣ **${getValueByName('p5_nick')}** • 🆔 \`${getValueByName('p5_uid')}\`\n   └ 💬 <@${getValueByName('p5_discord')}> • ${f5} ${getValueByName('p5_pais')}`, 
+                            inline: false 
+                        },
+                        { 
+                            name: "🔄 Suplentes", 
+                            value: (getValueByName('p6_nick') ? `\nS1️⃣ **${getValueByName('p6_nick')}** • 🆔 \`${getValueByName('p6_uid')}\`\n   └ 💬 <@${getValueByName('p6_discord')}> • ${f6} ${getValueByName('p6_pais')}\n\n` : '') +
+                                   (getValueByName('p7_nick') ? `S2️⃣ **${getValueByName('p7_nick')}** • 🆔 \`${getValueByName('p7_uid')}\`\n   └ 💬 <@${getValueByName('p7_discord')}> • ${f7} ${getValueByName('p7_pais')}` : '') +
+                                   (!getValueByName('p6_nick') && !getValueByName('p7_nick') ? '\n*Ninguno*' : ''), 
+                            inline: false 
+                        }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
 
             Promise.all([
                 fetch(scriptURL, {
