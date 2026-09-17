@@ -32,7 +32,7 @@
             background-color: var(--bg-deep);
             color: var(--text-white);
             line-height: 1.6;
-            padding-top: 5rem; /* Espacio para que el header fijo no tape el contenido */
+            padding-top: 5rem;
             padding-bottom: 4rem;
         }
 
@@ -74,7 +74,7 @@
 
         /* CONTAINER PRINCIPAL */
         .calendar-container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 1.5rem auto;
             padding: 0 1rem;
         }
@@ -196,13 +196,14 @@
             100% { opacity: 1; }
         }
 
-        /* CUERPO DEL ENFRENTAMIENTO (OPTIMIZADO PARA MÓVIL) */
+        /* CUERPO DEL ENFRENTAMIENTO PERFECTAMENTE ALINEADO */
         .match-body {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
             margin-bottom: 1rem;
+            padding: 0.5rem 0;
         }
 
         .team {
@@ -210,6 +211,7 @@
             align-items: center;
             gap: 0.8rem;
             flex: 1;
+            max-width: 35%; /* Evita que los nombres se expandan de más en PC */
         }
 
         .team.team-away {
@@ -218,46 +220,48 @@
         }
 
         .team-logo {
-            width: 45px;
-            height: 45px;
-            min-width: 45px;
+            width: 42px;
+            height: 42px;
+            min-width: 42px;
             background-color: var(--bg-deep);
             border: 2px solid var(--accent-blue-dark);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--accent-blue-light);
         }
 
         .team-name {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 700;
-            word-break: break-word;
+            word-break: normal;
+            line-height: 1.2;
         }
 
-        .match-vs-container {
+        .match-center {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 0 0.5rem;
-            min-width: 60px;
+            justify-content: center;
+            min-width: 80px;
         }
 
         .match-vs {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--text-gray-dark);
         }
 
         .match-score {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: var(--accent-blue-light);
             font-family: 'Rajdhani', sans-serif;
             font-weight: 700;
+            letter-spacing: 2px;
         }
 
         /* FOOTER DE LA TARJETA */
@@ -294,7 +298,7 @@
             opacity: 0.9;
         }
 
-        /* AJUSTES PARA COMPUTADORAS (PANTALLAS GRANDES) */
+        /* MEJORAS PARA ESCRITORIO (PC) */
         @media (min-width: 768px) {
             .calendar-container {
                 padding: 0 1.5rem;
@@ -303,28 +307,16 @@
                 font-size: 2.5rem;
             }
             .team-logo {
-                width: 60px;
-                height: 60px;
-                min-width: 60px;
-                font-size: 1.5rem;
+                width: 52px;
+                height: 52px;
+                min-width: 52px;
+                font-size: 1.3rem;
             }
             .team-name {
-                font-size: 1.25rem;
+                font-size: 1.15rem;
             }
             .match-body {
-                display: grid;
-                grid-template-columns: 1fr auto 1fr;
-                gap: 1rem;
-            }
-            .team.team-away {
-                flex-direction: row-reverse;
-                text-align: left;
-            }
-            .match-header {
-                font-size: 0.9rem;
-            }
-            .match-footer {
-                font-size: 0.9rem;
+                padding: 0.8rem 2rem; /* Compacta los elementos hacia el centro para que no queden separados */
             }
         }
     </style>
@@ -363,7 +355,7 @@
                         <div class="team-logo"><i class="fa-solid fa-shield-halved"></i></div>
                         <div class="team-name">DEMONS OF COD</div>
                     </div>
-                    <div class="match-vs-container match-score">
+                    <div class="match-center match-score">
                         <span>2 - 1</span>
                     </div>
                     <div class="team team-away">
@@ -388,7 +380,7 @@
                         <div class="team-logo"><i class="fa-solid fa-shield-halved"></i></div>
                         <div class="team-name">EMPERIUM ACADEMY</div>
                     </div>
-                    <div class="match-vs-container match-vs">
+                    <div class="match-center match-vs">
                         <span>VS</span>
                     </div>
                     <div class="team team-away">
@@ -413,7 +405,7 @@
                         <div class="team-logo"><i class="fa-solid fa-shield-halved"></i></div>
                         <div class="team-name">DEMONS OF COD</div>
                     </div>
-                    <div class="match-vs-container match-score">
+                    <div class="match-center match-score">
                         <span>3 - 0</span>
                     </div>
                     <div class="team team-away">
