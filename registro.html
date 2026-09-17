@@ -158,8 +158,8 @@
             padding: 10px;
         }
 
-        /* JUGADORES SECTION - 4 COLUMNAS EN UNA MISMA LÍNEA */
-        .player-row {
+        /* SECCIONES EN LÍNEA */
+        .player-row, .manager-row {
             background-color: rgba(10, 12, 16, 0.5);
             border: 1px solid rgba(23, 37, 84, 0.6);
             padding: 1.2rem;
@@ -171,7 +171,11 @@
             align-items: center;
         }
 
-        .player-row-title {
+        .manager-row {
+            grid-template-columns: 2fr 2fr 2fr;
+        }
+
+        .player-row-title, .manager-row-title {
             font-size: 1rem;
             color: var(--accent-blue-light);
             margin-bottom: 0.2rem;
@@ -205,13 +209,13 @@
         }
 
         @media (max-width: 900px) {
-            .player-row {
+            .player-row, .manager-row {
                 grid-template-columns: 1fr 1fr;
             }
         }
 
         @media (max-width: 600px) {
-            .player-row {
+            .player-row, .manager-row {
                 grid-template-columns: 1fr;
             }
             .form-container {
@@ -250,7 +254,7 @@
             <div class="form-group">
                 <label for="team_tier"><i class="fa-solid fa-layer-group"></i> Tier del Equipo</label>
                 <select id="team_tier" name="team_tier" required class="glass-select">
-                    <option value="" disabled selected>Seleccionar tie de equipo</option>
+                    <option value="" disabled selected>Seleccionar tier de equipo</option>
                     <option value="T4 Low">T4 LOW  (ROKIE)</option>
                     <option value="T4 Medium">T4 MEDIUM  (ROKIE)</option>
                     <option value="T4 High">T4 HIGH  (ROKIE)</option>
@@ -273,6 +277,23 @@
             </div>
 
             <hr style="border: 0; border-top: 1px solid var(--accent-blue-dark); margin: 2rem 0;">
+
+            <!-- INFORMACIÓN DEL MANAGER (JUSTO ANTES DEL CAPITÁN) -->
+            <div class="manager-row">
+                <div class="manager-row-title">Información del Manager</div>
+                <div>
+                    <label style="font-size: 0.75rem;">Nombre del Manager</label>
+                    <input type="text" name="manager_nombre" required placeholder="Nombre o Nick">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">Discord ID (Manager)</label>
+                    <input type="text" name="manager_discord" maxlength="20" placeholder="Ej. 123456789">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">WhatsApp / Contacto</label>
+                    <input type="text" name="manager_whatsapp" required placeholder="Ej. +584120000000">
+                </div>
+            </div>
 
             <label style="margin-bottom: 1.5rem; font-size: 1.3rem;"><i class="fa-solid fa-users"></i> EQUIPO DE 7 JUGADORES</label>
 
@@ -480,7 +501,6 @@
             let uid = getValueByName(`p${i}_uid`).trim();
             let discord = getValueByName(`p${i}_discord`).trim();
 
-            // Si el jugador de suplentes está completamente vacío, lo salta
             if (!nick && !uid && !discord) continue;
 
             if (nick) {
@@ -513,9 +533,8 @@
     document.getElementById('registroForm').addEventListener('submit', e => {
         e.preventDefault();
 
-        // 1. Validar duplicados PRIMERO de todo
         if (!validarDuplicados()) {
-            return; // Detiene el envío inmediatamente si hay duplicados
+            return;
         }
 
         const btn = document.querySelector('button[type="submit"]');
@@ -541,7 +560,11 @@
             const tierEquipo = getValueByName('team_tier');
             const servidorEquipo = getValueByName('server');
 
-            // 2. Construcción de los datos para Google Apps Script
+            // Datos del Manager
+            const managerNombre = getValueByName('manager_nombre');
+            const managerDiscord = getValueByName('manager_discord');
+            const managerWhatsapp = getValueByName('manager_whatsapp');
+
             const formData = {
                 nombreEquipo: nombreEquipo,
                 imageBytes: base64Data,
@@ -549,7 +572,12 @@
                 fileName: file.name,
                 tier: tierEquipo,
                 servidor: servidorEquipo,
-            
+                
+                // Manager (Se envía completo a Google Sheets)
+                manager_nombre: managerNombre,
+                manager_discord: managerDiscord,
+                manager_whatsapp: managerWhatsapp,
+
                 // Jugador 1
                 p1_nick: getValueByName('p1_nick'),
                 p1_uid: getValueByName('p1_uid'),
@@ -593,7 +621,6 @@
                 p7_pais: getValueByName('p7_pais')
             };
 
-          // 3. Estructura de respuesta automatica Keiko-Sam Unity
           let rawServidor = typeof servidorEquipo !== 'undefined' ? servidorEquipo : (document.getElementById('server') ? document.getElementById('server').value : "");
           let servidorLimpio = rawServidor.trim().toUpperCase();
           let servidorTextoDiscord = "No especificado";
@@ -617,6 +644,11 @@ const discordPayload = {
                 value: `**Tier:** ${tierEquipo || "No especificado"}  |  **Servidor:** ${servidorTextoDiscord}`, 
                 inline: false 
             },
+            {
+                name: "💼 Manager del Equipo",
+                value: `👤 **${managerNombre || "No especificado"}**\n └ 💬 <@${managerDiscord}>`,
+                inline: false
+            },
             { 
                 name: "👥 Lineup Titular", 
                 value: `\n1️⃣ **${getValueByName('p1_nick')}** • 🆔 \`${getValueByName('p1_uid')}\`\n   └ 💬 <@${getValueByName('p1_discord')}> • 📍 ${getValueByName('p1_pais')}\n\n` +
@@ -638,7 +670,6 @@ const discordPayload = {
     }]
 };
 
-            // 4. Ejecución en paralelo (Google Sheets + Discord directo desde el navegador)
             Promise.all([
                 fetch(scriptURL, {
                     method: 'POST',
@@ -666,7 +697,6 @@ const discordPayload = {
         };
     });
 
-    // Validación estricta para UIDs y Discord IDs (solo números y máximo 19 caracteres)
     document.querySelectorAll('input[name*="uid"], input[name*="discord"]').forEach(input => {
         input.setAttribute('maxlength', '19');
         input.setAttribute('inputmode', 'numeric');
