@@ -530,6 +530,41 @@
         return true;
     }
 
+    // Función auxiliar para obtener el emoji de bandera correspondiente
+    function obtenerBanderaDiscord(nombrePais) {
+        if (!nombrePais) return '🏳️';
+        const mapaBanderas = {
+            "Argentina": "🇦🇷",
+            "Bahamas": "🇧🇸",
+            "Belice": "🇧🇿",
+            "Bolivia": "🇧🇴",
+            "Brasil": "🇧🇷",
+            "Canadá": "🇨🇦",
+            "Chile": "🇨🇱",
+            "Colombia": "🇨🇴",
+            "Costa Rica": "🇨🇷",
+            "Cuba": "🇨🇺",
+            "Ecuador": "🇪🇨",
+            "El Salvador": "🇸🇻",
+            "España": "🇪🇸",
+            "Estados Unidos": "🇺🇸",
+            "Guatemala": "🇬🇹",
+            "Honduras": "🇭🇳",
+            "Jamaica": "🇯🇲",
+            "México": "🇲🇽",
+            "Nicaragua": "🇳🇮",
+            "Panamá": "🇵🇦",
+            "Paraguay": "🇵🇾",
+            "Perú": "🇵🇪",
+            "Puerto Rico": "🇵🇷",
+            "República Dominicana": "🇩🇴",
+            "Uruguay": "🇺🇾",
+            "Venezuela": "🇻🇪",
+            "Otro": "🏳️"
+        };
+        return mapaBanderas[nombrePais] || '🏳️';
+    }
+
     document.getElementById('registroForm').addEventListener('submit', e => {
         e.preventDefault();
 
@@ -633,6 +668,15 @@
            servidorTextoDiscord = rawServidor || "No especificado";
 }
 
+            // Capturar banderas para el mensaje de Discord
+            const f1 = obtenerBanderaDiscord(getValueByName('p1_pais'));
+            const f2 = obtenerBanderaDiscord(getValueByName('p2_pais'));
+            const f3 = obtenerBanderaDiscord(getValueByName('p3_pais'));
+            const f4 = obtenerBanderaDiscord(getValueByName('p4_pais'));
+            const f5 = obtenerBanderaDiscord(getValueByName('p5_pais'));
+            const f6 = obtenerBanderaDiscord(getValueByName('p6_pais'));
+            const f7 = obtenerBanderaDiscord(getValueByName('p7_pais'));
+
 const discordPayload = {
     content: "🚨 **¡NUEVO EQUIPO INSCRITO!** 🚨",
     embeds: [{
@@ -651,17 +695,17 @@ const discordPayload = {
             },
             { 
                 name: "👥 Lineup Titular", 
-                value: `\n1️⃣ **${getValueByName('p1_nick')}** • 🆔 \`${getValueByName('p1_uid')}\`\n   └ 💬 <@${getValueByName('p1_discord')}> • 📍 ${getValueByName('p1_pais')}\n\n` +
-                       `2️⃣ **${getValueByName('p2_nick')}** • 🆔 \`${getValueByName('p2_uid')}\`\n   └ 💬 <@${getValueByName('p2_discord')}> • 📍 ${getValueByName('p2_pais')}\n\n` +
-                       `3️⃣ **${getValueByName('p3_nick')}** • 🆔 \`${getValueByName('p3_uid')}\`\n   └ 💬 <@${getValueByName('p3_discord')}> • 📍 ${getValueByName('p3_pais')}\n\n` +
-                       `4️⃣ **${getValueByName('p4_nick')}** • 🆔 \`${getValueByName('p4_uid')}\`\n   └ 💬 <@${getValueByName('p4_discord')}> • 📍 ${getValueByName('p4_pais')}\n\n` +
-                       `5️⃣ **${getValueByName('p5_nick')}** • 🆔 \`${getValueByName('p5_uid')}\`\n   └ 💬 <@${getValueByName('p5_discord')}> • 📍 ${getValueByName('p5_pais')}`, 
+                value: `\n1️⃣ **${getValueByName('p1_nick')}** • 🆔 \`${getValueByName('p1_uid')}\`\n   └ 💬 <@${getValueByName('p1_discord')}> • ${f1} ${getValueByName('p1_pais')}\n\n` +
+                       `2️⃣ **${getValueByName('p2_nick')}** • 🆔 \`${getValueByName('p2_uid')}\`\n   └ 💬 <@${getValueByName('p2_discord')}> • ${f2} ${getValueByName('p2_pais')}\n\n` +
+                       `3️⃣ **${getValueByName('p3_nick')}** • 🆔 \`${getValueByName('p3_uid')}\`\n   └ 💬 <@${getValueByName('p3_discord')}> • ${f3} ${getValueByName('p3_pais')}\n\n` +
+                       `4️⃣ **${getValueByName('p4_nick')}** • 🆔 \`${getValueByName('p4_uid')}\`\n   └ 💬 <@${getValueByName('p4_discord')}> • ${f4} ${getValueByName('p4_pais')}\n\n` +
+                       `5️⃣ **${getValueByName('p5_nick')}** • 🆔 \`${getValueByName('p5_uid')}\`\n   └ 💬 <@${getValueByName('p5_discord')}> • ${f5} ${getValueByName('p5_pais')}`, 
                 inline: false 
             },
             { 
                 name: "🔄 Suplentes", 
-                value: (getValueByName('p6_nick') ? `\nS1️⃣ **${getValueByName('p6_nick')}** • 🆔 \`${getValueByName('p6_uid')}\`\n   └ 💬 <@${getValueByName('p6_discord')}> • 📍 ${getValueByName('p6_pais')}\n\n` : '') +
-                       (getValueByName('p7_nick') ? `S2️⃣ **${getValueByName('p7_nick')}** • 🆔 \`${getValueByName('p7_uid')}\`\n   └ 💬 <@${getValueByName('p7_discord')}> • 📍 ${getValueByName('p7_pais')}` : '') +
+                value: (getValueByName('p6_nick') ? `\nS1️⃣ **${getValueByName('p6_nick')}** • 🆔 \`${getValueByName('p6_uid')}\`\n   └ 💬 <@${getValueByName('p6_discord')}> • ${f6} ${getValueByName('p6_pais')}\n\n` : '') +
+                       (getValueByName('p7_nick') ? `S2️⃣ **${getValueByName('p7_nick')}** • 🆔 \`${getValueByName('p7_uid')}\`\n   └ 💬 <@${getValueByName('p7_discord')}> • ${f7} ${getValueByName('p7_pais')}` : '') +
                        (!getValueByName('p6_nick') && !getValueByName('p7_nick') ? '\n*Ninguno*' : ''), 
                 inline: false 
             }
