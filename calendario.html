@@ -1,1 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario de Matches | Dark Unity Esports</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-deep: #0a0c10;
+            --bg-card: #121620;
+            --bg-card-hover: #171d29;
+            --accent-blue-dark: #172554;
+            --accent-blue-light: #2563eb;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --text-white: #ffffff;
+            --text-gray-light: #cbd5e1;
+            --text-gray-dark: #64748b;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-white);
+            line-height: 1.6;
+            padding-bottom: 4rem;
+        }
+
+        h1, h2, h3, .brand {
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* HEADER */
+        header {
+            background-color: rgba(10, 12, 16, 0.95);
+            border-bottom: 1px solid var(--accent-blue-dark);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            color: var(--text-gray-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: var(--accent-blue-light);
+        }
+
+        /* CONTAINER PRINCIPAL */
+        .calendar-container {
+            max-width: 1000px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title span {
+            color: var(--accent-blue-light);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-gray-dark);
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* FILTROS DE ESTADO */
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background-color: var(--bg-card);
+            border: 1px solid var(--accent-blue-dark);
+            color: var(--text-gray-light);
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--accent-blue-light);
+            border-color: var(--accent-blue-light);
+            color: var(--text-white);
+            box-shadow: 0 0 12px rgba(37, 99, 235, 0.4);
+        }
+
+        /* LISTA DE MATCHES */
+        .matches-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        /* TARJETA DE PARTIDO */
+        .match-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--accent-blue-dark);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .match-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-blue-light);
+            background-color: var(--bg-card-hover);
+        }
+
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            font-size: 0.9rem;
+            color: var(--text-gray-dark);
+            border-bottom: 1px solid rgba(23, 37, 84, 0.4);
+            padding-bottom: 0.8rem;
+        }
+
+        .match-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .badge-live {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--accent-red);
+            border: 1px solid var(--accent-red);
+            animation: pulse 1.5s infinite;
+        }
+
+        .badge-upcoming {
+            background-color: rgba(37, 99, 235, 0.2);
+            color: var(--accent-blue-light);
+            border: 1px solid var(--accent-blue-light);
+        }
+
+        .badge-finished {
+            background-color: rgba(100, 116, 139, 0.2);
+            color: var(--text-gray-dark);
+            border: 1px solid var(--text-gray-dark);
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        /* CUERPO DEL ENFRENTAMIENTO */
+        .match-body {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .team-logo {
+            width: 60px;
+            height: 60px;
+            background-color: var(--bg-deep);
+            border: 2px solid var(--accent-blue-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent-blue-light);
+        }
+
+        .team-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .match-vs {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-gray-dark);
+            padding: 0 1rem;
+        }
+
+        .match-score {
+            font-size: 1.8rem;
+            color: var(--accent-blue-light);
+        }
+
+        /* FOOTER DE LA TARJETA */
+        .match-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.2rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid rgba(23, 37, 84, 0.4);
+            font-size: 0.9rem;
+            color: var(--text-gray-light);
+        }
+
+        .match-action-btn {
+            background: linear-gradient(135deg, var(--accent-blue-dark), var(--accent-blue-light));
+            color: var(--text-white);
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 4px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .match-action-btn:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .match-body {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .match-vs {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
+        <div style="font-family: 'Rajdhani', sans-serif; font-weight: 700;">DARK <span>UNITY ESPORTS</span></div>
+    </header>
+
+    <div class="calendar-container">
+        <h1 class="section-title">Calendario de <span>Matches</span></h1>
+        <p class="section-subtitle">Sigue los enfrentamientos oficiales, horarios y resultados de nuestros torneos.</p>
+
+        <!-- Filtros -->
+        <div class="filter-tabs">
+            <button class="filter-btn active" onclick="filtrarMatches('all')">Todos</button>
+            <button class="filter-btn" onclick="filtrarMatches('live')">En Vivo 🔴</button>
+            <button class="filter-btn" onclick="filtrarMatches('upcoming')">Próximos ⏰</button>
+            <button class="filter-btn" onclick="filtrarMatches('finished')">Finalizados ✅</button>
+        </div>
+
+        <!-- Lista de Tarjetas (Ejemplos interactivos) -->
+        <div class="matches-grid">
+
+            <!-- Match 1: En Vivo -->
+            <div class="match-card" data-status="live">
+                <div class="match-header">
+                    <span><i class="fa-solid fa-trophy"></i> Dark Unity Primera Edición • Fase de Grupos</span>
+                    <span class="match-badge badge-live">EN VIVO</span>
+                </div>
+                <div class="match-body">
+                    <div class="team">
+                        <div class="team-logo"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="team-name">DEMONS OF COD</div>
+                    </div>
+                    <div class="match-vs match-score">
+                        <span>2 - 1</span>
+                    </div>
+                    <div class="team">
+                        <div class="team-logo"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="team-name">SHADOWS ELITE</div>
+                    </div>
+                </div>
+                <div class="match-footer">
+                    <span><i class="fa-solid fa-globe"></i> Servidor: LATAM | Tier: T3 High</span>
+                    <a href="#" class="match-action-btn"><i class="fa-solid fa-tv"></i> Ver Stream / Sala</a>
+                </div>
+            </div>
+
+            <!-- Match 2: Próximo -->
+            <div class="match-card" data-status="upcoming">
+                <div class="match-header">
+                    <span><i class="fa-solid fa-trophy"></i> Dark Unity Primera Edición • Semifinales</span>
+                    <span class="match-badge badge-upcoming">MAÑANA, 20:00 HRS</span>
+                </div>
+                <div class="match-body">
+                    <div class="team">
+                        <div class="team-logo"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="team-name">EMPERIUM ACADEMY</div>
+                    </div>
+                    <div class="match-vs">
+                        <span>VS</span>
+                    </div>
+                    <div class="team">
+                        <div class="team-logo"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="team-name">TEAM DRAGONS</div>
+                    </div>
+                </div>
+                <div class="match-footer">
+                    <span><i class="fa-solid fa-globe"></i> Servidor: NORTEAMERICA | Tier: T2</span>
+                    <a href="#" class="match-action-btn" style="background: var(--bg-deep); border: 1px solid var(--accent-blue-light);">Detalles</a>
+                </div>
+            </div>
+
+            <!-- Match 3: Finalizado -->
+            <div class="match-card" data-status="finished">
+                <div class="match-header">
+                    <span><i class="fa-solid fa-trophy"></i> Torneo Relámpago • Gran Final</span>
+                    <span class="match-badge badge-finished">FINALIZADO</span>
+                </div>
+                <div class="match-body">
+                    <div class="team">
+                        <div class="team-logo"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="team-name">DEMONS OF COD</div>
+                    </div>
+                    <div class="match-vs match-score">
+                        <span>3 - 0</span>
+                    </div>
+                    <div class="team">
+                        <div class="team-logo"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="team-name">ALPHA SQUAD</div>
+                    </div>
+                </div>
+                <div class="match-footer">
+                    <span><i class="fa-solid fa-globe"></i> Servidor: LATAM | Tier: T4 Low</span>
+                    <a href="#" class="match-action-btn" style="background: var(--bg-deep); border: 1px solid var(--text-gray-dark);">Ver Resultados</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Script simple para filtrar los partidos por estado
+        function filtrarMatches(status) {
+            const cards = document.querySelectorAll('.match-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            cards.forEach(card => {
+                if (status === 'all' || card.getAttribute('data-status') === status) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
