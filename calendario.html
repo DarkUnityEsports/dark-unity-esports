@@ -96,13 +96,20 @@
             font-size: 1rem;
         }
 
-        /* FILTROS DE ESTADO */
+        /* CONTENEDOR DE FILTROS CON SCROLL HORIZONTAL EN MÓVIL */
         .filter-tabs {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             gap: 0.8rem;
             margin-bottom: 2rem;
-            flex-wrap: wrap;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 0.5rem 0.2rem;
+            scrollbar-width: none; /* Oculta scroll en Firefox */
+        }
+
+        .filter-tabs::-webkit-scrollbar {
+            display: none; /* Oculta scroll en Chrome, Safari y Edge */
         }
 
         .filter-btn {
@@ -117,6 +124,7 @@
             font-size: 0.95rem;
             text-transform: uppercase;
             transition: all 0.3s ease;
+            flex-shrink: 0; /* Evita que los botones se aplasten */
         }
 
         .filter-btn:hover, .filter-btn.active {
@@ -196,7 +204,7 @@
             100% { opacity: 1; }
         }
 
-        /* CUERPO DEL ENFRENTAMIENTO PERFECTAMENTE ALINEADO */
+        /* CUERPO DEL ENFRENTAMIENTO */
         .match-body {
             display: flex;
             justify-content: space-between;
@@ -211,7 +219,7 @@
             align-items: center;
             gap: 0.8rem;
             flex: 1;
-            max-width: 35%; /* Evita que los nombres se expandan de más en PC */
+            max-width: 35%;
         }
 
         .team.team-away {
@@ -298,7 +306,7 @@
             opacity: 0.9;
         }
 
-        /* MEJORAS PARA ESCRITORIO (PC) */
+        /* ADAPTACIONES PARA ESCRITORIO (PC) */
         @media (min-width: 768px) {
             .calendar-container {
                 padding: 0 1.5rem;
@@ -316,7 +324,12 @@
                 font-size: 1.15rem;
             }
             .match-body {
-                padding: 0.8rem 2rem; /* Compacta los elementos hacia el centro para que no queden separados */
+                padding: 0.8rem 2rem;
+            }
+            /* En PC los botones vuelven a centrarse estéticamente */
+            .filter-tabs {
+                justify-content: center;
+                overflow-x: visible;
             }
         }
     </style>
@@ -333,7 +346,7 @@
         <h1 class="section-title">Calendario de <span>Matches</span></h1>
         <p class="section-subtitle">Sigue los enfrentamientos oficiales, horarios y resultados de nuestros torneos.</p>
 
-        <!-- Filtros -->
+        <!-- Filtros con Scroll Horizontal en Móvil -->
         <div class="filter-tabs">
             <button class="filter-btn active" onclick="filtrarMatches('all')">Todos</button>
             <button class="filter-btn" onclick="filtrarMatches('live')">En Vivo 🔴</button>
