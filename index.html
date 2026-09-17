@@ -264,7 +264,7 @@
         /* RESPONSIVE MÓVIL CON MENÚ HAMBURGUESA PLEGABLE */
         @media (max-width: 768px) {
             .menu-toggle {
-                display: block; /* Muestra el botón en teléfonos */
+                display: block;
             }
 
             nav {
@@ -279,7 +279,6 @@
                 transition: max-height 0.3s ease-in-out;
             }
 
-            /* Clase que activa la apertura del menú vía JS */
             nav.active {
                 max-height: 250px; 
             }
@@ -332,21 +331,19 @@
         </div>
     </section>
 
-    <!-- ACCESOS Y GESTIÓN -->
+    <!-- ACCESOS Y GESTIÓN (Aquí ahora está Dark Unity 1ª Edición intercambiado) -->
     <section id="rosters">
         <h2 class="section-title">Accesos y <span>Gestión</span></h2>
         <div class="grid-rosters">
             
-            <!-- TARJETA CON ENLACE A BRACKET -->
-            <a href="bracket-tournament.html" style="text-decoration: none; color: inherit; display: block;">
-                <div class="card" style="cursor: pointer;">
-                    <i class="fa-solid fa-crosshairs"></i>
-                    <h3>BRACKET-TOURNAMENT S1</h3>
-                    <p>Plantel táctico enfocado en dominio de mapas, rotaciones y competencias de alta exigencia.</p>
-                </div>
-            </a>
+            <!-- TARJETA INTERCAMBIADA: DARK UNITY 1ª EDICIÓN -->
+            <div class="card">
+                <i class="fa-solid fa-trophy"></i>
+                <h3>Dark Unity 1ª Edición</h3>
+                <p>Torneo oficial organizado con éxito por el clan, reuniendo a los mejores exponentes competitivos de la región.</p>
+            </div>
             
-            <!-- TARJETA CON ENLACE A REGISTRO -->
+            <!-- TARJETA: REGISTRA TU EQUIPO -->
             <a href="registro.html" style="text-decoration: none; color: inherit; display: block;">
                 <div class="card" style="cursor: pointer;">
                     <i class="fa-solid fa-file-pen"></i>
@@ -355,7 +352,7 @@
                 </div>
             </a>
 
-            <!-- TARJETA CON ENLACE A NORMATIVAS -->
+            <!-- TARJETA: NORMATIVAS INTERNAS -->
             <a href="normativas.html" style="text-decoration: none; color: inherit; display: block;">
                 <div class="card" style="cursor: pointer;">
                     <i class="fa-solid fa-book-bookmark"></i>
@@ -366,6 +363,7 @@
         </div>
     </section>
     
+    <!-- RANKINGS & BRACKETS (En el medio) -->
     <div class="torneo-container" style="padding: 20px; max-width: 1200px; margin: 0 auto;">
         <h2 style="font-family: 'Rajdhani', sans-serif; font-size: 2.2rem; color: var(--accent-blue-light, #38bdf8); text-align: center; margin-bottom: 20px;">RANKING & BRACKETS DE TORNEOS</h2>
         
@@ -415,16 +413,21 @@
         </div>
     </div>
 
-    <!-- TORNEOS / PALMARES -->
+    <!-- SALA DE TORNEOS (Aquí ahora está el Bracket-Tournament S1 intercambiado) -->
     <section id="torneos">
         <h2 class="section-title">Sala de <span>Torneos</span></h2>
         <div class="grid-rosters">
-            <div class="card">
-                <i class="fa-solid fa-trophy"></i>
-                <h3>Dark Unity 1ª Edición</h3>
-                <p>Torneo oficial organizado con éxito por el clan, reuniendo a los mejores exponentes competitivos de la región.</p>
-            </div>
             
+            <!-- TARJETA INTERCAMBIADA: BRACKET-TOURNAMENT S1 -->
+            <a href="bracket-tournament.html" style="text-decoration: none; color: inherit; display: block;">
+                <div class="card" style="cursor: pointer;">
+                    <i class="fa-solid fa-crosshairs"></i>
+                    <h3>BRACKET-TOURNAMENT S1</h3>
+                    <p>Plantel táctico enfocado en dominio de mapas, rotaciones y competencias de alta exigencia.</p>
+                </div>
+            </a>
+            
+            <!-- TARJETA: RANKING SEMANAL -->
             <a href="ranking.html" style="text-decoration: none; color: inherit; display: block;">
                 <div class="card">
                     <i class="fa-solid fa-medal"></i>
@@ -447,7 +450,6 @@
     <!-- FOOTER -->
     <footer>
         <p>&copy; 2026 Dark Unity Esports. Todos los derechos reservados. | Diseñado para la comunidad competitiva de CODM.</p>
-        <p>&copy; CEO Carlewis Cortez, COLABORACIONES CON EMPERIUM ESPORTS Y NETX NETWORK.</p>
     </footer>
 
     <!-- SCRIPT PARA EL MENÚ PLEGABLE -->
@@ -456,10 +458,8 @@
         const navMenu = document.getElementById('nav-menu');
         const navLinks = document.querySelectorAll('.nav-link');
 
-        // Abrir/Cerrar menú al hacer clic en el botón de hamburguesa
         menuBtn.addEventListener('click', () => {
             navMenu.classList.toggle('active');
-            // Cambia el icono de barras a una "X" y viceversa
             const icon = menuBtn.querySelector('i');
             if (navMenu.classList.contains('active')) {
                 icon.classList.remove('fa-bars');
@@ -470,7 +470,6 @@
             }
         });
 
-        // Cerrar automáticamente el menú al hacer clic en cualquier opción
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
