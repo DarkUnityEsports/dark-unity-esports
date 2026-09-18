@@ -234,11 +234,10 @@
             background-color: var(--bg-deep);
             border: 2px solid var(--accent-blue-dark);
             border-radius: 50%;
+            object-fit: cover;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
-            color: var(--accent-blue-light);
         }
 
         .team-name {
@@ -325,7 +324,6 @@
                 width: 52px;
                 height: 52px;
                 min-width: 52px;
-                font-size: 1.3rem;
             }
             .team-name {
                 font-size: 1.15rem;
@@ -363,7 +361,7 @@
         <h1 class="section-title">Calendario de <span>Matches</span></h1>
         <p class="section-subtitle">Sigue los enfrentamientos oficiales, horarios y resultados de nuestros torneos.</p>
 
-        <!-- Filtros (Sin botón En Vivo) -->
+        <!-- Filtros -->
         <div class="filter-tabs">
             <button class="filter-btn active" onclick="filtrarMatches('all')">Todos</button>
             <button class="filter-btn" onclick="filtrarMatches('upcoming')">Próximos ⏰</button>
@@ -373,7 +371,7 @@
         <!-- Lista de Tarjetas -->
         <div class="matches-grid">
 
-            <!-- Match 1: En Vivo (Con Ver Stream arriba y Ver Marcador abajo) -->
+            <!-- Match 1: En Vivo -->
             <div class="match-card" data-status="live">
                 <div class="match-header">
                     <span><i class="fa-solid fa-trophy"></i> Dark Unity Primera Edición • Fase de Grupos</span>
@@ -381,7 +379,7 @@
                 </div>
                 <div class="match-body">
                     <div class="team">
-                        <div class="team-logo"><i class="fa-solid fa-shield-halved"></i></div>
+                        <img src="logos/logo1.jpg" alt="Demons of Cod" class="team-logo">
                         <div class="team-name">DEMONS OF COD</div>
                     </div>
                     <div class="match-center match-score">
@@ -389,12 +387,11 @@
                     </div>
                     <div class="team team-away">
                         <div class="team-name">SHADOWS ELITE</div>
-                        <div class="team-logo"><i class="fa-solid fa-shield-halved"></i></div>
+                        <img src="logos/logo2.jpeg" alt="Shadows Elite" class="team-logo">
                     </div>
                 </div>
                 <div class="match-footer">
                     <span><i class="fa-solid fa-globe"></i> Servidor: LATAM | Tier: T3 High</span>
-                    <!-- Botón Ver Marcador apuntando al ranking -->
                     <a href="ranking.html" class="match-action-btn"><i class="fa-solid fa-ranking-star"></i> Ver Marcador</a>
                 </div>
             </div>
@@ -407,7 +404,7 @@
                 </div>
                 <div class="match-body">
                     <div class="team">
-                        <div class="team-logo"><i class="fa-solid fa-shield-halved"></i></div>
+                        <img src="logos/logo1.jpg" alt="Emperium Academy" class="team-logo">
                         <div class="team-name">EMPERIUM ACADEMY</div>
                     </div>
                     <div class="match-center match-vs">
@@ -415,7 +412,7 @@
                     </div>
                     <div class="team team-away">
                         <div class="team-name">TEAM DRAGONS</div>
-                        <div class="team-logo"><i class="fa-solid fa-shield-halved"></i></div>
+                        <img src="logos/logo2.jpeg" alt="Team Dragons" class="team-logo">
                     </div>
                 </div>
                 <div class="match-footer">
@@ -432,7 +429,7 @@
                 </div>
                 <div class="match-body">
                     <div class="team">
-                        <div class="team-logo"><i class="fa-solid fa-shield-halved"></i></div>
+                        <img src="logos/logo1.jpg" alt="Demons of Cod" class="team-logo">
                         <div class="team-name">DEMONS OF COD</div>
                     </div>
                     <div class="match-center match-score">
@@ -440,7 +437,7 @@
                     </div>
                     <div class="team team-away">
                         <div class="team-name">ALPHA SQUAD</div>
-                        <div class="team-logo"><i class="fa-solid fa-shield-halved"></i></div>
+                        <img src="logos/logo2.jpeg" alt="Alpha Squad" class="team-logo">
                     </div>
                 </div>
                 <div class="match-footer">
@@ -461,7 +458,6 @@
             event.target.classList.add('active');
 
             cards.forEach(card => {
-                // Como quitamos el filtro 'live' del menú superior, los en vivo se pueden manejar según convenga o mostrarse con 'all'
                 if (status === 'all' || card.getAttribute('data-status') === status) {
                     card.style.display = 'block';
                 } else {
