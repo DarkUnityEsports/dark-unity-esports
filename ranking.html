@@ -194,8 +194,7 @@
                         </tr>
                     </thead>
                     <tbody id="cuerpo-rocky">
-                        <tr><td class="posicion top-1">#1</td><td class="col-equipo"><strong>Equipo Ejemplo 1</strong></td><td class="col-juegos">8</td><td class="col-jg">6</td><td class="col-jp">2</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">200 pts</td></tr>
-                        <tr><td class="posicion top-2">#2</td><td class="col-equipo"><strong>Equipo Ejemplo 2</strong></td><td class="col-juegos">8</td><td class="col-jg">5</td><td class="col-jp">3</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">180 pts</td></tr>
+                        <!-- Los datos se cargarán aquí automáticamente -->
                     </tbody>
                 </table>
             </div>
@@ -220,8 +219,7 @@
                         </tr>
                     </thead>
                     <tbody id="cuerpo-beginner">
-                        <tr><td class="posicion top-1">#1</td><td class="col-equipo"><strong>CLAN EJEMPLO B1</strong></td><td class="col-juegos">10</td><td class="col-jg">8</td><td class="col-jp">2</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">300 pts</td></tr>
-                        <tr><td class="posicion top-2">#2</td><td class="col-equipo"><strong>CLAN EJEMPLO B2</strong></td><td class="col-juegos">9</td><td class="col-jg">6</td><td class="col-jp">3</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">270 pts</td></tr>
+                        <!-- Los datos se cargarán aquí automáticamente -->
                     </tbody>
                 </table>
             </div>
@@ -246,15 +244,91 @@
                         </tr>
                     </thead>
                     <tbody id="cuerpo-master">
-                        <tr><td class="posicion top-1">#1</td><td class="col-equipo"><strong>DEMONS OF COD</strong></td><td class="col-juegos">12</td><td class="col-jg">10</td><td class="col-jp">2</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">340 pts</td></tr>
-                        <tr><td class="posicion top-2">#2</td><td class="col-equipo"><strong>EMPERIUM ACADEMY DARK</strong></td><td class="col-juegos">12</td><td class="col-jg">9</td><td class="col-jp">3</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">290 pts</td></tr>
-                        <tr><td class="posicion top-3">#3</td><td class="col-equipo"><strong>ZEROMERCY NEW SCHOOL</strong></td><td class="col-juegos">10</td><td class="col-jg">7</td><td class="col-jp">3</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">250 pts</td></tr>
-                        <tr><td class="posicion">#4</td><td class="col-equipo"><strong>EMPERIUM ACADEMY GOLD</strong></td><td class="col-juegos">11</td><td class="col-jg">6</td><td class="col-jp">5</td><td class="col-puntos" style="color: #00e5ff; font-weight: bold;">210 pts</td></tr>
+                        <!-- Los datos se cargarán aquí automáticamente -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
+    <!-- SCRIPT DE CONEXIÓN CON SHEETDB -->
+    <script>
+        const SHEETDB_URL = "https://sheetdb.io/api/v1/bl39mzkh3q49q";
+
+        async function cargarRankingDinamico() {
+            try {
+                const respuesta = await fetch(SHEETDB_URL);
+                const datos = await respuesta.json();
+
+                let htmlRocky = "";
+                let htmlBeginner = "";
+                let htmlMaster = "";
+                
+                // Variables para almacenar las fechas si vienen en las filas
+                let fechaRocky = "";
+                let fechaBeginner = "";
+                let fechaMaster = "";
+
+                datos.forEach((fila) => {
+                    let cat = (fila.category || "").toLowerCase().trim();
+                    let pos = fila.pos || "";
+                    let teamName = fila.teamName || "";
+                    let games = fila.games || "0";
+                    let won = fila.won || "0";
+                    let lost = fila.lost || "0";
+                    let points = fila.points || "0";
+                    let dateInfo = fila.dateInfo || "";
+
+                    if (!teamName) return;
+
+                    // Asignar clases de color según la posición (#1, #2, #3)
+                    let clasePos = "";
+                    let posLower = pos.toString().trim();
+                    if (posLower === "#1" || posLower === "1") clasePos = "posicion top-1";
+                    else if (posLower === "#2" || posLower === "2") clasePos = "posicion top-2";
+                    else if (posLower === "#3" || posLower === "3") clasePos = "posicion top-3";
+                    else clasePos = "posicion";
+
+                    let filaHTML = `
+                        <tr>
+                            <td class="${clasePos}">${pos}</td>
+                            <td class="col-equipo"><strong>${teamName}</strong></td>
+                            <td class="col-juegos">${games}</td>
+                            <td class="col-jg">${won}</td>
+                            <td class="col-jp">${lost}</td>
+                            <td class="col-puntos" style="color: #00e5ff; font-weight: bold;">${points} pts</td>
+                        </tr>
+                    `;
+
+                    if (cat === "rookie" || cat === "rocky") {
+                        htmlRocky += filaHTML;
+                        if (dateInfo && !fechaRocky) fechaRocky = dateInfo;
+                    } else if (cat === "beginner") {
+                        htmlBeginner += filaHTML;
+                        if (dateInfo && !fechaBeginner) fechaBeginner = dateInfo;
+                    } else if (cat === "master") {
+                        htmlMaster += filaHTML;
+                        if (dateInfo && !fechaMaster) fechaMaster = dateInfo;
+                    }
+                });
+
+                // Inyectar tablas
+                const cuerpoRocky = document.getElementById("cuerpo-rocky");
+                const cuerpoBeginner = document.getElementById("cuerpo-beginner");
+                const cuerpoMaster = document.getElementById("cuerpo-master");
+
+                if (cuerpoRocky) cuerpoRocky.innerHTML = htmlRocky || `<tr><td colspan="6" style="text-align:center; color:#94a3b8;">No hay equipos registrados</td></tr>`;
+                if (cuerpoBeginner) cuerpoBeginner.innerHTML = htmlBeginner || `<tr><td colspan="6" style="text-align:center; color:#94a3b8;">No hay equipos registrados</td></tr>`;
+                if (cuerpoMaster) cuerpoMaster.innerHTML = htmlMaster || `<tr><td colspan="6" style="text-align:center; color:#94a3b8;">No hay equipos registrados</td></tr>`;
+
+                // Actualizar fechas si el formato en Google Sheets es por ejemplo: "12-11-2026 / 16-11-2026"
+                // O puedes manejar los spans individualmente si pones inicio y cierre separados.
+            } catch (error) {
+                console.error("Error al cargar los datos de SheetDB:", error);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", cargarRankingDinamico);
+    </script>
 </body>
 </html>
