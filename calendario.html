@@ -140,9 +140,14 @@
             gap: 1.2rem;
         }
 
-        /* TARJETA DE PARTIDO */
+        /* TARJETA DE PARTIDO CON ESTÉTICA DIAGONAL ROJO/AZUL EN EL FONDO */
         .match-card {
             background-color: var(--bg-card);
+            /* Capas de degradado diagonal: Rojo oscuro arriba a la izq, Azul oscuro abajo a la der, sobre el fondo base */
+            background-image: 
+                linear-gradient(135deg, rgba(239, 68, 68, 0.13) 0%, transparent 50%),
+                linear-gradient(315deg, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
+                linear-gradient(to bottom, var(--bg-card), var(--bg-card));
             border: 1px solid var(--accent-blue-dark);
             border-radius: 12px;
             padding: 1.2rem;
@@ -153,7 +158,10 @@
 
         .match-card:hover {
             border-color: var(--accent-blue-light);
-            background-color: var(--bg-card-hover);
+            background-image: 
+                linear-gradient(135deg, rgba(239, 68, 68, 0.18) 0%, transparent 50%),
+                linear-gradient(315deg, rgba(37, 99, 235, 0.22) 0%, transparent 50%),
+                linear-gradient(to bottom, var(--bg-card-hover), var(--bg-card-hover));
         }
 
         /* HEADER DE LA TARJETA */
@@ -164,6 +172,8 @@
             margin-bottom: 1rem;
             border-bottom: 1px solid rgba(23, 37, 84, 0.4);
             padding-bottom: 0.8rem;
+            position: relative;
+            z-index: 2;
         }
 
         /* FILA SUPERIOR: TORNEO + BOTÓN (MISMA LÍNEA) */
@@ -239,7 +249,7 @@
             align-items: center;
             gap: 6px;
             letter-spacing: 0.5px;
-            align-self: center; /* Centrado dentro de la tarjeta */
+            align-self: center;
         }
 
         .match-date-box i {
@@ -255,6 +265,8 @@
             gap: 0.4rem;
             margin-bottom: 1rem;
             padding: 0.2rem 0;
+            position: relative;
+            z-index: 2;
         }
 
         .team {
@@ -328,6 +340,8 @@
             color: var(--text-gray-light);
             gap: 0.5rem;
             flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
         }
 
         .match-action-btn {
