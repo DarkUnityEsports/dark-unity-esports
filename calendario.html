@@ -363,108 +363,126 @@
 
         <!-- Filtros -->
         <div class="filter-tabs">
-            <button class="filter-btn active" onclick="filtrarMatches('all')">Todos</button>
-            <button class="filter-btn" onclick="filtrarMatches('upcoming')">Próximos ⏰</button>
-            <button class="filter-btn" onclick="filtrarMatches('finished')">Finalizados ✅</button>
+            <button class="filter-btn active" onclick="filtrarMatches('all', this)">Todos</button>
+            <button class="filter-btn" onclick="filtrarMatches('upcoming', this)">Próximos ⏰</button>
+            <button class="filter-btn" onclick="filtrarMatches('finished', this)">Finalizados ✅</button>
         </div>
 
-        <!-- Lista de Tarjetas -->
-        <div class="matches-grid">
-
-            <!-- Match 1: En Vivo -->
-            <div class="match-card" data-status="live">
-                <div class="match-header">
-                    <span><i class="fa-solid fa-trophy"></i> Dark Unity Primera Edición • Fase de Grupos</span>
-                    <a href="#" class="match-badge badge-live"><i class="fa-solid fa-tv"></i> Ver Stream</a>
-                </div>
-                <div class="match-body">
-                    <div class="team">
-                        <img src="logos/logo1.jpg" alt="Demons of Cod" class="team-logo">
-                        <div class="team-name">DEMONS OF COD</div>
-                    </div>
-                    <div class="match-center match-score">
-                        <span>2 - 1</span>
-                    </div>
-                    <div class="team team-away">
-                        <div class="team-name">SHADOWS ELITE</div>
-                        <img src="logos/logo2.jpeg" alt="Shadows Elite" class="team-logo">
-                    </div>
-                </div>
-                <div class="match-footer">
-                    <span><i class="fa-solid fa-globe"></i> Servidor: LATAM | Tier: T3 High</span>
-                    <a href="ranking.html" class="match-action-btn"><i class="fa-solid fa-ranking-star"></i> Ver Marcador</a>
-                </div>
-            </div>
-
-            <!-- Match 2: Próximo -->
-            <div class="match-card" data-status="upcoming">
-                <div class="match-header">
-                    <span><i class="fa-solid fa-trophy"></i> Dark Unity Primera Edición • Semifinales</span>
-                    <span class="match-badge badge-upcoming">MAÑANA, 20:00 HRS</span>
-                </div>
-                <div class="match-body">
-                    <div class="team">
-                        <img src="logos/logo1.jpg" alt="Emperium Academy" class="team-logo">
-                        <div class="team-name">EMPERIUM ACADEMY</div>
-                    </div>
-                    <div class="match-center match-vs">
-                        <span>VS</span>
-                    </div>
-                    <div class="team team-away">
-                        <div class="team-name">TEAM DRAGONS</div>
-                        <img src="logos/logo2.jpeg" alt="Team Dragons" class="team-logo">
-                    </div>
-                </div>
-                <div class="match-footer">
-                    <span><i class="fa-solid fa-globe"></i> Servidor: NA | Tier: T2</span>
-                    <a href="ranking.html" class="match-action-btn"><i class="fa-solid fa-ranking-star"></i> Ver Marcador</a>
-                </div>
-            </div>
-
-            <!-- Match 3: Finalizado -->
-            <div class="match-card" data-status="finished">
-                <div class="match-header">
-                    <span><i class="fa-solid fa-trophy"></i> Torneo Relámpago • Gran Final</span>
-                    <span class="match-badge badge-finished">FINALIZADO</span>
-                </div>
-                <div class="match-body">
-                    <div class="team">
-                        <img src="logos/logo1.jpg" alt="Demons of Cod" class="team-logo">
-                        <div class="team-name">DEMONS OF COD</div>
-                    </div>
-                    <div class="match-center match-score">
-                        <span>3 - 0</span>
-                    </div>
-                    <div class="team team-away">
-                        <div class="team-name">ALPHA SQUAD</div>
-                        <img src="logos/logo2.jpeg" alt="Alpha Squad" class="team-logo">
-                    </div>
-                </div>
-                <div class="match-footer">
-                    <span><i class="fa-solid fa-globe"></i> Servidor: LATAM | Tier: T4</span>
-                    <a href="ranking.html" class="match-action-btn"><i class="fa-solid fa-ranking-star"></i> Ver Marcador</a>
-                </div>
-            </div>
-
-        </div>
+        <!-- Lista de Tarjetas (Generada dinámicamente) -->
+        <div class="matches-grid" id="matchesContainer"></div>
     </div>
 
     <script>
-        function filtrarMatches(status) {
-            const cards = document.querySelectorAll('.match-card');
-            const buttons = document.querySelectorAll('.filter-btn');
+        // AQUÍ PUEDES AGREGAR TUS 30 O MÁS PARTIDOS FÁCILMENTE
+        const matchesData = [
+            {
+                status: "live", // 'live', 'upcoming', 'finished'
+                tournament: "Dark Unity Primera Edición • Fase de Grupos",
+                badgeHtml: '<a href="#" class="match-badge badge-live"><i class="fa-solid fa-tv"></i> Ver Stream</a>',
+                team1Name: "DEMONS OF COD",
+                team1Logo: "logos/logo1.jpg",
+                centerContent: '<span class="match-score">2 - 1</span>',
+                team2Name: "SHADOWS ELITE",
+                team2Logo: "logos/logo2.jpeg",
+                serverInfo: "Servidor: LATAM | Tier: T3 High"
+            },
+            {
+                status: "upcoming",
+                tournament: "Dark Unity Primera Edición • Semifinales",
+                badgeHtml: '<span class="match-badge badge-upcoming">MAÑANA, 20:00 HRS</span>',
+                team1Name: "EMPERIUM ACADEMY",
+                team1Logo: "logos/logo1.jpg",
+                centerContent: '<span class="match-vs">VS</span>',
+                team2Name: "TEAM DRAGONS",
+                team2Logo: "logos/logo2.jpeg",
+                serverInfo: "Servidor: NA | Tier: T2"
+            },
+            {
+                status: "finished",
+                tournament: "Torneo Relámpago • Gran Final",
+                badgeHtml: '<span class="match-badge badge-finished">FINALIZADO</span>',
+                team1Name: "DEMONS OF COD",
+                team1Logo: "logos/logo1.jpg",
+                centerContent: '<span class="match-score">3 - 0</span>',
+                team2Name: "ALPHA SQUAD",
+                team2Logo: "logos/logo2.jpeg",
+                serverInfo: "Servidor: LATAM | Tier: T4"
+            },
+            // --- Puedes duplicar y agregar más bloques aquí debajo hasta llegar a los 30 ---
+            {
+                status: "upcoming",
+                tournament: "Copa Elite • Jornada 1",
+                badgeHtml: '<span class="match-badge badge-upcoming">25 SEP, 18:00 HRS</span>',
+                team1Name: "DARK UNITY",
+                team1Logo: "logos/logo1.jpg",
+                centerContent: '<span class="match-vs">VS</span>',
+                team2Name: "PHOENIX GAMING",
+                team2Logo: "logos/logo2.jpeg",
+                serverInfo: "Servidor: LATAM | Tier: T1"
+            },
+            {
+                status: "finished",
+                tournament: "Copa Elite • Jornada 2",
+                badgeHtml: '<span class="match-badge badge-finished">FINALIZADO</span>',
+                team1Name: "DARK UNITY",
+                team1Logo: "logos/logo1.jpg",
+                centerContent: '<span class="match-score">2 - 0</span>',
+                team2Name: "STORM CLAN",
+                team2Logo: "logos/logo2.jpeg",
+                serverInfo: "Servidor: LATAM | Tier: T1"
+            }
+        ];
 
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+        function renderMatches(filter = 'all') {
+            const container = document.getElementById('matchesContainer');
+            container.innerHTML = '';
 
-            cards.forEach(card => {
-                if (status === 'all' || card.getAttribute('data-status') === status) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+            matchesData.forEach(match => {
+                if (filter !== 'all' && match.status !== filter) return;
+
+                const card = document.createElement('div');
+                card.className = 'match-card';
+                card.setAttribute('data-status', match.status);
+
+                card.innerHTML = `
+                    <div class="match-header">
+                        <span><i class="fa-solid fa-trophy"></i> ${match.tournament}</span>
+                        ${match.badgeHtml}
+                    </div>
+                    <div class="match-body">
+                        <div class="team">
+                            <img src="${match.team1Logo}" alt="${match.team1Name}" class="team-logo">
+                            <div class="team-name">${match.team1Name}</div>
+                        </div>
+                        <div class="match-center">
+                            ${match.centerContent}
+                        </div>
+                        <div class="team team-away">
+                            <div class="team-name">${match.team2Name}</div>
+                            <img src="${match.team2Logo}" alt="${match.team2Name}" class="team-logo">
+                        </div>
+                    </div>
+                    <div class="match-footer">
+                        <span><i class="fa-solid fa-globe"></i> ${match.serverInfo}</span>
+                        <a href="ranking.html" class="match-action-btn"><i class="fa-solid fa-ranking-star"></i> Ver Marcador</a>
+                    </div>
+                `;
+                container.appendChild(card);
             });
         }
+
+        function filtrarMatches(status, btnElement) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            renderMatches(status);
+        }
+
+        // Cargar todos los partidos al iniciar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMatches('all');
+        });
     </script>
 </body>
 </html>
