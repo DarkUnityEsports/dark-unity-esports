@@ -175,7 +175,6 @@
             z-index: 2;
         }
 
-        /* FILA SUPERIOR: TORNEO + BOTÓN (MISMA LÍNEA) */
         .match-top-row {
             display: flex;
             justify-content: space-between;
@@ -183,7 +182,6 @@
             gap: 0.5rem;
         }
 
-        /* TEXTO DEL TORNEO ACTUALIZADO A COLOR CLARO/BLANCO PARA RESALTAR SOBRE EL ROJO */
         .tournament-info {
             font-size: 0.8rem;
             color: var(--text-gray-light);
@@ -201,7 +199,6 @@
             color: var(--accent-blue-light);
         }
 
-        /* BOTÓN DE ESTADO / STREAM MÁS PEQUEÑO Y COMPACTO */
         .match-badge {
             padding: 0.2rem 0.6rem;
             border-radius: 4px;
@@ -240,7 +237,6 @@
             border: 1px solid var(--text-gray-dark);
         }
 
-        /* CAJA DE FECHA Y HORA (LÍNEA INFERIOR CENTRADA) */
         .match-date-box {
             background: linear-gradient(135deg, rgba(23, 37, 84, 0.5), rgba(37, 99, 235, 0.2));
             border: 1px solid rgba(37, 99, 235, 0.4);
@@ -375,7 +371,6 @@
             background-color: rgba(37, 99, 235, 0.1);
         }
 
-        /* ADAPTACIONES PARA ESCRITORIO (PC) */
         @media (min-width: 768px) {
             .calendar-container {
                 padding: 0 1.5rem;
@@ -438,114 +433,109 @@
             <button class="filter-btn" onclick="filtrarMatches('finished', this)">Finalizados ✅</button>
         </div>
 
-        <!-- Lista de Tarjetas (Generada dinámicamente) -->
+        <!-- Lista de Tarjetas (Generada dinámicamente desde SheetDB) -->
         <div class="matches-grid" id="matchesContainer"></div>
     </div>
 
     <script>
-        const matchesData = [
-            {
-                status: "live",
-                tournament: "Dark Unity Primera Edición • Fase de Grupos",
-                dateTimeText: "Jueves, 18 Sep • 20:00 HRS",
-                badgeHtml: '<a href="#" class="match-badge badge-live"><i class="fa-solid fa-tv"></i> Ver Stream</a>',
-                team1Name: "DEMONS OF COD",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-score">2 - 1</span>',
-                team2Name: "SHADOWS ELITE",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T3 High"
-            },
-            {
-                status: "upcoming",
-                tournament: "Dark Unity Primera Edición • Semifinales",
-                dateTimeText: "Viernes, 19 Sep • 21:30 HRS",
-                badgeHtml: '<span class="match-badge badge-upcoming">PROGRAMADO</span>',
-                team1Name: "EMPERIUM ACADEMY",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>',
-                team2Name: "TEAM DRAGONS",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: NA | Tier: T2"
-            },
-            {
-                status: "finished",
-                tournament: "Torneo Relámpago • Gran Final",
-                dateTimeText: "Domingo, 14 Sep • 19:00 HRS",
-                badgeHtml: '<span class="match-badge badge-finished">FINALIZADO</span>',
-                team1Name: "DEMONS OF COD",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-score">3 - 0</span>',
-                team2Name: "ALPHA SQUAD",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T4"
-            },
-            {
-                status: "upcoming",
-                tournament: "Copa Elite • Jornada 1",
-                dateTimeText: "Jueves, 25 Sep • 18:00 HRS",
-                badgeHtml: '<span class="match-badge badge-upcoming">PROGRAMADO</span>',
-                team1Name: "DARK UNITY",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>',
-                team2Name: "PHOENIX GAMING",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T1"
-            },
-            {
-                status: "finished",
-                tournament: "Copa Elite • Jornada 2",
-                dateTimeText: "Viernes, 26 Sep • 20:00 HRS",
-                badgeHtml: '<span class="match-badge badge-finished">FINALIZADO</span>',
-                team1Name: "DARK UNITY",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-score">2 - 0</span>',
-                team2Name: "STORM CLAN",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T1"
+        // REEMPLAZA ESTA URL CON TU ENLACE DE SHEETDB DE LA PESTAÑA CALENDARIO
+        const SHEETDB_CALENDAR_URL = "https://sheetdb.io/api/v1/TU_ID_DE_SHEETDB";
+
+        let allMatchesData = [];
+
+        async function cargarCalendario() {
+            const container = document.getElementById('matchesContainer');
+            container.innerHTML = '<p style="text-align:center; color:#64748b;">Cargando partidos...</p>';
+
+            try {
+                const response = await fetch(SHEETDB_CALENDAR_URL);
+                allMatchesData = await response.json();
+                
+                renderMatches('all');
+            } catch (error) {
+                console.error("Error al cargar los datos:", error);
+                container.innerHTML = '<p style="text-align:center; color:#ef4444;">Error al conectar con la base de datos.</p>';
             }
-        ];
+        }
 
         function renderMatches(filter = 'all') {
             const container = document.getElementById('matchesContainer');
             container.innerHTML = '';
 
-            matchesData.forEach(match => {
-                if (filter !== 'all' && match.status !== filter) return;
+            let matchesFiltrados = allMatchesData.filter(match => {
+                let status = (match.status || "upcoming").toLowerCase().trim();
+                if (filter === 'all') return true;
+                return status === filter;
+            });
+
+            if (matchesFiltrados.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#64748b;">No hay partidos programados por ahora.</p>';
+                return;
+            }
+
+            matchesFiltrados.forEach(match => {
+                let status = (match.status || "upcoming").toLowerCase().trim();
+                let tournament = match.tournament || "Dark Unity eSports";
+                let dateTimeText = match.dateTimeText || "Próximamente";
+                let team1Name = match.team1Name || "Equipo 1";
+                let team1Logo = match.team1Logo || "https://via.placeholder.com/52";
+                let team2Name = match.team2Name || "Equipo 2";
+                let team2Logo = match.team2Logo || "https://via.placeholder.com/52";
+                let serverInfo = match.serverInfo || "Servidor: LATAM";
+                let streamLink = match.streamLink || "#";
+                let scoreOrVs = match.scoreOrVs || "VS";
+
+                // Definir Badge según estado
+                let badgeHtml = '';
+                if (status === 'live') {
+                    badgeHtml = `<a href="${streamLink}" target="_blank" class="match-badge badge-live"><i class="fa-solid fa-tv"></i> Ver Stream</a>`;
+                } else if (status === 'upcoming') {
+                    badgeHtml = `<span class="match-badge badge-upcoming">PROGRAMADO</span>`;
+                } else {
+                    badgeHtml = `<span class="match-badge badge-finished">FINALIZADO</span>`;
+                }
+
+                // Definir contenido central (Marcador o VS)
+                let centerContent = '';
+                if (status === 'upcoming') {
+                    centerContent = `<span class="match-vs">${scoreOrVs}</span>`;
+                } else {
+                    centerContent = `<span class="match-score">${scoreOrVs}</span>`;
+                }
 
                 const card = document.createElement('div');
                 card.className = 'match-card';
-                card.setAttribute('data-status', match.status);
+                card.setAttribute('data-status', status);
 
                 card.innerHTML = `
                     <div class="match-header">
                         <div class="match-top-row">
                             <div class="tournament-info">
-                                <i class="fa-solid fa-trophy"></i> ${match.tournament}
+                                <i class="fa-solid fa-trophy"></i> ${tournament}
                             </div>
                             <div>
-                                ${match.badgeHtml}
+                                ${badgeHtml}
                             </div>
                         </div>
                         <div class="match-date-box">
-                            <i class="fa-solid fa-calendar-days"></i> ${match.dateTimeText}
+                            <i class="fa-solid fa-calendar-days"></i> ${dateTimeText}
                         </div>
                     </div>
                     <div class="match-body">
                         <div class="team">
-                            <img src="${match.team1Logo}" alt="${match.team1Name}" class="team-logo">
-                            <div class="team-name">${match.team1Name}</div>
+                            <img src="${team1Logo}" alt="${team1Name}" class="team-logo">
+                            <div class="team-name">${team1Name}</div>
                         </div>
                         <div class="match-center">
-                            ${match.centerContent}
+                            ${centerContent}
                         </div>
                         <div class="team team-away">
-                            <div class="team-name">${match.team2Name}</div>
-                            <img src="${match.team2Logo}" alt="${match.team2Name}" class="team-logo">
+                            <div class="team-name">${team2Name}</div>
+                            <img src="${team2Logo}" alt="${team2Name}" class="team-logo">
                         </div>
                     </div>
                     <div class="match-footer">
-                        <span><i class="fa-solid fa-globe"></i> ${match.serverInfo}</span>
+                        <span><i class="fa-solid fa-globe"></i> ${serverInfo}</span>
                         <a href="ranking.html" class="match-action-btn"><i class="fa-solid fa-ranking-star"></i> Ver Marcador</a>
                     </div>
                 `;
@@ -562,7 +552,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            renderMatches('all');
+            cargarCalendario();
         });
     </script>
 </body>
