@@ -113,7 +113,7 @@
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            min-width: 720px; /* Ancho ajustado para que quepan bien las nuevas columnas */
+            min-width: 720px;
         }
         th, td {
             padding: 14px 16px;
@@ -135,12 +135,12 @@
         th.col-jg, td.col-jg {
             width: 14%;
             text-align: center;
-            color: #10b981; /* Verde sutil para ganados */
+            color: #10b981;
         }
         th.col-jp, td.col-jp {
             width: 14%;
             text-align: center;
-            color: #ef4444; /* Rojo sutil para perdidos */
+            color: #ef4444;
         }
         th.col-puntos, td.col-puntos {
             width: 20%;
@@ -171,15 +171,15 @@
         <a href="index.html" class="btn-volver">← Volver al Inicio</a>
         
          <header>
-             <h2>RANKING COMPETITIVO SEMANAL 🏆</h2>
-             <p>Tabla de posiciones oficial | Dark Unity eSports</p>
+              <h2>RANKING COMPETITIVO SEMANAL 🏆</h2>
+              <p>Tabla de posiciones oficial | Dark Unity eSports</p>
          </header>
 
         <!-- ================= CATEGORÍA ROCKY ================= -->
         <div class="categoria-section">
             <h2 class="categoria-titulo">🛡️ Categoría Rookie</h2>
             <div class="ranking-dates">
-                <span class="date-badge">📅 INICIO <span id="rocky-inicio">12-11-2026</span> / CIERRE <span id="rocky-cierre">16-11-2026</span></span>
+                <span class="date-badge">📅 <span id="texto-fecha-rocky">INICIO 12-11-2026 / CIERRE 16-11-2026</span></span>
             </div>
             <div class="tabla-container">
                 <table>
@@ -204,7 +204,7 @@
         <div class="categoria-section">
             <h2 class="categoria-titulo">⚡ Categoría Beginner</h2>
             <div class="ranking-dates">
-                <span class="date-badge">📅 INICIO <span id="beginner-inicio">12-11-2026</span> / CIERRE <span id="beginner-cierre">16-11-2026</span></span>
+                <span class="date-badge">📅 <span id="texto-fecha-beginner">INICIO 12-11-2026 / CIERRE 16-11-2026</span></span>
             </div>
             <div class="tabla-container">
                 <table>
@@ -229,7 +229,7 @@
         <div class="categoria-section">
             <h2 class="categoria-titulo">🔥 Categoría Master</h2>
             <div class="ranking-dates">
-                <span class="date-badge">📅 INICIO <span id="master-inicio">12-11-2026</span> / CIERRE <span id="master-cierre">16-11-2026</span></span>
+                <span class="date-badge">📅 <span id="texto-fecha-master">INICIO 12-11-2026 / CIERRE 16-11-2026</span></span>
             </div>
             <div class="tabla-container">
                 <table>
@@ -264,7 +264,6 @@
                 let htmlBeginner = "";
                 let htmlMaster = "";
                 
-                // Variables para almacenar las fechas si vienen en las filas
                 let fechaRocky = "";
                 let fechaBeginner = "";
                 let fechaMaster = "";
@@ -279,9 +278,15 @@
                     let points = fila.points || "0";
                     let dateInfo = fila.dateInfo || "";
 
+                    // Capturar la fecha de la categoría si viene rellenada en la fila
+                    if (dateInfo) {
+                        if ((cat === "rookie" || cat === "rocky") && !fechaRocky) fechaRocky = dateInfo;
+                        if (cat === "beginner" && !fechaBeginner) fechaBeginner = dateInfo;
+                        if (cat === "master" && !fechaMaster) fechaMaster = dateInfo;
+                    }
+
                     if (!teamName) return;
 
-                    // Asignar clases de color según la posición (#1, #2, #3)
                     let clasePos = "";
                     let posLower = pos.toString().trim();
                     if (posLower === "#1" || posLower === "1") clasePos = "posicion top-1";
@@ -302,13 +307,10 @@
 
                     if (cat === "rookie" || cat === "rocky") {
                         htmlRocky += filaHTML;
-                        if (dateInfo && !fechaRocky) fechaRocky = dateInfo;
                     } else if (cat === "beginner") {
                         htmlBeginner += filaHTML;
-                        if (dateInfo && !fechaBeginner) fechaBeginner = dateInfo;
                     } else if (cat === "master") {
                         htmlMaster += filaHTML;
-                        if (dateInfo && !fechaMaster) fechaMaster = dateInfo;
                     }
                 });
 
@@ -321,8 +323,20 @@
                 if (cuerpoBeginner) cuerpoBeginner.innerHTML = htmlBeginner || `<tr><td colspan="6" style="text-align:center; color:#94a3b8;">No hay equipos registrados</td></tr>`;
                 if (cuerpoMaster) cuerpoMaster.innerHTML = htmlMaster || `<tr><td colspan="6" style="text-align:center; color:#94a3b8;">No hay equipos registrados</td></tr>`;
 
-                // Actualizar fechas si el formato en Google Sheets es por ejemplo: "12-11-2026 / 16-11-2026"
-                // O puedes manejar los spans individualmente si pones inicio y cierre separados.
+                // Inyectar fechas dinámicas si existen en Google Sheets
+                if (fechaRocky) {
+                    const spanRocky = document.getElementById("texto-fecha-rocky");
+                    if (spanRocky) spanRocky.textContent = fechaRocky;
+                }
+                if (fechaBeginner) {
+                    const spanBeginner = document.getElementById("texto-fecha-beginner");
+                    if (spanBeginner) spanBeginner.textContent = fechaBeginner;
+                }
+                if (fechaMaster) {
+                    const spanMaster = document.getElementById("texto-fecha-master");
+                    if (spanMaster) spanMaster.textContent = fechaMaster;
+                }
+
             } catch (error) {
                 console.error("Error al cargar los datos de SheetDB:", error);
             }
