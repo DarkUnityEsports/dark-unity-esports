@@ -156,15 +156,47 @@
             background-color: var(--bg-card-hover);
         }
 
-        /* HEADER DE LA TARJETA */
+        /* HEADER DE LA TARJETA ACTUALIZADO */
         .match-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(23, 37, 84, 0.4);
+            padding-bottom: 0.8rem;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tournament-info {
             font-size: 0.85rem;
             color: var(--text-gray-dark);
-            gap: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* CAJA CENTRAL DE FECHA Y HORA GRANDE */
+        .match-date-box {
+            background: linear-gradient(135deg, rgba(23, 37, 84, 0.6), rgba(37, 99, 235, 0.2));
+            border: 1px solid var(--accent-blue-light);
+            color: var(--text-white);
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.2);
+            margin: 0 auto;
+        }
+
+        .match-date-box i {
+            color: var(--accent-blue-light);
         }
 
         .match-badge {
@@ -342,6 +374,10 @@
             .match-score {
                 font-size: 1.3rem;
             }
+            .match-date-box {
+                font-size: 1rem;
+                padding: 0.5rem 1.2rem;
+            }
             .filter-tabs {
                 justify-content: center;
                 overflow-x: visible;
@@ -373,11 +409,12 @@
     </div>
 
     <script>
-        // AQUÍ PUEDES AGREGAR TUS 30 O MÁS PARTIDOS FÁCILMENTE
+        // AQUÍ PUEDES CONFIGURAR TUS PARTIDOS CON EL DÍA, FECHA Y HORA CENTRAL
         const matchesData = [
             {
                 status: "live", // 'live', 'upcoming', 'finished'
                 tournament: "Dark Unity Primera Edición • Fase de Grupos",
+                dateTimeText: "Jueves, 18 Sep • 20:00 HRS", // <--- Fecha, día y hora en el centro
                 badgeHtml: '<a href="#" class="match-badge badge-live"><i class="fa-solid fa-tv"></i> Ver Stream</a>',
                 team1Name: "DEMONS OF COD",
                 team1Logo: "logos/logo1.jpg",
@@ -389,7 +426,8 @@
             {
                 status: "upcoming",
                 tournament: "Dark Unity Primera Edición • Semifinales",
-                badgeHtml: '<span class="match-badge badge-upcoming">MAÑANA, 20:00 HRS</span>',
+                dateTimeText: "Viernes, 19 Sep • 21:30 HRS",
+                badgeHtml: '<span class="match-badge badge-upcoming">PROGRAMADO</span>',
                 team1Name: "EMPERIUM ACADEMY",
                 team1Logo: "logos/logo1.jpg",
                 centerContent: '<span class="match-vs">VS</span>',
@@ -400,6 +438,7 @@
             {
                 status: "finished",
                 tournament: "Torneo Relámpago • Gran Final",
+                dateTimeText: "Domingo, 14 Sep • 19:00 HRS",
                 badgeHtml: '<span class="match-badge badge-finished">FINALIZADO</span>',
                 team1Name: "DEMONS OF COD",
                 team1Logo: "logos/logo1.jpg",
@@ -408,11 +447,11 @@
                 team2Logo: "logos/logo2.jpeg",
                 serverInfo: "Servidor: LATAM | Tier: T4"
             },
-            // --- Puedes duplicar y agregar más bloques aquí debajo hasta llegar a los 30 ---
             {
                 status: "upcoming",
                 tournament: "Copa Elite • Jornada 1",
-                badgeHtml: '<span class="match-badge badge-upcoming">25 SEP, 18:00 HRS</span>',
+                dateTimeText: "Jueves, 25 Sep • 18:00 HRS",
+                badgeHtml: '<span class="match-badge badge-upcoming">PROGRAMADO</span>',
                 team1Name: "DARK UNITY",
                 team1Logo: "logos/logo1.jpg",
                 centerContent: '<span class="match-vs">VS</span>',
@@ -423,6 +462,7 @@
             {
                 status: "finished",
                 tournament: "Copa Elite • Jornada 2",
+                dateTimeText: "Viernes, 26 Sep • 20:00 HRS",
                 badgeHtml: '<span class="match-badge badge-finished">FINALIZADO</span>',
                 team1Name: "DARK UNITY",
                 team1Logo: "logos/logo1.jpg",
@@ -430,184 +470,8 @@
                 team2Name: "STORM CLAN",
                 team2Logo: "logos/logo2.jpeg",
                 serverInfo: "Servidor: LATAM | Tier: T1"
-            },
-            {
-                status: "upcoming", // Usa "live", "upcoming" o "finished"
-                tournament: "Nombre del Torneo • Fase",
-                badgeHtml: '<span class="match-badge badge-upcoming">FECHA Y HORA</span>', // O usa badge-live / badge-finished
-                team1Name: "EQUIPO 1",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>', // O '<span class="match-score">2 - 0</span>' si ya terminó
-                team2Name: "EQUIPO 2",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T2"
-            },
-            {
-                status: "upcoming", // Usa "live", "upcoming" o "finished"
-                tournament: "Nombre del Torneo • Fase",
-                badgeHtml: '<span class="match-badge badge-upcoming">FECHA Y HORA</span>', // O usa badge-live / badge-finished
-                team1Name: "EQUIPO 1",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>', // O '<span class="match-score">2 - 0</span>' si ya terminó
-                team2Name: "EQUIPO 2",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T2"
-            },
-            {
-                status: "upcoming", // Usa "live", "upcoming" o "finished"
-                tournament: "Nombre del Torneo • Fase",
-                badgeHtml: '<span class="match-badge badge-upcoming">FECHA Y HORA</span>', // O usa badge-live / badge-finished
-                team1Name: "EQUIPO 1",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>', // O '<span class="match-score">2 - 0</span>' si ya terminó
-                team2Name: "EQUIPO 2",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T2"
-            },
-            {
-                status: "upcoming", // Usa "live", "upcoming" o "finished"
-                tournament: "Nombre del Torneo • Fase",
-                badgeHtml: '<span class="match-badge badge-upcoming">FECHA Y HORA</span>', // O usa badge-live / badge-finished
-                team1Name: "EQUIPO 1",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>', // O '<span class="match-score">2 - 0</span>' si ya terminó
-                team2Name: "EQUIPO 2",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T2"
-            },
-            {
-                status: "upcoming", // Usa "live", "upcoming" o "finished"
-                tournament: "Nombre del Torneo • Fase",
-                badgeHtml: '<span class="match-badge badge-upcoming">FECHA Y HORA</span>', // O usa badge-live / badge-finished
-                team1Name: "EQUIPO 1",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>', // O '<span class="match-score">2 - 0</span>' si ya terminó
-                team2Name: "EQUIPO 2",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T2"
-            },
-            {
-                status: "upcoming", // Usa "live", "upcoming" o "finished"
-                tournament: "Nombre del Torneo • Fase",
-                badgeHtml: '<span class="match-badge badge-upcoming">FECHA Y HORA</span>', // O usa badge-live / badge-finished
-                team1Name: "EQUIPO 1",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>', // O '<span class="match-score">2 - 0</span>' si ya terminó
-                team2Name: "EQUIPO 2",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T2"
-            },
-            {
-                status: "upcoming", // Usa "live", "upcoming" o "finished"
-                tournament: "Nombre del Torneo • Fase",
-                badgeHtml: '<span class="match-badge badge-upcoming">FECHA Y HORA</span>', // O usa badge-live / badge-finished
-                team1Name: "EQUIPO 1",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>', // O '<span class="match-score">2 - 0</span>' si ya terminó
-                team2Name: "EQUIPO 2",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T2"
-            },
-            {
-                status: "upcoming", // Usa "live", "upcoming" o "finished"
-                tournament: "Nombre del Torneo • Fase",
-                badgeHtml: '<span class="match-badge badge-upcoming">FECHA Y HORA</span>', // O usa badge-live / badge-finished
-                team1Name: "EQUIPO 1",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>', // O '<span class="match-score">2 - 0</span>' si ya terminó
-                team2Name: "EQUIPO 2",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T2"
-            },
-            {
-                status: "upcoming", // Usa "live", "upcoming" o "finished"
-                tournament: "Nombre del Torneo • Fase",
-                badgeHtml: '<span class="match-badge badge-upcoming">FECHA Y HORA</span>', // O usa badge-live / badge-finished
-                team1Name: "EQUIPO 1",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>', // O '<span class="match-score">2 - 0</span>' si ya terminó
-                team2Name: "EQUIPO 2",
-                team2Logo: "logos/logo2.jpeg",
-                 serverInfo: "Servidor: LATAM | Tier: T2"
-            },
-            {
-                status: "upcoming", // Usa "live", "upcoming" o "finished"
-                tournament: "Nombre del Torneo • Fase",
-                badgeHtml: '<span class="match-badge badge-upcoming">FECHA Y HORA</span>', // O usa badge-live / badge-finished
-                team1Name: "EQUIPO 1",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>', // O '<span class="match-score">2 - 0</span>' si ya terminó
-                team2Name: "EQUIPO 2",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T2"
-            },
-            {
-                status: "upcoming", // Usa "live", "upcoming" o "finished"
-                tournament: "Nombre del Torneo • Fase",
-                badgeHtml: '<span class="match-badge badge-upcoming">FECHA Y HORA</span>', // O usa badge-live / badge-finished
-                team1Name: "EQUIPO 1",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>', // O '<span class="match-score">2 - 0</span>' si ya terminó
-                team2Name: "EQUIPO 2",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T2"
-            },
-            {
-                status: "upcoming", // Usa "live", "upcoming" o "finished"
-                tournament: "Nombre del Torneo • Fase",
-                badgeHtml: '<span class="match-badge badge-upcoming">FECHA Y HORA</span>', // O usa badge-live / badge-finished
-                team1Name: "EQUIPO 1",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>', // O '<span class="match-score">2 - 0</span>' si ya terminó
-                team2Name: "EQUIPO 2",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T2"
-            },
-            {
-                status: "upcoming", // Usa "live", "upcoming" o "finished"
-                tournament: "Nombre del Torneo • Fase",
-                badgeHtml: '<span class="match-badge badge-upcoming">FECHA Y HORA</span>', // O usa badge-live / badge-finished
-                team1Name: "EQUIPO 1",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>', // O '<span class="match-score">2 - 0</span>' si ya terminó
-                team2Name: "EQUIPO 2",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T2"
-            },
-            {
-                status: "upcoming", // Usa "live", "upcoming" o "finished"
-                tournament: "Nombre del Torneo • Fase",
-                badgeHtml: '<span class="match-badge badge-upcoming">FECHA Y HORA</span>', // O usa badge-live / badge-finished
-                team1Name: "EQUIPO 1",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>', // O '<span class="match-score">2 - 0</span>' si ya terminó
-                team2Name: "EQUIPO 2",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T2"
-            },
-            {
-                status: "upcoming", // Usa "live", "upcoming" o "finished"
-                tournament: "Nombre del Torneo • Fase",
-                badgeHtml: '<span class="match-badge badge-upcoming">FECHA Y HORA</span>', // O usa badge-live / badge-finished
-                team1Name: "EQUIPO 1",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>', // O '<span class="match-score">2 - 0</span>' si ya terminó
-                team2Name: "EQUIPO 2",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T2"
-            },
-            {
-                status: "upcoming", // Usa "live", "upcoming" o "finished"
-                tournament: "Nombre del Torneo • Fase",
-                badgeHtml: '<span class="match-badge badge-upcoming">FECHA Y HORA</span>', // O usa badge-live / badge-finished
-                team1Name: "EQUIPO 1",
-                team1Logo: "logos/logo1.jpg",
-                centerContent: '<span class="match-vs">VS</span>', // O '<span class="match-score">2 - 0</span>' si ya terminó
-                team2Name: "EQUIPO 2",
-                team2Logo: "logos/logo2.jpeg",
-                serverInfo: "Servidor: LATAM | Tier: T2"
-            },
-
+            }
+            // Puedes seguir añadiendo tus demás partidos aquí abajo manteniendo la propiedad dateTimeText
         ];
 
         function renderMatches(filter = 'all') {
@@ -623,8 +487,15 @@
 
                 card.innerHTML = `
                     <div class="match-header">
-                        <span><i class="fa-solid fa-trophy"></i> ${match.tournament}</span>
-                        ${match.badgeHtml}
+                        <div class="tournament-info">
+                            <i class="fa-solid fa-trophy"></i> ${match.tournament}
+                        </div>
+                        <div class="match-date-box">
+                            <i class="fa-solid fa-calendar-days"></i> ${match.dateTimeText}
+                        </div>
+                        <div>
+                            ${match.badgeHtml}
+                        </div>
                     </div>
                     <div class="match-body">
                         <div class="team">
