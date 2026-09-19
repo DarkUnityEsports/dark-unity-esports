@@ -269,11 +269,10 @@
             min-width: 0;
         }
 
-        /* CORRECCIÓN: Alineación correcta para el equipo derecho (Texto a la izquierda del logo hacia el centro) */
+        /* Equipo derecho: alineado a la derecha, respetando texto primero y logo después */
         .team.team-away {
             justify-content: flex-end;
             text-align: right;
-            flex-direction: row;
         }
 
         .team-logo {
@@ -512,8 +511,8 @@
                             ${centerContentHtml}
                         </div>
                         <div class="team team-away">
-                            <img src="${team2Logo}" alt="${team2Name}" class="team-logo" onerror="this.src='https://via.placeholder.com/52'">
                             <div class="team-name">${team2Name}</div>
+                            <img src="${team2Logo}" alt="${team2Name}" class="team-logo" onerror="this.src='https://via.placeholder.com/52'">
                         </div>
                     </div>
                     <div class="match-footer">
