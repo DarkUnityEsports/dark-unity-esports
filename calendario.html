@@ -438,8 +438,12 @@
     </div>
 
     <script>
-        // REEMPLAZA ESTA URL CON TU ENLACE DE SHEETDB DE LA PESTAÑA CALENDARIO
-        const SHEETDB_CALENDAR_URL = "https://sheetdb.io/api/v1/TU_ID_DE_SHEETDB";
+        // ENLACES DE SHEETDB CONFIGURADOS PARA LOS 3 CORREOS
+        const SHEETDB_URLS = [
+            "https://sheetdb.io/api/v1/7fivo9pz7mgtd", // lootboxstore2026@gmail.com
+            "https://sheetdb.io/api/v1/cgjg6vnh2uupo", // lootboxstore2025@gmail.com
+            "https://sheetdb.io/api/v1/wfyai360h5ykp"  // mikitrixpotter@gmail.com
+        ];
 
         let allMatchesData = [];
 
@@ -448,9 +452,13 @@
             container.innerHTML = '<p style="text-align:center; color:#64748b;">Cargando partidos...</p>';
 
             try {
-                const response = await fetch(SHEETDB_CALENDAR_URL);
-                allMatchesData = await response.json();
-                
+                // Realizamos las peticiones en paralelo a los 3 endpoints configurados
+                const promises = SHEETDB_URLS.map(url => fetch(url).then(res => res.json()).catch(() => []));
+                const results = await Promise.all(promises);
+
+                // Combinamos todos los arreglos devueltos por las diferentes fuentes/correos
+                allMatchesData = results.flat();
+
                 renderMatches('all');
             } catch (error) {
                 console.error("Error al cargar los datos:", error);
