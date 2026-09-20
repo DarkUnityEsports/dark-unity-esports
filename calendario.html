@@ -433,6 +433,18 @@
 
         let allMatchesData = [];
 
+        // Función auxiliar para transformar enlaces de Google Drive al formato de imagen directa
+        function convertirLinkDrive(url) {
+            if (!url) return "https://via.placeholder.com/52";
+            // Si el enlace es de Google Drive del tipo /file/d/ID/view
+            let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+            if (match && match[1]) {
+                return `https://lh3.googleusercontent.com/d/${match[1]}`;
+            }
+            // Si ya viene en otro formato o es una URL externa normal, la devuelve tal cual
+            return url;
+        }
+
         async function cargarCalendario() {
             const container = document.getElementById('matchesContainer');
             container.innerHTML = '<p style="text-align:center; color:#64748b;">Cargando partidos...</p>';
@@ -469,10 +481,16 @@
                 let dateTimeText = match.dateTimeText || "Próximamente";
                 let streamUrl = match.streamUrl || "#";
                 let team1Name = match.team1Name || "Equipo 1";
-                let team1Logo = match.team1Logo || "https://via.placeholder.com/52";
+                
+                // Aquí aplicamos la conversión automática del link de Drive para el Logo 1
+                let team1Logo = convertirLinkDrive(match.team1Logo);
+
                 let centerContentText = match.centerContent || "VS";
                 let team2Name = match.team2Name || "Equipo 2";
-                let team2Logo = match.team2Logo || "https://via.placeholder.com/52";
+                
+                // Aquí aplicamos la conversión automática del link de Drive para el Logo 2
+                let team2Logo = convertirLinkDrive(match.team2Logo);
+
                 let serverInfo = match.serverInfo || "Servidor: LATAM";
 
                 let streamBtnHtml = `<a href="${streamUrl}" target="_blank" class="match-stream-btn"><i class="fa-solid fa-tv"></i> Ver Transmisión</a>`;
