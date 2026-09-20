@@ -449,14 +449,29 @@
             const container = document.getElementById('matchesContainer');
             container.innerHTML = '<p style="text-align:center; color:#64748b;">Cargando partidos...</p>';
 
-            try {
-                const promises = SHEETDB_URLS.map(url => fetch(url).then(res => res.json()).catch(() => []));
-                const results = await Promise.all(promises);
-                allMatchesData = results.flat();
-                renderMatches('all');
-            } catch (error) {
-                console.error("Error al cargar los datos:", error);
-                container.innerHTML = '<p style="text-align:center; color:#ef4444;">Error al conectar con la base de datos.</p>';
+            let datosObtenidos = false;
+
+            // Sistema de alta disponibilidad por respaldos (intenta uno a uno secuencialmente)
+            for (let i = 0; i < SHEETDB_URLS.length; i++) {
+                try {
+                    const response = await fetch(SHEETDB_URLS[i]);
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    
+                    const data = await response.json();
+                    
+                    if (Array.isArray(data) && data.length > 0) {
+                        allMatchesData = data;
+                        datosObtenidos = true;
+                        renderMatches('all');
+                        break; // Si conectó con éxito, frena la búsqueda y no gasta las siguientes cuotas
+                    }
+                } catch (error) {
+                    console.warn(`El enlace de respaldo #${i + 1} falló o consumió su cuota. Intentando con el siguiente...`);
+                }
+            }
+
+            if (!datosObtenidos) {
+                container.innerHTML = '<p style="text-align:center; color:#ef4444;">Error al conectar con la base de datos o se agotaron las cuotas de las APIs.</p>';
             }
         }
 
