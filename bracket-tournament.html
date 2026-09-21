@@ -137,6 +137,27 @@
             background: rgba(56, 189, 248, 0.05);
         }
 
+        /* Estilo integrado para el logo de los equipos */
+        .team-logo {
+            width: 28px;
+            height: 28px;
+            min-width: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 8px;
+            border: 1px solid var(--accent-blue-light);
+            background-color: var(--bg-deep);
+        }
+
+        .team-info-group {
+            display: flex;
+            align-items: center;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
         .score {
             background: var(--accent-blue-dark);
             color: var(--text-white);
@@ -144,6 +165,7 @@
             border-radius: 3px;
             font-size: 0.8rem;
             font-weight: bold;
+            flex-shrink: 0;
         }
 
         .matchup-pair {
@@ -232,23 +254,23 @@
                     <div class="column-content">
                         <div class="section-label">GRUPO A</div>
                         <div class="matchup-pair">
-                            <div class="team-box"><div class="team-inner winner"><span id="name_team_1">CARGANDO...</span><span class="score" id="score_team_1">0</span></div></div>
-                            <div class="team-box"><div class="team-inner"><span id="name_team_2">CARGANDO...</span><span class="score" id="score_team_2">0</span></div></div>
+                            <div class="team-box"><div class="team-inner winner"><div class="team-info-group"><img id="logo_team_1" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_1">CARGANDO...</span></div><span class="score" id="score_team_1">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_team_2" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_2">CARGANDO...</span></div><span class="score" id="score_team_2">0</span></div></div>
                         </div>
                         <div class="matchup-pair qf-split">
-                            <div class="team-box"><div class="team-inner"><span id="name_team_3">CARGANDO...</span><span class="score" id="score_team_3">0</span></div></div>
-                            <div class="team-box"><div class="team-inner winner"><span id="name_team_4">CARGANDO...</span><span class="score" id="score_team_4">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_team_3" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_3">CARGANDO...</span></div><span class="score" id="score_team_3">0</span></div></div>
+                            <div class="team-box"><div class="team-inner winner"><div class="team-info-group"><img id="logo_team_4" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_4">CARGANDO...</span></div><span class="score" id="score_team_4">0</span></div></div>
                         </div>
 
                         <div class="section-label">GRUPO B</div>
                         <div class="matchup-pair">
-                            <div class="team-box"><div class="team-inner winner"><span id="name_team_5">CARGANDO...</span><span class="score" id="score_team_5">0</span></div></div>
-                            <div class="team-box"><div class="team-inner"><span id="name_team_6">CARGANDO...</span><span class="score" id="score_team_6">0</span></div></div>
+                            <div class="team-box"><div class="team-inner winner"><div class="team-info-group"><img id="logo_team_5" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_5">CARGANDO...</span></div><span class="score" id="score_team_5">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_team_6" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_6">CARGANDO...</span></div><span class="score" id="score_team_6">0</span></div></div>
                         </div>
 
                         <div class="matchup-pair">
-                            <div class="team-box"><div class="team-inner"><span id="name_team_7">CARGANDO...</span><span class="score" id="score_team_7">0</span></div></div>
-                            <div class="team-box"><div class="team-inner winner"><span id="name_team_8">CARGANDO...</span><span class="score" id="score_team_8">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_team_7" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_7">CARGANDO...</span></div><span class="score" id="score_team_7">0</span></div></div>
+                            <div class="team-box"><div class="team-inner winner"><div class="team-info-group"><img id="logo_team_8" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_8">CARGANDO...</span></div><span class="score" id="score_team_8">0</span></div></div>
                         </div>
                     </div>
                 </div>
@@ -266,14 +288,14 @@
                     <div class="column-content semi-container">
                         <div class="section-label">GRUPO A</div>
                         <div class="matchup-pair">
-                            <div class="team-box"><div class="team-inner"><span id="name_semi_1">CARGANDO...</span><span class="score" id="score_semi_1">0</span></div></div>
-                            <div class="team-box"><div class="team-inner"><span id="name_semi_2">CARGANDO</span><span class="score" id="score_semi_2">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_semi_1" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_semi_1">CARGANDO...</span></div><span class="score" id="score_semi_1">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_semi_2" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_semi_2">CARGANDO</span></div><span class="score" id="score_semi_2">0</span></div></div>
                         </div>
                        
                         <div class="section-label">GRUPO B</div>
                         <div class="matchup-pair">
-                            <div class="team-box"><div class="team-inner"><span id="name_semi_3">CARGANDO...</span><span class="score" id="score_semi_3">0</span></div></div>
-                            <div class="team-box"><div class="team-inner"><span id="name_semi_4">CARGANDO...</span><span class="score" id="score_semi_4">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_semi_3" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_semi_3">CARGANDO...</span></div><span class="score" id="score_semi_3">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_semi_4" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_semi_4">CARGANDO...</span></div><span class="score" id="score_semi_4">0</span></div></div>
                         </div>
                     </div>
                 </div>
@@ -293,7 +315,7 @@
                         <div class="matchup-pair">
                             <div class="team-box" style="border-color: #f1c40f;">
                                 <div class="team-inner" style="background: rgba(241,196,15,0.05);">
-                                    <span id="name_final_1">CARGANDO...</span><span class="score" id="score_final_1" style="background: #f1c40f; color: #000;">0</span>
+                                    <div class="team-info-group"><img id="logo_final_1" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_final_1">CARGANDO...</span></div><span class="score" id="score_final_1" style="background: #f1c40f; color: #000;">0</span>
                                 </div>
                             </div>
                         </div>
@@ -302,7 +324,7 @@
                         <div class="matchup-pair">
                             <div class="team-box" style="border-color: #f1c40f;">
                                 <div class="team-inner" style="background: rgba(241,196,15,0.05);">
-                                    <span id="name_final_2">CARGANDO...</span><span class="score" id="score_final_2" style="background: #f1c40f; color: #000;">0</span>
+                                    <div class="team-info-group"><img id="logo_final_2" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_final_2">CARGANDO...</span></div><span class="score" id="score_final_2" style="background: #f1c40f; color: #000;">0</span>
                                 </div>
                             </div>
                         </div>
@@ -324,7 +346,7 @@
                         <div class="matchup-pair">
                             <div class="team-box" style="border-color: #38bdf8;">
                                 <div class="team-inner" style="background: rgba(56, 189, 248, 0.05);">
-                                    <span id="name_team_winner" style="font-weight: bold;">CARGANDO...</span>
+                                    <div class="team-info-group"><img id="logo_team_winner" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_winner" style="font-weight: bold;">CARGANDO...</span></div>
                                     <span class="score" id="score_team_winner" style="background: #38bdf8; color: #000;">🏆</span>
                                 </div>
                             </div>
@@ -351,9 +373,13 @@
                 for (let key in data) {
                     let nameSpan = document.getElementById('name_' + key);
                     let scoreSpan = document.getElementById('score_' + key);
+                    let logoImg = document.getElementById('logo_' + key);
 
                     if (nameSpan) nameSpan.textContent = data[key].name;
                     if (scoreSpan) scoreSpan.textContent = data[key].score;
+                    if (logoImg && data[key].logo) {
+                        logoImg.src = data[key].logo;
+                    }
                 }
             } catch (error) {
                 console.error('Error al sincronizar con Google Sheets:', error);
