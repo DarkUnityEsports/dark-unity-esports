@@ -153,13 +153,26 @@
             position: relative;
             overflow: hidden;
             transition: transform 0.2s, border-color 0.2s;
-        }
-        
-          /* Ajuste para evitar que los nombres largos se corten en móviles */
-          @media (max-width: 480px) {
-          .match-card span, .match-card div, .match-card strong {
-          font-size: 0.72rem !important;
-          letter-spacing: -0.5px;
+            }
+
+        /* Ajuste definitivo para nombres largos en móviles dentro de las tarjetas */
+            @media (max-width: 480px) {
+            .match-body {
+            gap: 0.2rem !important; /* Reduce un poco el espacio entre los logos y el centro para dar más aire */
+         }
+    
+         .team {
+        min-width: 0 !important; /* Permite que el contenedor flexible se encoja correctamente */
+        overflow: visible !important;
+          }
+
+         .team-name {
+        white-space: normal !important;        /* Permite que el nombre baje de línea si es muy largo */
+        word-break: break-word !important;     /* Rompe la palabra ordenadamente si es necesario */
+        font-size: 0.72rem !important;         /* Letra compacta para teléfonos */
+        line-height: 1.1 !important;           /* Ajusta la altura de la línea doble */
+        overflow: visible !important;          /* Evita que se oculte el texto sobrante */
+        text-overflow: clip !important;        /* Elimina los puntos suspensivos (...) */
     }
 }
 
