@@ -154,6 +154,14 @@
             overflow: hidden;
             transition: transform 0.2s, border-color 0.2s;
         }
+        
+          /* Ajuste para evitar que los nombres largos se corten en móviles */
+          @media (max-width: 480px) {
+          .match-card span, .match-card div, .match-card strong {
+          font-size: 0.72rem !important;
+          letter-spacing: -0.5px;
+    }
+}
 
         .match-card:hover {
             border-color: var(--accent-blue-light);
