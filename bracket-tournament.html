@@ -360,9 +360,19 @@
         <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
     </div>
 
-    <!-- Script para conectar con Google Sheets -->
+    <!-- Script para conectar con Google Sheets y convertir enlaces de Drive -->
     <script>
         const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzTngcH64tXxtowwQ7cdqU9S66iMREuF_sXAbq2IGIWZY8UML5lEZP1BkxcS2o4U8pZkw/exec';
+
+        // Función que transforma los enlaces de Google Drive para que la imagen cargue correctamente
+        function convertirLinkDrive(url) {
+            if (!url) return "https://via.placeholder.com/28";
+            let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+            if (match && match[1]) {
+                return `https://lh3.googleusercontent.com/d/${match[1]}`;
+            }
+            return url;
+        }
 
         async function cargarDatosBracket() {
             if (WEB_APP_URL.includes('PEGA_AQUI')) return;
@@ -378,7 +388,7 @@
                     if (nameSpan) nameSpan.textContent = data[key].name;
                     if (scoreSpan) scoreSpan.textContent = data[key].score;
                     if (logoImg && data[key].logo) {
-                        logoImg.src = data[key].logo;
+                        logoImg.src = convertirLinkDrive(data[key].logo);
                     }
                 }
             } catch (error) {
