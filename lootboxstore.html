@@ -45,7 +45,7 @@
             letter-spacing: 1px;
         }
 
-        /* HEADER & NAV */
+       /* HEADER & NAV CORREGIDO PARA MÓVIL */
         header {
             background-color: rgba(10, 12, 16, 0.95);
             position: fixed;
@@ -61,41 +61,49 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.8rem 2rem;
+            padding: 0.6rem 1rem;
         }
 
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
             text-decoration: none;
+            flex-shrink: 1;
+            min-width: 0;
         }
 
         .logo-img {
-            height: 45px;
+            height: 38px;
             width: auto;
             object-fit: contain;
         }
 
         .logo-text {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.8rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: var(--text-white);
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+            line-height: 1.1;
+            white-space: nowrap;
         }
 
         .logo-text span {
             color: var(--accent-blue-light);
+            display: inline;
         }
 
         .back-home {
             color: var(--text-gray-light);
             text-decoration: none;
             font-weight: 500;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 5px;
+            white-space: nowrap;
+            flex-shrink: 0;
             transition: color 0.3s;
         }
 
@@ -103,6 +111,12 @@
             color: var(--accent-blue-light);
         }
 
+        /* Ajuste general para evitar espacios de más arriba */
+        .store-main {
+            padding: 6.5rem 1rem 3rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
         /* CONTENIDO DE LA TIENDA */
         .store-main {
             padding: 8rem 2rem 5rem 2rem;
