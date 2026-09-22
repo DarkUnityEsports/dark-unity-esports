@@ -1,1 +1,287 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loot Box Store | Tienda de CP Oficial</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-deep: #0a0c10;
+            --bg-card: #121620;
+            --bg-card-hover: #1b2230;
+            --accent-blue-dark: #1e3a8a;
+            --accent-blue-light: #38bdf8;
+            --text-white: #ffffff;
+            --text-gray-light: #cbd5e1;
+            --text-gray-dark: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-white);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* HEADER & NAV */
+        header {
+            background-color: rgba(10, 12, 16, 0.95);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--accent-blue-dark);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 2rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-white);
+            letter-spacing: 1px;
+        }
+
+        .logo-text span {
+            color: var(--accent-blue-light);
+        }
+
+        .back-home {
+            color: var(--text-gray-light);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+
+        .back-home:hover {
+            color: var(--accent-blue-light);
+        }
+
+        /* CONTENIDO DE LA TIENDA */
+        .store-main {
+            padding: 8rem 2rem 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title span {
+            color: var(--accent-blue-light);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-gray-light);
+            margin-bottom: 3rem;
+        }
+
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .store-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--accent-blue-dark);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .store-card:hover {
+            background-color: var(--bg-card-hover);
+            transform: translateY(-5px);
+            border-color: var(--accent-blue-light);
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.15);
+        }
+
+        .store-icon-container {
+            font-size: 3.5rem;
+            color: #f1c40f;
+            margin-bottom: 1.2rem;
+        }
+
+        /* Si prefieres usar imágenes de CP en vez de iconos, puedes usar esta clase en una etiqueta <img> */
+        .cp-img {
+            max-width: 80px;
+            height: auto;
+            margin: 0 auto 1.2rem auto;
+            display: block;
+        }
+
+        .store-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-white);
+        }
+
+        .store-card .price-tag {
+            color: var(--accent-blue-light);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-buy {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-blue-dark), var(--accent-blue-light));
+            color: var(--text-white);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-buy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: var(--bg-card);
+            border-top: 1px solid var(--accent-blue-dark);
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-gray-dark);
+            font-size: 0.9rem;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo-container">
+                <img src="logo.png" alt="Dark Unity Esports Logo" class="logo-img" onerror="this.style.display='none'">
+                <div class="logo-text">DARK <span>UNITY ESPORTS</span></div>
+            </a>
+            <a href="index.html" class="back-home"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
+        </div>
+    </header>
+
+    <!-- CONTENIDO DE LA TIENDA -->
+    <main class="store-main">
+        <h2 class="section-title">Loot Box <span>Store</span></h2>
+        <p class="section-subtitle">Selecciona tu paquete de Call of Duty Points (CP) ideal y adquiérelo de forma directa.</p>
+
+        <div class="store-grid">
+            
+            <!-- Paquete 1 -->
+            <div class="store-card">
+                <div class="store-icon-container"><i class="fa-solid fa-coins"></i></div>
+                <h4>80 CP</h4>
+                <p class="price-tag">Paquete Inicial</p>
+                <a href="https://discord.gg/wekQV74SCT" target="_blank" class="btn-buy">Comprar</a>
+            </div>
+
+            <!-- Paquete 2 -->
+            <div class="store-card">
+                <div class="store-icon-container"><i class="fa-solid fa-coins"></i></div>
+                <h4>420 CP</h4>
+                <p class="price-tag">Paquete Estándar</p>
+                <a href="https://discord.gg/wekQV74SCT" target="_blank" class="btn-buy">Comprar</a>
+            </div>
+
+            <!-- Paquete 3 -->
+            <div class="store-card">
+                <div class="store-icon-container"><i class="fa-solid fa-coins"></i></div>
+                <h4>880 CP</h4>
+                <p class="price-tag">Paquete Avanzado</p>
+                <a href="https://discord.gg/wekQV74SCT" target="_blank" class="btn-buy">Comprar</a>
+            </div>
+
+            <!-- Paquete 4 -->
+            <div class="store-card">
+                <div class="store-icon-container"><i class="fa-solid fa-coins"></i></div>
+                <h4>2,400 CP</h4>
+                <p class="price-tag">Paquete Premium</p>
+                <a href="https://discord.gg/wekQV74SCT" target="_blank" class="btn-buy">Comprar</a>
+            </div>
+
+            <!-- Paquete 5 -->
+            <div class="store-card">
+                <div class="store-icon-container"><i class="fa-solid fa-coins"></i></div>
+                <h4>5,000 CP</h4>
+                <p class="price-tag">Paquete Elite</p>
+                <a href="https://discord.gg/wekQV74SCT" target="_blank" class="btn-buy">Comprar</a>
+            </div>
+
+            <!-- Paquete 6 -->
+            <div class="store-card">
+                <div class="store-icon-container"><i class="fa-solid fa-coins"></i></div>
+                <h4>10,800 CP</h4>
+                <p class="price-tag">Paquete Legendario</p>
+                <a href="https://discord.gg/wekQV74SCT" target="_blank" class="btn-buy">Comprar</a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Dark Unity Esports. Todos los derechos reservados. | Loot Box Store</p>
+    </footer>
+
+</body>
+</html>
