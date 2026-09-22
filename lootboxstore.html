@@ -192,22 +192,31 @@
             margin-bottom: 1.5rem;
         }
 
-        .btn-buy {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--accent-blue-dark), var(--accent-blue-light));
-            color: var(--text-white);
-            padding: 0.8rem 1.5rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 700;
-            text-transform: uppercase;
-            transition: transform 0.2s, box-shadow 0.2s;
+        .btn-comprar {
+        display: inline-block;
+        width: 100%;
+        padding: 0.7rem 1rem;
+        background: linear-gradient(135deg, #172554, #2563eb); /* O usa tus variables --accent-blue-dark y --accent-blue-light */
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-family: 'Rajdhani', sans-serif;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        margin-top: 1rem;
         }
 
-        .btn-buy:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
-        }
+.btn-comprar:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    color: #ffffff;
+}
 
         /* FOOTER */
         footer {
@@ -237,7 +246,7 @@
     <!-- CONTENIDO DE LA TIENDA -->
     <main class="store-main">
         <h2 class="section-title">Loot Box <span>Store</span></h2>
-        <p class="section-subtitle">Selecciona tu paquete de Call of Duty Points (CP) en el boton comprar y te atenderemos via WhatsApp.</p>
+        <p class="section-subtitle">Selecciona tu paquete de Call of Duty Points (CP) en el botón comprar y te atenderemos via WhatsApp.</p>
 
         <div class="store-grid">
             
