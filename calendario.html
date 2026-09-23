@@ -162,21 +162,21 @@
         /* Ajuste definitivo para nombres largos en móviles dentro de las tarjetas */
             @media (max-width: 480px) {
             .match-body {
-            gap: 0.2rem !important; /* Reduce un poco el espacio entre los logos y el centro para dar más aire */
+            gap: 0.2rem !important;
          }
     
          .team {
-        min-width: 0 !important; /* Permite que el contenedor flexible se encoja correctamente */
+        min-width: 0 !important;
         overflow: visible !important;
-          }
+         }
 
          .team-name {
-        white-space: normal !important;        /* Permite que el nombre baje de línea si es muy largo */
-        word-break: break-word !important;     /* Rompe la palabra ordenadamente si es necesario */
-        font-size: 0.72rem !important;         /* Letra compacta para teléfonos */
-        line-height: 1.1 !important;           /* Ajusta la altura de la línea doble */
-        overflow: visible !important;          /* Evita que se oculte el texto sobrante */
-        text-overflow: clip !important;        /* Elimina los puntos suspensivos (...) */
+        white-space: normal !important;        
+        word-break: break-word !important;    
+        font-size: 0.72rem !important;        
+        line-height: 1.1 !important;          
+        overflow: visible !important;         
+        text-overflow: clip !important;       
     }
 }
 
@@ -224,7 +224,7 @@
             color: var(--accent-blue-light);
         }
 
-        /* BOTÓN FIJO DE VER TRANSMISIÓN (MÁS PEQUEÑO Y ESTILIZADO) */
+        /* BOTÓN FIJO DE VER TRANSMISIÓN */
         .match-stream-btn {
             background: linear-gradient(135deg, var(--accent-blue-dark), var(--accent-blue-light));
             color: var(--text-white);
@@ -294,7 +294,6 @@
             min-width: 0;
         }
 
-        /* Equipo derecho: alineado a la derecha, respetando texto primero y logo después */
         .team.team-away {
             justify-content: flex-end;
             text-align: right;
@@ -451,24 +450,19 @@
 
     <script>
         const SHEETDB_URLS = [
-            "https://sheetdb.io/api/v1/7fivo9pz7mgtd", // lootboxstore2026@gmail.com - limite de 500 peticiones mensuales
-
-            "https://sheetdb.io/api/v1/cgjg6vnh2uupo", // lootboxstore2025@gmail.com - limite de 500 peticiones mensuales 
-
-            "https://sheetdb.io/api/v1/wfyai360h5ykp", // mikitrixpotter@gmail.com - limite de 500 peticiones mensuales
+            "https://sheetdb.io/api/v1/7fivo9pz7mgtd", // lootboxstore2026@gmail.com
+            "https://sheetdb.io/api/v1/cgjg6vnh2uupo", // lootboxstore2025@gmail.com 
+            "https://sheetdb.io/api/v1/wfyai360h5ykp", // mikitrixpotter@gmail.com
         ];
 
         let allMatchesData = [];
 
-        // Función auxiliar para transformar enlaces de Google Drive al formato de imagen directa
         function convertirLinkDrive(url) {
             if (!url) return "https://via.placeholder.com/52";
-            // Si el enlace es de Google Drive del tipo /file/d/ID/view
             let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
             if (match && match[1]) {
                 return `https://lh3.googleusercontent.com/d/${match[1]}`;
             }
-            // Si ya viene en otro formato o es una URL externa normal, la devuelve tal cual
             return url;
         }
 
@@ -478,7 +472,6 @@
 
             let datosObtenidos = false;
 
-            // Sistema de alta disponibilidad por respaldos (intenta uno a uno secuencialmente)
             for (let i = 0; i < SHEETDB_URLS.length; i++) {
                 try {
                     const response = await fetch(SHEETDB_URLS[i]);
@@ -490,7 +483,7 @@
                         allMatchesData = data;
                         datosObtenidos = true;
                         renderMatches('all');
-                        break; // Si conectó con éxito, frena la búsqueda y no gasta las siguientes cuotas
+                        break;
                     }
                 } catch (error) {
                     console.warn(`El enlace de respaldo #${i + 1} falló o consumió su cuota. Intentando con el siguiente...`);
@@ -523,16 +516,10 @@
                 let dateTimeText = match.dateTimeText || "Próximamente";
                 let streamUrl = match.streamUrl || "#";
                 let team1Name = match.team1Name || "Equipo 1";
-                
-                // Aquí aplicamos la conversión automática del link de Drive para el Logo 1
                 let team1Logo = convertirLinkDrive(match.team1Logo);
-
                 let centerContentText = match.centerContent || "VS";
                 let team2Name = match.team2Name || "Equipo 2";
-                
-                // Aquí aplicamos la conversión automática del link de Drive para el Logo 2
                 let team2Logo = convertirLinkDrive(match.team2Logo);
-
                 let serverInfo = match.serverInfo || "Servidor: LATAM";
 
                 let streamBtnHtml = `<a href="${streamUrl}" target="_blank" class="match-stream-btn"><i class="fa-solid fa-tv"></i> Ver Transmisión</a>`;
