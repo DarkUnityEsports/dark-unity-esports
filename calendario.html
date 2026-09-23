@@ -157,28 +157,25 @@
             position: relative;
             overflow: hidden;
             transition: transform 0.2s, border-color 0.2s;
-            }
+        }
 
-        /* Ajuste definitivo para nombres largos en móviles dentro de las tarjetas */
-            @media (max-width: 480px) {
+        @media (max-width: 480px) {
             .match-body {
-            gap: 0.2rem !important;
-         }
-    
-         .team {
-        min-width: 0 !important;
-        overflow: visible !important;
-         }
-
-         .team-name {
-        white-space: normal !important;        
-        word-break: break-word !important;    
-        font-size: 0.72rem !important;        
-        line-height: 1.1 !important;          
-        overflow: visible !important;         
-        text-overflow: clip !important;       
-    }
-}
+                gap: 0.2rem !important;
+            }
+            .team {
+                min-width: 0 !important;
+                overflow: visible !important;
+            }
+            .team-name {
+                white-space: normal !important;        
+                word-break: break-word !important;    
+                font-size: 0.72rem !important;        
+                line-height: 1.1 !important;          
+                overflow: visible !important;         
+                text-overflow: clip !important;       
+            }
+        }
 
         .match-card:hover {
             border-color: var(--accent-blue-light);
@@ -224,7 +221,6 @@
             color: var(--accent-blue-light);
         }
 
-        /* BOTÓN FIJO DE VER TRANSMISIÓN */
         .match-stream-btn {
             background: linear-gradient(135deg, var(--accent-blue-dark), var(--accent-blue-light));
             color: var(--text-white);
@@ -252,7 +248,6 @@
             opacity: 0.9;
         }
 
-        /* CAJA DE FECHA CENTRADA */
         .match-date-box {
             background: linear-gradient(135deg, rgba(23, 37, 84, 0.5), rgba(37, 99, 235, 0.2));
             border: 1px solid rgba(37, 99, 235, 0.4);
@@ -486,7 +481,7 @@
                         break;
                     }
                 } catch (error) {
-                    console.warn(`El enlace de respaldo #${i + 1} falló o consumió su cuota. Intentando con el siguiente...`);
+                    console.warn(`El enlace de respaldo #${i + 1} falló. Intentando con el siguiente...`);
                 }
             }
 
@@ -500,30 +495,14 @@
             container.innerHTML = '';
 
             let matchesFiltrados = allMatchesData.filter(match => {
-                let rawStatus = (match.status || "").toLowerCase().trim();
-                
-                // Si el filtro es 'all', mostramos todos
+                let centerText = (match.centerContent || "VS").trim().toUpperCase();
+                let isFinished = centerText.includes('-') && centerText !== 'VS';
+
                 if (filter === 'all') return true;
+                if (filter === 'finished') return isFinished;
+                if (filter === 'upcoming') return !isFinished;
 
-                // Si piden 'finished', evaluamos variantes comunes en la base de datos
-                if (filter === 'finished') {
-                    return rawStatus.includes('finish') || 
-                           rawStatus.includes('final') || 
-                           rawStatus.includes('terminado') || 
-                           rawStatus.includes('ended') ||
-                           rawStatus === 'finished';
-                }
-
-                // Si piden 'upcoming', evaluamos variantes o si el campo está vacío/es un match por jugar
-                if (filter === 'upcoming') {
-                    return rawStatus === '' || 
-                           rawStatus.includes('upcoming') || 
-                           rawStatus.includes('proximo') || 
-                           rawStatus.includes('próximo') ||
-                           rawStatus.includes('vs');
-                }
-
-                return rawStatus === filter;
+                return true;
             });
 
             if (matchesFiltrados.length === 0) {
@@ -532,17 +511,15 @@
             }
 
             matchesFiltrados.forEach(match => {
-                let rawStatus = (match.status || "").toLowerCase().trim();
-                // Determinamos si está finalizado basándonos en el texto o si el marcador contiene números de resultado
-                let isFinished = rawStatus.includes('finish') || rawStatus.includes('final') || rawStatus.includes('terminado') || rawStatus.includes('ended');
-                
-                let status = isFinished ? 'finished' : 'upcoming';
+                let centerContentText = match.centerContent || "VS";
+                let centerTextUpper = centerContentText.trim().toUpperCase();
+                let isFinished = centerTextUpper.includes('-') && centerTextUpper !== 'VS';
+
                 let tournament = match.tournament || "Dark Unity eSports";
                 let dateTimeText = match.dateTimeText || "Próximamente";
                 let streamUrl = match.streamUrl || "#";
                 let team1Name = match.team1Name || "Equipo 1";
                 let team1Logo = convertirLinkDrive(match.team1Logo);
-                let centerContentText = match.centerContent || "VS";
                 let team2Name = match.team2Name || "Equipo 2";
                 let team2Logo = convertirLinkDrive(match.team2Logo);
                 let serverInfo = match.serverInfo || "Servidor: LATAM";
@@ -550,8 +527,7 @@
                 let streamBtnHtml = `<a href="${streamUrl}" target="_blank" class="match-stream-btn"><i class="fa-solid fa-tv"></i> Ver Transmisión</a>`;
 
                 let centerContentHtml = '';
-                // Si el marcador tiene formato de números (ej: "1 - 2"), lo tratamos como score directamente
-                if (centerContentText.includes('-') || isFinished) {
+                if (isFinished) {
                     centerContentHtml = `<span class="match-score">${centerContentText}</span>`;
                 } else {
                     centerContentHtml = `<span class="match-vs">${centerContentText}</span>`;
@@ -559,7 +535,6 @@
 
                 const card = document.createElement('div');
                 card.className = 'match-card';
-                card.setAttribute('data-status', status);
 
                 card.innerHTML = `
                     <div class="match-header">
