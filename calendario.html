@@ -500,9 +500,30 @@
             container.innerHTML = '';
 
             let matchesFiltrados = allMatchesData.filter(match => {
-                let status = (match.status || "upcoming").toLowerCase().trim();
+                let rawStatus = (match.status || "").toLowerCase().trim();
+                
+                // Si el filtro es 'all', mostramos todos
                 if (filter === 'all') return true;
-                return status === filter;
+
+                // Si piden 'finished', evaluamos variantes comunes en la base de datos
+                if (filter === 'finished') {
+                    return rawStatus.includes('finish') || 
+                           rawStatus.includes('final') || 
+                           rawStatus.includes('terminado') || 
+                           rawStatus.includes('ended') ||
+                           rawStatus === 'finished';
+                }
+
+                // Si piden 'upcoming', evaluamos variantes o si el campo está vacío/es un match por jugar
+                if (filter === 'upcoming') {
+                    return rawStatus === '' || 
+                           rawStatus.includes('upcoming') || 
+                           rawStatus.includes('proximo') || 
+                           rawStatus.includes('próximo') ||
+                           rawStatus.includes('vs');
+                }
+
+                return rawStatus === filter;
             });
 
             if (matchesFiltrados.length === 0) {
@@ -511,7 +532,11 @@
             }
 
             matchesFiltrados.forEach(match => {
-                let status = (match.status || "upcoming").toLowerCase().trim();
+                let rawStatus = (match.status || "").toLowerCase().trim();
+                // Determinamos si está finalizado basándonos en el texto o si el marcador contiene números de resultado
+                let isFinished = rawStatus.includes('finish') || rawStatus.includes('final') || rawStatus.includes('terminado') || rawStatus.includes('ended');
+                
+                let status = isFinished ? 'finished' : 'upcoming';
                 let tournament = match.tournament || "Dark Unity eSports";
                 let dateTimeText = match.dateTimeText || "Próximamente";
                 let streamUrl = match.streamUrl || "#";
@@ -525,10 +550,11 @@
                 let streamBtnHtml = `<a href="${streamUrl}" target="_blank" class="match-stream-btn"><i class="fa-solid fa-tv"></i> Ver Transmisión</a>`;
 
                 let centerContentHtml = '';
-                if (status === 'upcoming') {
-                    centerContentHtml = `<span class="match-vs">${centerContentText}</span>`;
-                } else {
+                // Si el marcador tiene formato de números (ej: "1 - 2"), lo tratamos como score directamente
+                if (centerContentText.includes('-') || isFinished) {
                     centerContentHtml = `<span class="match-score">${centerContentText}</span>`;
+                } else {
+                    centerContentHtml = `<span class="match-vs">${centerContentText}</span>`;
                 }
 
                 const card = document.createElement('div');
