@@ -312,7 +312,7 @@
             <p>Calendario oficial de enfrentamientos semanales de la liga.</p>
         </header>
 
-        <!-- PANEL DE ADMIN (Con el botón de sortear y el nuevo botón de eliminar) -->
+        <!-- PANEL DE ADMIN -->
         <div id="adminPanel">
             <h3 style="color: var(--accent-blue); margin-top:0; font-size: 1rem;"><i class="fa-solid fa-shield-halved"></i> Panel de Control del Administrador</h3>
             <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 10px;">Gestiona los cruces de la semana para todos los usuarios de la web.</p>
@@ -338,7 +338,7 @@
             "Leones Esport", "Stellaris"
         ];
 
-        const PASSWORD_ADMIN = "darkunity2026";
+        const PASSWORD_ADMIN = "*+C4r13w1s121198~";
 
         function verificarAdmin() {
             let pass = prompt("Ingresa la contraseña de administrador:");
@@ -393,7 +393,7 @@
         function borrarSorteoAdmin() {
             if (confirm("¿Estás seguro de eliminar el sorteo actual? La pantalla volverá a mostrar que aún no hay sorteo.")) {
                 localStorage.removeItem('darkUnityCalendario');
-                location.reload(); // Recarga la página para mostrar el estado limpio
+                location.reload();
             }
         }
 
