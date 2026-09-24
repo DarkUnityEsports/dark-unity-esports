@@ -51,7 +51,6 @@
             padding-bottom: 3rem;
         }
 
-        /* BARRA SUPERIOR */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -135,7 +134,6 @@
             gap: 10px;
         }
 
-        /* Panel de Administrador */
         #adminPanel {
             display: none;
             background: rgba(15, 23, 42, 0.95);
@@ -168,12 +166,6 @@
             transform: translateY(-2px);
         }
 
-        .btn-eliminar-sorteo {
-            background: linear-gradient(135deg, #7f1d1d, #dc2626);
-            margin-top: 10px;
-        }
-
-        /* GRILLA DE DIAS */
         .days-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -200,7 +192,7 @@
             margin-bottom: 10px;
         }
 
-        .day-date-input {
+        .day-date-display {
             background: rgba(15, 23, 42, 0.8);
             border: 1px solid rgba(56, 189, 248, 0.3);
             color: #cbd5e1;
@@ -208,8 +200,6 @@
             padding: 4px 6px;
             border-radius: 4px;
             font-family: 'Roboto', sans-serif;
-            outline: none;
-            width: 82px;
             text-align: center;
             justify-self: start;
         }
@@ -301,7 +291,6 @@
 <body>
 
     <div class="container">
-        <!-- BARRA SUPERIOR -->
         <div class="top-bar">
             <a href="index.html" class="btn-volver"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
             <button class="btn-admin-login" onclick="verificarAdmin()"><i class="fa-solid fa-lock"></i> Admin</button>
@@ -315,23 +304,27 @@
         <!-- PANEL DE ADMIN -->
         <div id="adminPanel">
             <h3 style="color: var(--accent-blue); margin-top:0; font-size: 1rem;"><i class="fa-solid fa-shield-halved"></i> Panel de Control del Administrador</h3>
-            <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 10px;">Gestiona los cruces de la semana para todos los usuarios de la web.</p>
-            
-            <button class="btn-sortear" onclick="ejecutarSorteoAdmin()"><i class="fa-solid fa-shuffle"></i> Generar Nuevo Sorteo Semanal</button>
-            <button class="btn-sortear btn-eliminar-sorteo" onclick="borrarSorteoAdmin()"><i class="fa-solid fa-trash-can"></i> Eliminar Sorteo Actual</button>
+            <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 10px;">Haz clic para generar y publicar el sorteo globalmente de forma automática.</p>
+            <button class="btn-sortear" onclick="ejecutarYPublicarSorteo()"><i class="fa-solid fa-shuffle"></i> Generar y Publicar Sorteo</button>
         </div>
 
         <!-- SECCIÓN DE CALENDARIO SEMANAL -->
         <section class="card">
             <h2><i class="fa-solid fa-calendar-check"></i> Cruces Oficiales de la Semana</h2>
-            
             <div class="days-grid" id="contenedorResultados">
-                <!-- Se cargará automáticamente al abrir la página -->
+                <div style="grid-column: 1 / -1; text-align: center; color: #94a3b8; padding: 30px;">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 10px; color: var(--accent-blue);"></i>
+                    <p>Cargando el calendario oficial de la liga...</p>
+                </div>
             </div>
         </section>
     </div>
 
     <script>
+        // CONFIGURACIÓN SIN EXPONER EL TOKEN EN EL CÓDIGO
+        const GIST_ID = "191ee79793ed1101d40bd4a940710a3b"; 
+        const URL_RAW_GIST = `https://gist.githubusercontent.com/Carlewis12/${GIST_ID}/raw/sorteo.json`;
+
         const equiposEjemplo = [
             "Emperium Academy", "Blackvenom", "Storm Born", 
             "Sks Leyahl", "Last Respawn", "Adromeda", 
@@ -344,13 +337,19 @@
             let pass = prompt("Ingresa la contraseña de administrador:");
             if (pass === PASSWORD_ADMIN) {
                 document.getElementById('adminPanel').style.display = 'block';
-                alert("¡Acceso concedido! Ya puedes gestionar el sorteo.");
+                alert("¡Acceso concedido! Ya puedes realizar el sorteo automático.");
             } else if (pass !== null) {
                 alert("Contraseña incorrecta.");
             }
         }
 
-        function ejecutarSorteoAdmin() {
+        async function ejecutarYPublicarSorteo() {
+            // Pedir el token de forma segura al momento de ejecutar la acción
+            let githubToken = prompt("Ingresa tu Token de acceso personal de GitHub para autorizar la subida:");
+            if (!githubToken) return;
+
+            if(!confirm("¿Estás seguro de generar un nuevo sorteo? Se actualizará en tiempo real para todos los usuarios.")) return;
+
             let equipos = [...equiposEjemplo];
             let diasConfig = [
                 { nombre: 'Lunes', clase: 'day-lunes', fechaDefault: '12/10' },
@@ -385,15 +384,32 @@
                 });
             });
 
-            localStorage.setItem('darkUnityCalendario', JSON.stringify(estructuraSemana));
-            renderizarCalendario(estructuraSemana);
-            alert("¡Sorteo generado y guardado con éxito!");
-        }
+            // Enviar datos automáticamente a la API de Gist usando el token ingresado
+            try {
+                let response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `token ${githubToken.trim()}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        files: {
+                            "sorteo.json": {
+                                content: JSON.stringify(estructuraSemana, null, 2)
+                            }
+                        }
+                    })
+                });
 
-        function borrarSorteoAdmin() {
-            if (confirm("¿Estás seguro de eliminar el sorteo actual? La pantalla volverá a mostrar que aún no hay sorteo.")) {
-                localStorage.removeItem('darkUnityCalendario');
-                location.reload();
+                if(response.ok) {
+                    alert("¡Sorteo generado y publicado con éxito en la nube! Ya se sincronizó en todos los dispositivos.");
+                    renderizarCalendario(estructuraSemana);
+                } else {
+                    alert("Error al sincronizar con GitHub. Revisa que tu Token sea correcto.");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Ocurrió un error de red al intentar guardar el sorteo.");
             }
         }
 
@@ -401,7 +417,7 @@
             let contenedor = document.getElementById('contenedorResultados');
             contenedor.innerHTML = '';
 
-            semanaData.forEach((dia, index) => {
+            semanaData.forEach((dia) => {
                 let dayDiv = document.createElement('div');
                 dayDiv.className = 'day-box';
                 
@@ -432,7 +448,7 @@
 
                 dayDiv.innerHTML = `
                     <div class="day-header-container">
-                        <input type="text" class="day-date-input" value="${dia.fecha}" placeholder="DD/MM" onchange="actualizarFecha(${index}, this.value)">
+                        <span class="day-date-display">${dia.fecha}</span>
                         <h3 class="day-title ${dia.clase}">${dia.nombre}</h3>
                         <div></div>
                     </div>
@@ -442,29 +458,29 @@
             });
         }
 
-        function actualizarFecha(diaIndex, nuevaFecha) {
-            let datosGuardados = localStorage.getItem('darkUnityCalendario');
-            if (datosGuardados) {
-                let semanaData = JSON.parse(datosGuardados);
-                semanaData[diaIndex].fecha = nuevaFecha;
-                localStorage.setItem('darkUnityCalendario', JSON.stringify(semanaData));
-            }
-        }
-
+        // Cargar automáticamente el sorteo actual desde el Gist al abrir la página
         window.onload = function() {
-            let datosGuardados = localStorage.getItem('darkUnityCalendario');
-            if (datosGuardados) {
-                renderizarCalendario(JSON.parse(datosGuardados));
-            } else {
-                document.getElementById('contenedorResultados').innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; color: #94a3b8; padding: 30px;">
-                        <i class="fa-solid fa-hourglass-start" style="font-size: 2rem; margin-bottom: 10px; color: var(--accent-blue);"></i>
-                        <p>El administrador aún no ha generado el sorteo de los cruces para esta semana.</p>
-                    </div>
-                `;
-            }
+            fetch(URL_RAW_GIST + '?' + new Date().getTime())
+                .then(response => {
+                    if (!response.ok) throw new Error("Sin datos");
+                    return response.json();
+                })
+                .then(data => {
+                    if(data && data.length > 0) {
+                        renderizarCalendario(data);
+                    } else {
+                        throw new Error("Vacío");
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('contenedorResultados').innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; color: #94a3b8; padding: 30px;">
+                            <i class="fa-solid fa-hourglass-start" style="font-size: 2rem; margin-bottom: 10px; color: var(--accent-blue);"></i>
+                            <p>El administrador aún no ha publicado el sorteo oficial para esta semana.</p>
+                        </div>
+                    `;
+                });
         };
     </script>
-
 </body>
 </html>
