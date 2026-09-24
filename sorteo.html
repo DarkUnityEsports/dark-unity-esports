@@ -1,1 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteo y Agenda - Dark Unity eSports</title>
+    <style>
+        :root {
+            --bg-deep: #0b0f19;
+            --text-white: #f3f4f6;
+            --accent-blue: #38bdf8;
+            --card-bg: rgba(17, 24, 39, 0.7);
+            --card-border: rgba(56, 189, 248, 0.2);
+        }
 
+        body {
+            background-color: var(--bg-deep);
+            background-image: 
+                linear-gradient(rgba(11, 15, 25, 0.50), rgba(11, 15, 25, 0.65)),
+                url('FONDO-MARCADOR.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: var(--text-white);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            color: var(--accent-blue);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        h2 {
+            color: var(--accent-blue);
+            border-bottom: 2px solid var(--accent-blue);
+            padding-bottom: 8px;
+            margin-top: 0;
+        }
+
+        .btn-volver {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--text-white);
+            background-color: rgba(56, 189, 248, 0.1);
+            border: 1px solid var(--accent-blue);
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-volver:hover {
+            background-color: var(--accent-blue);
+            color: var(--bg-deep);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="btn-volver">← Volver al Inicio</a>
+        
+        <header>
+            <h1>Sorteo y Agenda</h1>
+            <p>Consulta el sorteo oficial y visualiza la agenda semanal con los cruces asignados para cada equipo.</p>
+        </header>
+
+        <section class="card">
+            <h2>Cruces Oficiales de la Semana</h2>
+            <p>Aquí puedes integrar las tablas de emparejamientos, los grupos o las llaves del torneo actual de Call of Duty: Mobile.</p>
+        </section>
+
+        <section class="card">
+            <h2>Agenda de Partidas</h2>
+            <p>Horarios, fechas y fases de las próximas scrims y enfrentamientos oficiales.</p>
+        </section>
+    </div>
+
+</body>
+</html>
