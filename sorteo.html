@@ -56,9 +56,18 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .btn-volver {
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-volver, .btn-calendario {
             display: inline-flex;
             align-items: center;
             gap: 8px;
@@ -73,7 +82,7 @@
             font-size: 0.9rem;
         }
 
-        .btn-volver:hover {
+        .btn-volver:hover, .btn-calendario:hover {
             background-color: var(--accent-blue);
             color: var(--bg-deep);
         }
@@ -315,7 +324,11 @@
 
     <div class="container">
         <div class="top-bar">
-            <a href="index.html" class="btn-volver"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
+            <div class="top-bar-left">
+                <a href="index.html" class="btn-volver"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
+                <!-- NUEVO BOTÓN AGREGADO PARA IR DIRECTAMENTE A CALENDARIO.HTML -->
+                <a href="calendario.html" class="btn-calendario"><i class="fa-solid fa-calendar-days"></i> Ver Calendario</a>
+            </div>
             <button class="btn-admin-login" onclick="verificarAdmin()"><i class="fa-solid fa-lock"></i> Admin</button>
         </div>
         
