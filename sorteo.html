@@ -166,6 +166,29 @@
             transform: translateY(-2px);
         }
 
+        .btn-eliminar {
+            background: linear-gradient(135deg, #7f1d1d, #dc2626);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 1px;
+            transition: opacity 0.2s, transform 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            margin-top: 10px;
+        }
+
+        .btn-eliminar:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
         .days-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -304,8 +327,9 @@
         <!-- PANEL DE ADMIN -->
         <div id="adminPanel">
             <h3 style="color: var(--accent-blue); margin-top:0; font-size: 1rem;"><i class="fa-solid fa-shield-halved"></i> Panel de Control del Administrador</h3>
-            <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 10px;">Haz clic para generar y publicar el sorteo globalmente de forma automática.</p>
+            <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 10px;">Haz clic para generar y publicar el sorteo globalmente o eliminarlo si lo requieres.</p>
             <button class="btn-sortear" onclick="ejecutarYPublicarSorteo()"><i class="fa-solid fa-shuffle"></i> Generar y Publicar Sorteo</button>
+            <button class="btn-eliminar" onclick="eliminarSorteo()"><i class="fa-solid fa-trash-can"></i> Eliminar Sorteo Actual</button>
         </div>
 
         <!-- SECCIÓN DE CALENDARIO SEMANAL -->
@@ -337,14 +361,13 @@
             let pass = prompt("Ingresa la contraseña de administrador:");
             if (pass === PASSWORD_ADMIN) {
                 document.getElementById('adminPanel').style.display = 'block';
-                alert("¡Acceso concedido! Ya puedes realizar el sorteo automático.");
+                alert("¡Acceso concedido! Ya puedes realizar o gestionar el sorteo.");
             } else if (pass !== null) {
                 alert("Contraseña incorrecta.");
             }
         }
 
         async function ejecutarYPublicarSorteo() {
-            // Pedir el token de forma segura al momento de ejecutar la acción
             let githubToken = prompt("Ingresa tu Token de acceso personal de GitHub para autorizar la subida:");
             if (!githubToken) return;
 
@@ -384,7 +407,6 @@
                 });
             });
 
-            // Enviar datos automáticamente a la API de Gist usando el token ingresado
             try {
                 let response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
                     method: 'PATCH',
@@ -410,6 +432,40 @@
             } catch (error) {
                 console.error(error);
                 alert("Ocurrió un error de red al intentar guardar el sorteo.");
+            }
+        }
+
+        async function eliminarSorteo() {
+            let githubToken = prompt("Ingresa tu Token de acceso personal de GitHub para autorizar la eliminación:");
+            if (!githubToken) return;
+
+            if(!confirm("¿Estás seguro de ELIMINAR el sorteo actual? Esto dejará la página sin cruces publicados.")) return;
+
+            try {
+                let response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `token ${githubToken.trim()}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        files: {
+                            "sorteo.json": {
+                                content: JSON.stringify([], null, 2)
+                            }
+                        }
+                    })
+                });
+
+                if(response.ok) {
+                    alert("¡Sorteo eliminado con éxito de la nube!");
+                    location.reload();
+                } else {
+                    alert("Error al sincronizar con GitHub. Revisa que tu Token sea correcto.");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Ocurrió un error de red al intentar eliminar el sorteo.");
             }
         }
 
@@ -458,7 +514,6 @@
             });
         }
 
-        // Cargar automáticamente el sorteo actual desde el Gist al abrir la página
         window.onload = function() {
             fetch(URL_RAW_GIST + '?' + new Date().getTime())
                 .then(response => {
