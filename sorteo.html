@@ -136,15 +136,38 @@
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
-        .card h2 {
-            color: var(--accent-blue);
+        .card-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             border-bottom: 2px solid var(--accent-blue-dark);
             padding-bottom: 10px;
-            margin-top: 0;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .card h2 {
+            color: var(--accent-blue);
+            margin: 0;
             font-size: 1.2rem;
             display: flex;
             align-items: center;
             gap: 10px;
+            border: none;
+            padding: 0;
+        }
+
+        .rango-fechas-badge {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
         }
 
         #adminPanel {
@@ -171,7 +194,7 @@
             text-transform: uppercase;
         }
 
-        .admin-textarea {
+        .admin-input, .admin-textarea {
             width: 100%;
             background: rgba(11, 15, 25, 0.9);
             border: 1px solid rgba(56, 189, 248, 0.3);
@@ -180,14 +203,29 @@
             border-radius: 6px;
             font-family: 'Roboto', sans-serif;
             font-size: 0.85rem;
-            resize: vertical;
-            min-height: 60px;
             box-sizing: border-box;
         }
 
-        .admin-textarea:focus {
+        .admin-textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .admin-input:focus, .admin-textarea:focus {
             outline: none;
             border-color: var(--accent-blue);
+        }
+
+        .admin-row-fechas {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .admin-row-fechas {
+                grid-template-columns: 1fr;
+            }
         }
 
         .btn-sortear {
@@ -398,11 +436,22 @@
             <p>Calendario oficial de enfrentamientos semanales por categorías.</p>
         </header>
 
-        <!-- PANEL DE ADMIN CON TRES CATEGORÍAS -->
+        <!-- PANEL DE ADMIN CON FECHAS Y CATEGORÍAS -->
         <div id="adminPanel">
             <h3 style="color: var(--accent-blue); margin-top:0; font-size: 1.1rem;"><i class="fa-solid fa-shield-halved"></i> Panel de Control del Administrador</h3>
-            <p style="font-size: 0.82rem; color: #94a3b8; margin-bottom: 15px;">Configura los equipos de cada categoría separados por comas para esta semana:</p>
+            <p style="font-size: 0.82rem; color: #94a3b8; margin-bottom: 15px;">Establece el rango de fechas de la semana y los equipos de cada categoría:</p>
             
+            <div class="admin-row-fechas">
+                <div class="admin-group">
+                    <label for="inputFechaInicio"><i class="fa-solid fa-calendar-plus"></i> Fecha de Inicio:</label>
+                    <input type="date" id="inputFechaInicio" class="admin-input">
+                </div>
+                <div class="admin-group">
+                    <label for="inputFechaCierre"><i class="fa-solid fa-calendar-check"></i> Fecha de Cierre:</label>
+                    <input type="date" id="inputFechaCierre" class="admin-input">
+                </div>
+            </div>
+
             <div class="admin-group">
                 <label for="inputRookie" style="color: var(--cat-rookie);"><i class="fa-solid fa-shield"></i> Categoría Rookie:</label>
                 <textarea id="inputRookie" class="admin-textarea" placeholder="Equipo 1, Equipo 2, Equipo 3...">Equipo Rookie 1, Equipo Rookie 2, Equipo Rookie 3, Equipo Rookie 4</textarea>
@@ -422,9 +471,12 @@
             <button class="btn-eliminar" onclick="eliminarSorteo()"><i class="fa-solid fa-trash-can"></i> Eliminar Sorteos Actuales</button>
         </div>
 
-        <!-- SECCIÓN DE CALENDARIO SEMANAL POR CATEGORÍAS -->
+        <!-- SECCIÓN DE CALENDARIO SEMANAL CON RANGO DE FECHAS -->
         <section class="card">
-            <h2><i class="fa-solid fa-calendar-check"></i> Cruces Oficiales de la Semana</h2>
+            <div class="card-header-flex">
+                <h2><i class="fa-solid fa-calendar-check"></i> Cruces Oficiales de la Semana</h2>
+                <div id="rangoFechasBadge" class="rango-fechas-badge" style="display: none;">INICIO -- / -- / ---- - CIERRE -- / -- / ----</div>
+            </div>
             <div id="contenedorResultados">
                 <div style="text-align: center; color: #94a3b8; padding: 30px;">
                     <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 10px; color: var(--accent-blue);"></i>
@@ -443,22 +495,34 @@
             let pass = prompt("Ingresa la contraseña de administrador:");
             if (pass === PASSWORD_ADMIN) {
                 document.getElementById('adminPanel').style.display = 'block';
-                alert("¡Acceso concedido! Ya puedes gestionar las categorías y realizar los sorteos.");
+                alert("¡Acceso concedido! Ya puedes gestionar las fechas y categorías.");
             } else if (pass !== null) {
                 alert("Contraseña incorrecta.");
             }
         }
 
-        function generarEstructuraDias(equipos) {
+        // Función para formatear fecha de 'YYYY-MM-DD' a 'DD/MM' o 'DD/MM/YYYY'
+        function formatearFechaLegible(fechaStr, incluirAnio = false) {
+            if (!fechaStr) return '';
+            let partes = fechaStr.split('-');
+            if (partes.length !== 3) return fechaStr;
+            let anio = partes[0];
+            let mes = partes[1];
+            let dia = partes[2];
+            return incluirAnio ? `${dia}/${mes}/${anio}` : `${dia}/${mes}`;
+        }
+
+        function generarEstructuraDias(equipos, fechaInicioStr) {
             let diasConfig = [
-                { nombre: 'Lunes', clase: 'day-lunes', fechaDefault: '12/10' },
-                { nombre: 'Martes', clase: 'day-martes', fechaDefault: '13/10' },
-                { nombre: 'Miércoles', clase: 'day-miercoles', fechaDefault: '14/10' },
-                { nombre: 'Jueves', clase: 'day-jueves', fechaDefault: '15/10' },
-                { nombre: 'Viernes', clase: 'day-viernes', fechaDefault: '16/10' }
+                { nombre: 'Lunes', clase: 'day-lunes', offset: 0 },
+                { nombre: 'Martes', clase: 'day-martes', offset: 1 },
+                { nombre: 'Miércoles', clase: 'day-miercoles', offset: 2 },
+                { nombre: 'Jueves', clase: 'day-jueves', offset: 3 },
+                { nombre: 'Viernes', clase: 'day-viernes', offset: 4 }
             ];
 
             let estructuraSemana = [];
+            let fechaBase = fechaInicioStr ? new Date(fechaInicioStr + 'T00:00:00') : new Date();
 
             diasConfig.forEach((diaObj) => {
                 let eqMezclados = [...equipos];
@@ -474,10 +538,16 @@
 
                 let descanso = eqMezclados.length % 2 !== 0 ? eqMezclados[eqMezclados.length - 1] : null;
 
+                // Calcular fecha sumando el offset en días a la fecha base de inicio
+                let fechaDia = new Date(fechaBase);
+                fechaDia.setDate(fechaBase.getDate() + diaObj.offset);
+                let diaStr = String(fechaDia.getDate()).padStart(2, '0');
+                let mesStr = String(fechaDia.getMonth() + 1).padStart(2, '0');
+
                 estructuraSemana.push({
                     nombre: diaObj.nombre,
                     clase: diaObj.clase,
-                    fecha: diaObj.fechaDefault,
+                    fecha: `${diaStr}/${mesStr}`,
                     matches: matchesDelDia,
                     descansa: descanso
                 });
@@ -487,6 +557,14 @@
         }
 
         async function ejecutarYPublicarSorteo() {
+            let fechaInicio = document.getElementById('inputFechaInicio').value;
+            let fechaCierre = document.getElementById('inputFechaCierre').value;
+
+            if (!fechaInicio || !fechaCierre) {
+                alert("Por favor selecciona tanto la fecha de inicio como la de cierre de la semana.");
+                return;
+            }
+
             let rookieArr = document.getElementById('inputRookie').value.split(',').map(e => e.trim()).filter(e => e.length > 0);
             let beginnerArr = document.getElementById('inputBeginner').value.split(',').map(e => e.trim()).filter(e => e.length > 0);
             let masterArr = document.getElementById('inputMaster').value.split(',').map(e => e.trim()).filter(e => e.length > 0);
@@ -499,13 +577,14 @@
             let githubToken = prompt("Ingresa tu Token de acceso personal de GitHub para autorizar la subida:");
             if (!githubToken) return;
 
-            if(!confirm("¿Estás seguro de generar y publicar los sorteos para todas las categorías? Se actualizará en tiempo real.")) return;
+            if(!confirm("¿Estás seguro de generar y publicar los sorteos con estas fechas? Se actualizará en tiempo real.")) return;
 
-            // Creamos un objeto global que guardará las tres categorías
             let datosGlobales = {
-                rookie: rookieArr.length >= 2 ? generarEstructuraDias(rookieArr) : [],
-                beginner: beginnerArr.length >= 2 ? generarEstructuraDias(beginnerArr) : [],
-                master: masterArr.length >= 2 ? generarEstructuraDias(masterArr) : []
+                fechaInicio: fechaInicio,
+                fechaCierre: fechaCierre,
+                rookie: rookieArr.length >= 2 ? generarEstructuraDias(rookieArr, fechaInicio) : [],
+                beginner: beginnerArr.length >= 2 ? generarEstructuraDias(beginnerArr, fechaInicio) : [],
+                master: masterArr.length >= 2 ? generarEstructuraDias(masterArr, fechaInicio) : []
             };
 
             try {
@@ -525,7 +604,7 @@
                 });
 
                 if(response.ok) {
-                    alert("¡Sorteos de todas las categorías generados y publicados con éxito en la nube!");
+                    alert("¡Sorteos y fechas publicados con éxito en la nube!");
                     renderizarCalendario(datosGlobales);
                 } else {
                     alert("Error al sincronizar con GitHub. Revisa que tu Token sea correcto.");
@@ -540,7 +619,7 @@
             let githubToken = prompt("Ingresa tu Token de acceso personal de GitHub para autorizar la eliminación:");
             if (!githubToken) return;
 
-            if(!confirm("¿Estás seguro de ELIMINAR los sorteos actuales de todas las categorías?")) return;
+            if(!confirm("¿Estás seguro de ELIMINAR los sorteos y fechas actuales?")) return;
 
             try {
                 let response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
@@ -615,7 +694,18 @@
 
         function renderizarCalendario(data) {
             let contenedor = document.getElementById('contenedorResultados');
+            let badgeFechas = document.getElementById('rangoFechasBadge');
             contenedor.innerHTML = '';
+
+            // Mostrar el rango de fechas en el encabezado si existe en el JSON
+            if (data.fechaInicio && data.fechaCierre) {
+                let inicioFmt = formatearFechaLegible(data.fechaInicio, true);
+                let cierreFmt = formatearFechaLegible(data.fechaCierre, true);
+                badgeFechas.innerHTML = `<i class="fa-solid fa-calendar-days"></i> INICIO ${inicioFmt} / CIERRE ${cierreFmt}`;
+                badgeFechas.style.display = 'block';
+            } else {
+                badgeFechas.style.display = 'none';
+            }
 
             let hayContenido = false;
 
@@ -656,6 +746,7 @@
             }
 
             if (!hayContenido) {
+                badgeFechas.style.display = 'none';
                 contenedor.innerHTML = `
                     <div style="text-align: center; color: #94a3b8; padding: 30px;">
                         <i class="fa-solid fa-hourglass-start" style="font-size: 2rem; margin-bottom: 10px; color: var(--accent-blue);"></i>
@@ -673,7 +764,6 @@
                 })
                 .then(data => {
                     if(data && (data.rookie || data.beginner || data.master || Array.isArray(data))) {
-                        // Compatibilidad retroactiva si el json antiguo era un array plano
                         if (Array.isArray(data)) {
                             renderizarCalendario({ master: data });
                         } else {
