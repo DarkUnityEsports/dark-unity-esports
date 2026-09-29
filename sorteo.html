@@ -163,7 +163,7 @@
             border: 1px solid var(--accent-blue);
             color: var(--accent-blue);
             font-family: 'Rajdhani', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 700;
             padding: 4px 12px;
             border-radius: 6px;
@@ -274,22 +274,34 @@
             transform: translateY(-2px);
         }
 
-        /* ESTILOS DE CATEGORÍAS EN LA VISTA PÚBLICA */
         .category-section {
             margin-bottom: 35px;
+            background: rgba(11, 15, 25, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
         }
 
         .category-section:last-child {
             margin-bottom: 0;
         }
 
+        .category-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
         .category-title {
             font-size: 1.3rem;
             font-family: 'Rajdhani', sans-serif;
             font-weight: 700;
-            padding-bottom: 6px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            margin: 0;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -391,6 +403,7 @@
             font-weight: 600;
             color: var(--text-white);
             word-break: break-word;
+            white-space: pre-line;
             line-height: 1.15;
         }
 
@@ -436,7 +449,7 @@
             <p>Calendario oficial de enfrentamientos semanales por categorías.</p>
         </header>
 
-        <!-- PANEL DE ADMIN CON FECHAS Y CATEGORÍAS -->
+        <!-- PANEL DE ADMIN CON FECHAS Y CATEGORÍAS (INTACTO) -->
         <div id="adminPanel">
             <h3 style="color: var(--accent-blue); margin-top:0; font-size: 1.1rem;"><i class="fa-solid fa-shield-halved"></i> Panel de Control del Administrador</h3>
             <p style="font-size: 0.82rem; color: #94a3b8; margin-bottom: 15px;">Establece el rango de fechas de la semana y los equipos de cada categoría:</p>
@@ -471,11 +484,10 @@
             <button class="btn-eliminar" onclick="eliminarSorteo()"><i class="fa-solid fa-trash-can"></i> Eliminar Sorteos Actuales</button>
         </div>
 
-        <!-- SECCIÓN DE CALENDARIO SEMANAL CON RANGO DE FECHAS -->
+        <!-- SECCIÓN DE CALENDARIO SEMANAL -->
         <section class="card">
             <div class="card-header-flex">
                 <h2><i class="fa-solid fa-calendar-check"></i> Cruces Oficiales de la Semana</h2>
-                <div id="rangoFechasBadge" class="rango-fechas-badge" style="display: none;">INICIO -- / -- / ---- - CIERRE -- / -- / ----</div>
             </div>
             <div id="contenedorResultados">
                 <div style="text-align: center; color: #94a3b8; padding: 30px;">
@@ -501,7 +513,6 @@
             }
         }
 
-        // Función para formatear fecha de 'YYYY-MM-DD' a 'DD/MM' o 'DD/MM/YYYY'
         function formatearFechaLegible(fechaStr, incluirAnio = false) {
             if (!fechaStr) return '';
             let partes = fechaStr.split('-');
@@ -538,7 +549,6 @@
 
                 let descanso = eqMezclados.length % 2 !== 0 ? eqMezclados[eqMezclados.length - 1] : null;
 
-                // Calcular fecha sumando el offset en días a la fecha base de inicio
                 let fechaDia = new Date(fechaBase);
                 fechaDia.setDate(fechaBase.getDate() + diaObj.offset);
                 let diaStr = String(fechaDia.getDate()).padStart(2, '0');
@@ -694,59 +704,60 @@
 
         function renderizarCalendario(data) {
             let contenedor = document.getElementById('contenedorResultados');
-            let badgeFechas = document.getElementById('rangoFechasBadge');
             contenedor.innerHTML = '';
 
-            // Mostrar el rango de fechas en el encabezado si existe en el JSON
+            let fechasHtmlStr = '';
             if (data.fechaInicio && data.fechaCierre) {
                 let inicioFmt = formatearFechaLegible(data.fechaInicio, true);
                 let cierreFmt = formatearFechaLegible(data.fechaCierre, true);
-                badgeFechas.innerHTML = `<i class="fa-solid fa-calendar-days"></i> INICIO ${inicioFmt} / CIERRE ${cierreFmt}`;
-                badgeFechas.style.display = 'block';
-            } else {
-                badgeFechas.style.display = 'none';
+                fechasHtmlStr = `<i class="fa-solid fa-calendar-days"></i> INICIO ${inicioFmt} / CIERRE ${cierreFmt}`;
             }
 
             let hayContenido = false;
 
-            // Renderizar Categoría Rookie
             if (data.rookie && data.rookie.length > 0) {
                 hayContenido = true;
                 let sec = document.createElement('div');
                 sec.className = 'category-section';
                 sec.innerHTML = `
-                    <h3 class="category-title cat-title-rookie"><i class="fa-solid fa-award"></i> Categoría Rookie</h3>
+                    <div class="category-header-flex">
+                        <h3 class="category-title cat-title-rookie"><i class="fa-solid fa-award"></i> Categoría Rookie</h3>
+                        ${fechasHtmlStr ? `<div class="rango-fechas-badge">${fechasHtmlStr}</div>` : ''}
+                    </div>
                     ${renderizarDiasHTML(data.rookie)}
                 `;
                 contenedor.appendChild(sec);
             }
 
-            // Renderizar Categoría Beginner
             if (data.beginner && data.beginner.length > 0) {
                 hayContenido = true;
                 let sec = document.createElement('div');
                 sec.className = 'category-section';
                 sec.innerHTML = `
-                    <h3 class="category-title cat-title-beginner"><i class="fa-solid fa-medal"></i> Categoría Beginner</h3>
+                    <div class="category-header-flex">
+                        <h3 class="category-title cat-title-beginner"><i class="fa-solid fa-medal"></i> Categoría Beginner</h3>
+                        ${fechasHtmlStr ? `<div class="rango-fechas-badge">${fechasHtmlStr}</div>` : ''}
+                    </div>
                     ${renderizarDiasHTML(data.beginner)}
                 `;
                 contenedor.appendChild(sec);
             }
 
-            // Renderizar Categoría Master
             if (data.master && data.master.length > 0) {
                 hayContenido = true;
                 let sec = document.createElement('div');
                 sec.className = 'category-section';
                 sec.innerHTML = `
-                    <h3 class="category-title cat-title-master"><i class="fa-solid fa-trophy"></i> Categoría Master</h3>
+                    <div class="category-header-flex">
+                        <h3 class="category-title cat-title-master"><i class="fa-solid fa-trophy"></i> Categoría Master</h3>
+                        ${fechasHtmlStr ? `<div class="rango-fechas-badge">${fechasHtmlStr}</div>` : ''}
+                    </div>
                     ${renderizarDiasHTML(data.master)}
                 `;
                 contenedor.appendChild(sec);
             }
 
             if (!hayContenido) {
-                badgeFechas.style.display = 'none';
                 contenedor.innerHTML = `
                     <div style="text-align: center; color: #94a3b8; padding: 30px;">
                         <i class="fa-solid fa-hourglass-start" style="font-size: 2rem; margin-bottom: 10px; color: var(--accent-blue);"></i>
