@@ -25,7 +25,7 @@
 
             --cat-rookie: #38bdf8;
             --cat-beginner: #facc15;
-            --cat-master: #c084fc;
+            --cat-master: #f97316; /* Anaranjado */
         }
 
         body {
@@ -158,10 +158,9 @@
             padding: 0;
         }
 
+        /* Insignias de fecha específicas por categoría con letras blancas */
         .rango-fechas-badge {
             background: rgba(11, 15, 25, 0.85);
-            border: 1px solid var(--accent-blue);
-            color: var(--accent-blue);
             font-family: 'Rajdhani', sans-serif;
             font-size: 0.85rem;
             font-weight: 700;
@@ -171,7 +170,25 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            color: #ffffff !important;
+        }
+
+        .rango-fechas-badge.badge-rookie {
+            border: 1px solid var(--cat-rookie);
             box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.15), 0 0 10px rgba(56, 189, 248, 0.2);
+            color: #ffffff;
+        }
+
+        .rango-fechas-badge.badge-beginner {
+            border: 1px solid var(--cat-beginner);
+            box-shadow: inset 0 0 10px rgba(250, 204, 21, 0.15), 0 0 10px rgba(250, 204, 21, 0.2);
+            color: #ffffff;
+        }
+
+        .rango-fechas-badge.badge-master {
+            border: 1px solid var(--cat-master);
+            box-shadow: inset 0 0 10px rgba(249, 115, 22, 0.15), 0 0 10px rgba(249, 115, 22, 0.2);
+            color: #ffffff;
         }
 
         #adminPanel {
@@ -453,7 +470,7 @@
             <p>Calendario oficial de enfrentamientos semanales por categorías.</p>
         </header>
 
-        <!-- PANEL DE ADMIN CON FECHAS Y CATEGORÍAS (INTACTO) -->
+        <!-- PANEL DE ADMIN CON FECHAS Y CATEGORÍAS -->
         <div id="adminPanel">
             <h3 style="color: var(--accent-blue); margin-top:0; font-size: 1.1rem;"><i class="fa-solid fa-shield-halved"></i> Panel de Control del Administrador</h3>
             <p style="font-size: 0.82rem; color: #94a3b8; margin-bottom: 15px;">Establece el rango de fechas de la semana y los equipos de cada categoría:</p>
@@ -726,7 +743,7 @@
                 sec.innerHTML = `
                     <div class="category-header-flex">
                         <h3 class="category-title cat-title-rookie"><i class="fa-solid fa-award"></i> Categoría Rookie</h3>
-                        ${fechasHtmlStr ? `<div class="rango-fechas-badge">${fechasHtmlStr}</div>` : ''}
+                        ${fechasHtmlStr ? `<div class="rango-fechas-badge badge-rookie">${fechasHtmlStr}</div>` : ''}
                     </div>
                     ${renderizarDiasHTML(data.rookie)}
                 `;
@@ -740,7 +757,7 @@
                 sec.innerHTML = `
                     <div class="category-header-flex">
                         <h3 class="category-title cat-title-beginner"><i class="fa-solid fa-medal"></i> Categoría Beginner</h3>
-                        ${fechasHtmlStr ? `<div class="rango-fechas-badge">${fechasHtmlStr}</div>` : ''}
+                        ${fechasHtmlStr ? `<div class="rango-fechas-badge badge-beginner">${fechasHtmlStr}</div>` : ''}
                     </div>
                     ${renderizarDiasHTML(data.beginner)}
                 `;
@@ -754,7 +771,7 @@
                 sec.innerHTML = `
                     <div class="category-header-flex">
                         <h3 class="category-title cat-title-master"><i class="fa-solid fa-trophy"></i> Categoría Master</h3>
-                        ${fechasHtmlStr ? `<div class="rango-fechas-badge">${fechasHtmlStr}</div>` : ''}
+                        ${fechasHtmlStr ? `<div class="rango-fechas-badge badge-master">${fechasHtmlStr}</div>` : ''}
                     </div>
                     ${renderizarDiasHTML(data.master)}
                 `;
