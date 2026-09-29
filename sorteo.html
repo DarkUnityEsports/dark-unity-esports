@@ -147,9 +147,43 @@
             display: none;
             background: rgba(15, 23, 42, 0.95);
             border: 1px dashed var(--accent-blue);
-            padding: 15px;
+            padding: 20px;
             border-radius: 8px;
             margin-bottom: 20px;
+        }
+
+        .admin-group {
+            margin-bottom: 15px;
+        }
+
+        .admin-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+            margin-bottom: 6px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .admin-textarea {
+            width: 100%;
+            background: rgba(11, 15, 25, 0.9);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: var(--text-white);
+            padding: 10px;
+            border-radius: 6px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 80px;
+            box-sizing: border-box;
+        }
+
+        .admin-textarea:focus {
+            outline: none;
+            border-color: var(--accent-blue);
         }
 
         .btn-sortear {
@@ -326,7 +360,6 @@
         <div class="top-bar">
             <div class="top-bar-left">
                 <a href="index.html" class="btn-volver"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
-                <!-- NUEVO BOTÓN AGREGADO PARA IR DIRECTAMENTE A CALENDARIO.HTML -->
                 <a href="calendario.html" class="btn-calendario"><i class="fa-solid fa-calendar-days"></i> Ver Calendario</a>
             </div>
             <button class="btn-admin-login" onclick="verificarAdmin()"><i class="fa-solid fa-lock"></i> Admin</button>
@@ -337,10 +370,17 @@
             <p>Calendario oficial de enfrentamientos semanales de la liga.</p>
         </header>
 
-        <!-- PANEL DE ADMIN -->
+        <!-- PANEL DE ADMIN ACTUALIZADO -->
         <div id="adminPanel">
-            <h3 style="color: var(--accent-blue); margin-top:0; font-size: 1rem;"><i class="fa-solid fa-shield-halved"></i> Panel de Control del Administrador</h3>
-            <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 10px;">Haz clic para generar y publicar el sorteo globalmente o eliminarlo si lo requieres.</p>
+            <h3 style="color: var(--accent-blue); margin-top:0; font-size: 1.1rem;"><i class="fa-solid fa-shield-halved"></i> Panel de Control del Administrador</h3>
+            
+            <div class="admin-group">
+                <label for="inputEquipos"><i class="fa-solid fa-users-gear"></i> Equipos participantes de esta semana (separados por comas):</label>
+                <textarea id="inputEquipos" class="admin-textarea" placeholder="Ej: Emperium Academy, Blackvenom, Storm Born, Sks Leyahl, Last Respawn, Adromeda, Leones Esport, Stellaris">Emperium Academy, Blackvenom, Storm Born, Sks Leyahl, Last Respawn, Adromeda, Leones Esport, Stellaris</textarea>
+            </div>
+
+            <p style="font-size: 0.82rem; color: #94a3b8; margin-bottom: 12px;">Modifica los nombres arriba a voluntad según los anotados de la semana y haz clic en generar.</p>
+            
             <button class="btn-sortear" onclick="ejecutarYPublicarSorteo()"><i class="fa-solid fa-shuffle"></i> Generar y Publicar Sorteo</button>
             <button class="btn-eliminar" onclick="eliminarSorteo()"><i class="fa-solid fa-trash-can"></i> Eliminar Sorteo Actual</button>
         </div>
@@ -358,35 +398,34 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN SIN EXPONER EL TOKEN EN EL CÓDIGO
         const GIST_ID = "191ee79793ed1101d40bd4a940710a3b"; 
         const URL_RAW_GIST = `https://gist.githubusercontent.com/Carlewis12/${GIST_ID}/raw/sorteo.json`;
-
-        const equiposEjemplo = [
-            "Emperium Academy", "Blackvenom", "Storm Born", 
-            "Sks Leyahl", "Last Respawn", "Adromeda", 
-            "Leones Esport", "Stellaris"
-        ];
-
         const PASSWORD_ADMIN = "*+C4r13w1s121198~";
 
         function verificarAdmin() {
             let pass = prompt("Ingresa la contraseña de administrador:");
             if (pass === PASSWORD_ADMIN) {
                 document.getElementById('adminPanel').style.display = 'block';
-                alert("¡Acceso concedido! Ya puedes realizar o gestionar el sorteo.");
+                alert("¡Acceso concedido! Ya puedes modificar los equipos y realizar el sorteo.");
             } else if (pass !== null) {
                 alert("Contraseña incorrecta.");
             }
         }
 
         async function ejecutarYPublicarSorteo() {
+            let textoEquipos = document.getElementById('inputEquipos').value;
+            let equipos = textoEquipos.split(',').map(eq => eq.trim()).filter(eq => eq.length > 0);
+
+            if (equipos.length < 2) {
+                alert("Debes ingresar al menos 2 equipos para realizar el sorteo.");
+                return;
+            }
+
             let githubToken = prompt("Ingresa tu Token de acceso personal de GitHub para autorizar la subida:");
             if (!githubToken) return;
 
-            if(!confirm("¿Estás seguro de generar un nuevo sorteo? Se actualizará en tiempo real para todos los usuarios.")) return;
+            if(!confirm(`¿Estás seguro de generar el sorteo con los ${equipos.length} equipos ingresados? Se actualizará en tiempo real.`)) return;
 
-            let equipos = [...equiposEjemplo];
             let diasConfig = [
                 { nombre: 'Lunes', clase: 'day-lunes', fechaDefault: '12/10' },
                 { nombre: 'Martes', clase: 'day-martes', fechaDefault: '13/10' },
@@ -437,7 +476,7 @@
                 });
 
                 if(response.ok) {
-                    alert("¡Sorteo generado y publicado con éxito en la nube! Ya se sincronizó en todos los dispositivos.");
+                    alert("¡Sorteo generado y publicado con éxito en la nube!");
                     renderizarCalendario(estructuraSemana);
                 } else {
                     alert("Error al sincronizar con GitHub. Revisa que tu Token sea correcto.");
@@ -452,7 +491,7 @@
             let githubToken = prompt("Ingresa tu Token de acceso personal de GitHub para autorizar la eliminación:");
             if (!githubToken) return;
 
-            if(!confirm("¿Estás seguro de ELIMINAR el sorteo actual? Esto dejará la página sin cruces publicados.")) return;
+            if(!confirm("¿Estás seguro de ELIMINAR el sorteo actual?")) return;
 
             try {
                 let response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
@@ -471,7 +510,7 @@
                 });
 
                 if(response.ok) {
-                    alert("¡Sorteo eliminado con éxito de la nube!");
+                    alert("¡Sorteo eliminado con éxito!");
                     location.reload();
                 } else {
                     alert("Error al sincronizar con GitHub. Revisa que tu Token sea correcto.");
