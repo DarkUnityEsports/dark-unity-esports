@@ -96,19 +96,32 @@
         .section-subtitle {
             text-align: center;
             color: var(--text-gray-dark);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             font-size: 1rem;
         }
 
-        /* FILTROS CON SCROLL HORIZONTAL EN MÓVIL */
+        /* FILTROS CON SCROLL HORIZONTAL */
+        .filters-wrapper {
+            margin-bottom: 2rem;
+        }
+
+        .filter-label {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-gray-dark);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
         .filter-tabs {
             display: flex;
             justify-content: flex-start;
             gap: 0.8rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             overflow-x: auto;
             white-space: nowrap;
-            padding: 0.5rem 0.2rem;
+            padding: 0.2rem 0.1rem;
             scrollbar-width: none;
         }
 
@@ -120,12 +133,12 @@
             background-color: var(--bg-card);
             border: 1px solid var(--accent-blue-dark);
             color: var(--text-gray-light);
-            padding: 0.5rem 1.2rem;
+            padding: 0.4rem 1rem;
             border-radius: 30px;
             cursor: pointer;
             font-family: 'Rajdhani', sans-serif;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
             transition: all 0.3s ease;
             flex-shrink: 0;
@@ -413,10 +426,6 @@
             .match-score {
                 font-size: 1.3rem;
             }
-            .filter-tabs {
-                justify-content: center;
-                overflow-x: visible;
-            }
         }
     </style>
 </head>
@@ -430,13 +439,25 @@
 
     <div class="calendar-container">
         <h1 class="section-title">Calendario de <span>Matches</span></h1>
-        <p class="section-subtitle">Sigue los enfrentamientos oficiales, horarios y resultados de nuestros torneos.</p>
+        <p class="section-subtitle">Filtra por categoría o estado para encontrar rápidamente los enfrentamientos.</p>
 
-        <!-- Filtros -->
-        <div class="filter-tabs">
-            <button class="filter-btn active" onclick="filtrarMatches('all', this)">Todos</button>
-            <button class="filter-btn" onclick="filtrarMatches('upcoming', this)">Próximos ⏰</button>
-            <button class="filter-btn" onclick="filtrarMatches('finished', this)">Finalizados ✅</button>
+        <!-- Filtros por Categoría (Controlados por la columna 'category' del Sheets) -->
+        <div class="filters-wrapper">
+            <div class="filter-label"><i class="fa-solid fa-layer-group"></i> Categoría:</div>
+            <div class="filter-tabs" id="categoryFilterTabs">
+                <button class="filter-btn active" onclick="filtrarPorCategoria('all', this)">Todas</button>
+                <button class="filter-btn" onclick="filtrarPorCategoria('rookie', this)">Rookie</button>
+                <button class="filter-btn" onclick="filtrarPorCategoria('beginner', this)">Beginner</button>
+                <button class="filter-btn" onclick="filtrarPorCategoria('master', this)">Master</button>
+            </div>
+
+            <!-- Filtros por Estado -->
+            <div class="filter-label" style="margin-top: 1rem;"><i class="fa-solid fa-filter"></i> Estado:</div>
+            <div class="filter-tabs" id="statusFilterTabs">
+                <button class="filter-btn active" onclick="filtrarPorEstado('all', this)">Todos</button>
+                <button class="filter-btn" onclick="filtrarPorEstado('upcoming', this)">Próximos ⏰</button>
+                <button class="filter-btn" onclick="filtrarPorEstado('finished', this)">Finalizados ✅</button>
+            </div>
         </div>
 
         <!-- Lista de Tarjetas -->
@@ -451,6 +472,8 @@
         ];
 
         let allMatchesData = [];
+        let categoriaSeleccionada = 'all';
+        let estadoSeleccionado = 'all';
 
         function convertirLinkDrive(url) {
             if (!url) return "https://via.placeholder.com/52";
@@ -477,7 +500,7 @@
                     if (Array.isArray(data) && data.length > 0) {
                         allMatchesData = data;
                         datosObtenidos = true;
-                        renderMatches('all');
+                        aplicarFiltros();
                         break;
                     }
                 } catch (error) {
@@ -490,23 +513,57 @@
             }
         }
 
-        function renderMatches(filter = 'all') {
+        function filtrarPorCategoria(categoria, btnElement) {
+            const buttons = document.querySelectorAll('#categoryFilterTabs .filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+            categoriaSeleccionada = categoria;
+            aplicarFiltros();
+        }
+
+        function filtrarPorEstado(status, btnElement) {
+            const buttons = document.querySelectorAll('#statusFilterTabs .filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+            estadoSeleccionado = status;
+            aplicarFitalros(); // Nota: corregido abajo en la función real de filtrado
+        }
+
+        // Corrección de la función de llamada de estado
+        function filtrarPorEstado(status, btnElement) {
+            const buttons = document.querySelectorAll('#statusFilterTabs .filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+            estadoSeleccionado = status;
+            aplicarFiltros();
+        }
+
+        function aplicarFiltros() {
             const container = document.getElementById('matchesContainer');
             container.innerHTML = '';
 
             let matchesFiltrados = allMatchesData.filter(match => {
+                // Lee directamente la columna 'category' del Google Sheet (puedes poner "rookie", "beginner", "master", etc.)
+                let matchCategory = (match.category || "").trim().toLowerCase();
                 let centerText = (match.centerContent || "VS").trim().toUpperCase();
                 let isFinished = centerText.includes('-') && centerText !== 'VS';
 
-                if (filter === 'all') return true;
-                if (filter === 'finished') return isFinished;
-                if (filter === 'upcoming') return !isFinished;
+                // Filtro por Categoría exacta de la base de datos
+                let cumpleCategoria = true;
+                if (categoriaSeleccionada !== 'all') {
+                    cumpleCategoria = (matchCategory === categoriaSeleccionada);
+                }
 
-                return true;
+                // Filtro por Estado
+                let cumpleEstado = true;
+                if (estadoSeleccionado === 'finished') cumpleEstado = isFinished;
+                if (estadoSeleccionado === 'upcoming') cumpleEstado = !isFinished;
+
+                return cumpleCategoria && cumpleEstado;
             });
 
             if (matchesFiltrados.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:#64748b;">No hay partidos programados por ahora.</p>';
+                container.innerHTML = '<p style="text-align:center; color:#64748b;">No hay partidos que coincidan con los filtros seleccionados.</p>';
                 return;
             }
 
@@ -526,12 +583,9 @@
 
                 let streamBtnHtml = `<a href="${streamUrl}" target="_blank" class="match-stream-btn"><i class="fa-solid fa-tv"></i> Ver Transmisión</a>`;
 
-                let centerContentHtml = '';
-                if (isFinished) {
-                    centerContentHtml = `<span class="match-score">${centerContentText}</span>`;
-                } else {
-                    centerContentHtml = `<span class="match-vs">${centerContentText}</span>`;
-                }
+                let centerContentHtml = isFinished ? 
+                    `<span class="match-score">${centerContentText}</span>` : 
+                    `<span class="match-vs">${centerContentText}</span>`;
 
                 const card = document.createElement('div');
                 card.className = 'match-card';
@@ -570,13 +624,6 @@
                 `;
                 container.appendChild(card);
             });
-        }
-
-        function filtrarMatches(status, btnElement) {
-            const buttons = document.querySelectorAll('.filter-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            btnElement.classList.add('active');
-            renderMatches(status);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
