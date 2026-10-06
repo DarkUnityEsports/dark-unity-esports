@@ -590,75 +590,81 @@
         }
 
         function generarEstructuraDias(equipos, fechaInicioStr, fechaCierreStr, diasSeleccionados) {
-            const ordenDias = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+    const ordenDias = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+    
+    const mapaDiasJs = {
+        1: 'lunes',
+        2: 'martes',
+        3: 'miercoles',
+        4: 'jueves',
+        5: 'viernes',
+        6: 'sabado',
+        0: 'domingo'
+    };
+
+    const maestroDiasInfo = {
+        'lunes': { nombre: 'Lunes', clase: 'day-lunes' },
+        'martes': { nombre: 'Martes', clase: 'day-martes' },
+        'miercoles': { nombre: 'Miércoles', clase: 'day-miercoles' },
+        'jueves': { nombre: 'Jueves', clase: 'day-jueves' },
+        'viernes': { nombre: 'Viernes', clase: 'day-viernes' },
+        'sabado': { nombre: 'Sábado', clase: 'day-sabado' },
+        'domingo': { nombre: 'Domingo', clase: 'day-domingo' }
+    };
+
+    // Usamos UTC para evitar problemas de desfase horario local
+    let [anoI, mesI, diaI] = fechaInicioStr.split('-').map(Number);
+    let [anoF, mesF, diaF] = fechaCierreStr.split('-').map(Number);
+    
+    let fechaInicio = new Date(Date.UTC(anoI, mesI - 1, diaI));
+    let fechaFin = new Date(Date.UTC(anoF, mesF - 1, diaF));
+    
+    let fechasPorDia = {};
+    let cursor = new Date(fechaInicio);
+
+    while (cursor <= fechaFin) {
+        let jsDayIndex = cursor.getUTCDay();
+        let idDiaStr = mapaDiasJs[jsDayIndex];
+        
+        let diaStr = String(cursor.getUTCDate()).padStart(2, '0');
+        let mesStr = String(cursor.getUTCMonth() + 1).padStart(2, '0');
+        
+        fechasPorDia[idDiaStr] = `${diaStr}/${mesStr}`;
+        
+        cursor.setUTCDate(cursor.getUTCDate() + 1);
+    }
+
+    let estructuraSemana = [];
+
+    ordenDias.forEach(idDia => {
+        if (diasSeleccionados.includes(idDia) && fechasPorDia[idDia]) {
+            let eqMezclados = [...equipos];
             
-            const mapaDiasJs = {
-                1: 'lunes',
-                2: 'martes',
-                3: 'miercoles',
-                4: 'jueves',
-                5: 'viernes',
-                6: 'sabado',
-                0: 'domingo'
-            };
-
-            const maestroDiasInfo = {
-                'lunes': { nombre: 'Lunes', clase: 'day-lunes' },
-                'martes': { nombre: 'Martes', clase: 'day-martes' },
-                'miercoles': { nombre: 'Miércoles', clase: 'day-miercoles' },
-                'jueves': { nombre: 'Jueves', clase: 'day-jueves' },
-                'viernes': { nombre: 'Viernes', clase: 'day-viernes' },
-                'sabado': { nombre: 'Sábado', clase: 'day-sabado' },
-                'domingo': { nombre: 'Domingo', clase: 'day-domingo' }
-            };
-
-            let fechaInicio = new Date(fechaInicioStr + 'T00:00:00');
-            let fechaFin = new Date(fechaCierreStr + 'T00:00:00');
-            
-            let fechasPorDia = {};
-            let cursor = new Date(fechaInicio);
-
-            while (cursor <= fechaFin) {
-                let jsDayIndex = cursor.getDay();
-                let idDiaStr = mapaDiasJs[jsDayIndex];
-                
-                let diaStr = String(cursor.getDate()).padStart(2, '0');
-                let mesStr = String(cursor.getMonth() + 1).padStart(2, '0');
-                
-                fechasPorDia[idDiaStr] = `${diaStr}/${mesStr}`;
-                
-                cursor.setDate(cursor.getDate() + 1);
+            // Corrección del operador de resta en el bucle
+            for (let i = eqMezclados.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [eqMezclados[i], eqMezclados[j]] = [eqMezclados[j], eqMezclados[i]];
             }
 
-            let estructuraSemana = [];
+            let matchesDelDia = [];
+            for (let i = 0; i < eqMezclados.length - 1; i += 2) {
+                matchesDelDia.push({ host: eqMezclados[i], away: eqMezclados[i+1] });
+            }
 
-            ordenDias.forEach(idDia => {
-                if (diasSeleccionados.includes(idDia) && fechasPorDia[idDia]) {
-                    let eqMezclados = [...equipos];
-                    for (let i = eqMezclados.length - 1; i > 0; i--) {
-                        let j = Math.floor(Math.random() * (i + 1));
-                        [eqMezclados[i], eqMezclados[j]] = [eqMezclados[j], eqMezclados[i]];
-                    }
+            let descanso = eqMezclados.length % 2 !== 0 ? eqMezclados[eqMezclados.length - 1] : null;
 
-                    let matchesDelDia = [];
-                    for (let i = 0; i < eqMezclados.length - 1; i += 2) {
-                        matchesDelDia.push({ host: eqMezclados[i], away: eqMezclados[i+1] });
-                    }
-
-                    let descanso = eqMezclados.length % 2 !== 0 ? eqMezclados[eqMezclados.length - 1] : null;
-
-                    estructuraSemana.push({
-                        nombre: maestroDiasInfo[idDia].nombre,
-                        clase: maestroDiasInfo[idDia].clase,
-                        fecha: fechasPorDia[idDia],
-                        matches: matchesDelDia,
-                        descansa: descanso
-                    });
-                }
+            estructuraSemana.push({
+                nombre: maestroDiasInfo[idDia].nombre,
+                clase: maestroDiasInfo[idDia].clase,
+                fecha: fechasPorDia[idDia],
+                matches: matchesDelDia,
+                descansa: descanso
             });
-
-            return estructuraSemana;
         }
+    });
+
+    return estructuraSemana;
+}
 
         async function ejecutarYPublicarSorteo() {
             let fechaInicio = document.getElementById('inputFechaInicio').value;
