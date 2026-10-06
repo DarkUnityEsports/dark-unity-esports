@@ -14,14 +14,18 @@
             --accent-blue-dark: #1e3a8a;
             --card-bg: rgba(17, 24, 39, 0.85);
             --card-border: rgba(56, 189, 248, 0.3);
-            --host-red: #ef4444;
-            --away-blue: #3b82f6;
+            
+            /* Colores de roles actualizados: HOST Azul, AWAY Rojo */
+            --host-blue: #3b82f6;
+            --away-red: #ef4444;
 
             --day-lunes: #38bdf8;
             --day-martes: #facc15;
             --day-miercoles: #fb923c;
             --day-jueves: #c084fc;
             --day-viernes: #ef4444;
+            --day-sabado: #ec4899;
+            --day-domingo: #10b981;
 
             --cat-rookie: #38bdf8;
             --cat-beginner: #facc15;
@@ -154,6 +158,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            border: none;
+            padding: 0;
         }
 
         .rango-fechas-badge {
@@ -170,9 +176,20 @@
             color: #ffffff !important;
         }
 
-        .rango-fechas-badge.badge-rookie { border: 1px solid var(--cat-rookie); box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.15), 0 0 10px rgba(56, 189, 248, 0.2); }
-        .rango-fechas-badge.badge-beginner { border: 1px solid var(--cat-beginner); box-shadow: inset 0 0 10px rgba(250, 204, 21, 0.15), 0 0 10px rgba(250, 204, 21, 0.2); }
-        .rango-fechas-badge.badge-master { border: 1px solid var(--cat-master); box-shadow: inset 0 0 10px rgba(249, 115, 22, 0.15), 0 0 10px rgba(249, 115, 22, 0.2); }
+        .rango-fechas-badge.badge-rookie {
+            border: 1px solid var(--cat-rookie);
+            box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.15), 0 0 10px rgba(56, 189, 248, 0.2);
+        }
+
+        .rango-fechas-badge.badge-beginner {
+            border: 1px solid var(--cat-beginner);
+            box-shadow: inset 0 0 10px rgba(250, 204, 21, 0.15), 0 0 10px rgba(250, 204, 21, 0.2);
+        }
+
+        .rango-fechas-badge.badge-master {
+            border: 1px solid var(--cat-master);
+            box-shadow: inset 0 0 10px rgba(249, 115, 22, 0.15), 0 0 10px rgba(249, 115, 22, 0.2);
+        }
 
         #adminPanel {
             display: none;
@@ -198,7 +215,7 @@
             text-transform: uppercase;
         }
 
-        .admin-input, .admin-textarea, .admin-select {
+        .admin-input, .admin-textarea {
             width: 100%;
             background: rgba(11, 15, 25, 0.9);
             border: 1px solid rgba(56, 189, 248, 0.3);
@@ -215,7 +232,7 @@
             min-height: 60px;
         }
 
-        .admin-input:focus, .admin-textarea:focus, .admin-select:focus {
+        .admin-input:focus, .admin-textarea:focus {
             outline: none;
             border-color: var(--accent-blue);
         }
@@ -226,11 +243,43 @@
             gap: 15px;
         }
 
-        @media (max-width: 600px) {
-            .admin-row-fechas { grid-template-columns: 1fr; }
+        .dias-checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 10px;
+            background: rgba(11, 15, 25, 0.9);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 12px;
+            border-radius: 6px;
         }
 
-        .btn-sortear, .btn-eliminar {
+        .dia-checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            color: #cbd5e1;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .dia-checkbox-label input[type="checkbox"] {
+            accent-color: var(--accent-blue);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            .admin-row-fechas {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .btn-sortear {
+            background: linear-gradient(135deg, #172554, #2563eb);
             color: white;
             border: none;
             padding: 12px 20px;
@@ -247,185 +296,34 @@
             margin-top: 5px;
         }
 
-        .btn-sortear { background: linear-gradient(135deg, #172554, #2563eb); }
-        .btn-eliminar { background: linear-gradient(135deg, #7f1d1d, #dc2626); margin-top: 10px; }
-        .btn-sortear:hover, .btn-eliminar:hover { opacity: 0.9; transform: translateY(-2px); }
-
-        /* ESTILO DE LA RULETA OSCURA */
-        .roulette-section-box {
-            background: #0f1422;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 30px 20px;
-            margin-bottom: 25px;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .roulette-top-border {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, #ef4444 0%, #3b82f6 100%);
-        }
-
-        .roulette-title-main {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            margin-top: 0;
-        }
-        .roulette-title-main span:first-child { color: white; }
-        .roulette-title-main span:last-child { color: #3b82f6; }
-
-        .roulette-subtitle {
-            font-size: 0.85rem;
-            color: #64748b;
-            margin-bottom: 25px;
-        }
-
-        .roulette-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 15px;
-        }
-
-        .wheel-wrapper {
-            position: relative;
-            width: 320px;
-            height: 320px;
-            margin: 0 auto;
-        }
-
-        canvas#wheelCanvas {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
-            background: transparent;
-        }
-
-        .wheel-center-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
-            background: #0f1422;
-            border: 2px solid #3b82f6;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #3b82f6;
-            font-size: 1.2rem;
-            z-index: 5;
-            box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.5), 0 0 10px rgba(0,0,0,0.5);
-        }
-
-        .pointer {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-top: 22px solid #ef4444;
-            z-index: 10;
-            filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.5));
-        }
-
-        .match-draw-boxes {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin: 30px 0;
-            flex-wrap: wrap;
-        }
-
-        .team-draw-box {
-            background: #151b2b;
-            border: 1px dashed rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
-            padding: 15px 20px;
-            width: 180px;
-            text-align: center;
-            position: relative;
-        }
-
-        .team-draw-box.active-glow {
-            border-color: #3b82f6;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
-        }
-
-        .team-draw-role {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 0.75rem;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .team-draw-name {
-            font-size: 1rem;
-            font-weight: 700;
-            color: white;
-            min-height: 20px;
-        }
-
-        .vs-draw-badge {
-            color: #ef4444;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        .btn-draw-action {
-            background: linear-gradient(to right, #1d4ed8, #2563eb);
-            color: white;
-            border: none;
-            padding: 12px 35px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-family: 'Rajdhani', sans-serif;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-draw-action:hover:not(:disabled) {
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+        .btn-sortear:hover {
+            opacity: 0.9;
             transform: translateY(-2px);
         }
 
-        .btn-draw-action:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .btn-eliminar {
+            background: linear-gradient(135deg, #7f1d1d, #dc2626);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 1px;
+            transition: opacity 0.2s, transform 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            margin-top: 10px;
         }
 
-        .equipos-restantes {
-            margin-top: 20px;
-            font-size: 0.8rem;
-            color: #64748b;
+        .btn-eliminar:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
         }
 
-        /* SECCIÓN DEL CALENDARIO */
         .category-section {
             margin-bottom: 35px;
             background: rgba(11, 15, 25, 0.4);
@@ -434,7 +332,9 @@
             padding: 15px;
         }
 
-        .category-section:last-child { margin-bottom: 0; }
+        .category-section:last-child {
+            margin-bottom: 0;
+        }
 
         .category-header-flex {
             display: flex;
@@ -513,6 +413,8 @@
         .day-miercoles { color: var(--day-miercoles); }
         .day-jueves { color: var(--day-jueves); }
         .day-viernes { color: var(--day-viernes); }
+        .day-sabado { color: var(--day-sabado); }
+        .day-domingo { color: var(--day-domingo); }
 
         .match-card {
             background: rgba(17, 24, 39, 0.9);
@@ -526,7 +428,12 @@
             gap: 8px;
         }
 
-        .team-side { display: flex; flex-direction: column; min-width: 0; }
+        .team-side {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
         .team-side.host { text-align: left; }
         .team-side.away { text-align: right; }
 
@@ -540,8 +447,9 @@
             margin-bottom: 3px;
         }
 
-        .role-label.host-lbl { color: var(--host-red); }
-        .role-label.away-lbl { color: var(--away-blue); }
+        /* HOST Azul, AWAY Rojo */
+        .role-label.host-lbl { color: var(--host-blue); }
+        .role-label.away-lbl { color: var(--away-red); }
 
         .team-name {
             font-size: 0.8rem;
@@ -576,27 +484,6 @@
             color: #fde047;
             font-weight: 600;
         }
-
-        .btn-repetir-sorteo {
-            background: rgba(56, 189, 248, 0.15);
-            border: 1px solid var(--accent-blue);
-            color: var(--accent-blue);
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 700;
-            font-size: 0.8rem;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-repetir-sorteo:hover {
-            background: var(--accent-blue);
-            color: var(--bg-deep);
-        }
     </style>
 </head>
 <body>
@@ -617,8 +504,8 @@
 
         <!-- PANEL DE ADMIN -->
         <div id="adminPanel">
-            <h3 style="color: var(--accent-blue); margin-top:0; font-size: 1.1rem;"><i class="fa-solid fa-shield-halved"></i> Panel de Control</h3>
-            <p style="font-size: 0.82rem; color: #94a3b8; margin-bottom: 15px;">Establece las fechas y los equipos por categoría:</p>
+            <h3 style="color: var(--accent-blue); margin-top:0; font-size: 1.1rem;"><i class="fa-solid fa-shield-halved"></i> Panel de Control del Administrador</h3>
+            <p style="font-size: 0.82rem; color: #94a3b8; margin-bottom: 15px;">Selecciona el rango de fechas, marca los días en los que se jugará y configura los equipos:</p>
             
             <div class="admin-row-fechas">
                 <div class="admin-group">
@@ -632,64 +519,35 @@
             </div>
 
             <div class="admin-group">
+                <label><i class="fa-solid fa-calendar-week"></i> Días de Juego Activos:</label>
+                <div class="dias-checkbox-grid">
+                    <label class="dia-checkbox-label" style="color: var(--day-lunes);"><input type="checkbox" id="chk_lunes" checked> Lunes</label>
+                    <label class="dia-checkbox-label" style="color: var(--day-martes);"><input type="checkbox" id="chk_martes" checked> Martes</label>
+                    <label class="dia-checkbox-label" style="color: var(--day-miercoles);"><input type="checkbox" id="chk_miercoles" checked> Miércoles</label>
+                    <label class="dia-checkbox-label" style="color: var(--day-jueves);"><input type="checkbox" id="chk_jueves" checked> Jueves</label>
+                    <label class="dia-checkbox-label" style="color: var(--day-viernes);"><input type="checkbox" id="chk_viernes" checked> Viernes</label>
+                    <label class="dia-checkbox-label" style="color: var(--day-sabado);"><input type="checkbox" id="chk_sabado"> Sábado</label>
+                    <label class="dia-checkbox-label" style="color: var(--day-domingo);"><input type="checkbox" id="chk_domingo"> Domingo</label>
+                </div>
+            </div>
+
+            <div class="admin-group">
                 <label for="inputRookie" style="color: var(--cat-rookie);"><i class="fa-solid fa-shield"></i> Categoría Rookie:</label>
                 <textarea id="inputRookie" class="admin-textarea" placeholder="Equipo 1, Equipo 2, Equipo 3..."></textarea>
             </div>
+
             <div class="admin-group">
                 <label for="inputBeginner" style="color: var(--cat-beginner);"><i class="fa-solid fa-shield"></i> Categoría Beginner:</label>
                 <textarea id="inputBeginner" class="admin-textarea" placeholder="Equipo 1, Equipo 2, Equipo 3..."></textarea>
             </div>
+
             <div class="admin-group">
                 <label for="inputMaster" style="color: var(--cat-master);"><i class="fa-solid fa-shield"></i> Categoría Master:</label>
                 <textarea id="inputMaster" class="admin-textarea" placeholder="Equipo 1, Equipo 2, Equipo 3..."></textarea>
             </div>
             
-            <button class="btn-sortear" onclick="ejecutarSorteoConRuletaEnVivo()"><i class="fa-solid fa-shuffle"></i> Iniciar Sorteo en Vivo con la Ruleta</button>
+            <button class="btn-sortear" onclick="ejecutarYPublicarSorteo()"><i class="fa-solid fa-shuffle"></i> Generar y Publicar Todos los Sorteos</button>
             <button class="btn-eliminar" onclick="eliminarSorteo()"><i class="fa-solid fa-trash-can"></i> Eliminar Sorteos Actuales</button>
-        </div>
-
-        <!-- MÓDULO DE RULETA / REPRODUCTOR DE SORTEOS -->
-        <div class="roulette-section-box" id="seccionRuletaInteractiva">
-            <div class="roulette-top-border"></div>
-            
-            <h3 class="roulette-title-main"><span>SORTEO DE</span> <span>MATCH</span></h3>
-            <p class="roulette-subtitle" id="roulette-subtitle">Visualizador oficial de cruces y repetición por categoría</p>
-
-            <div style="max-width: 250px; margin: 0 auto 20px auto;">
-                <select id="selectorCategoriaRuleta" class="admin-select" onchange="cambiarCategoriaRuletaVisual()" style="background: rgba(0,0,0,0.5); border: 1px solid #1e293b;">
-                    <option value="rookie">Categoría Rookie</option>
-                    <option value="beginner">Categoría Beginner</option>
-                    <option value="master" selected>Categoría Master</option>
-                </select>
-            </div>
-
-            <div class="roulette-container">
-                <div class="wheel-wrapper">
-                    <div class="pointer"></div>
-                    <div class="wheel-center-icon"><i class="fa-solid fa-gamepad"></i></div>
-                    <canvas id="wheelCanvas" width="400" height="400"></canvas>
-                </div>
-                
-                <div class="match-draw-boxes">
-                    <div class="team-draw-box active-glow" id="box-host">
-                        <div class="team-draw-role"><i class="fa-solid fa-server"></i> HOST (EQUIPO 1)</div>
-                        <div class="team-draw-name" id="draw-host-name">Esperando...</div>
-                    </div>
-                    
-                    <div class="vs-draw-badge">VS</div>
-                    
-                    <div class="team-draw-box" id="box-away">
-                        <div class="team-draw-role"><i class="fa-solid fa-plane"></i> AWAY (EQUIPO 2)</div>
-                        <div class="team-draw-name" id="draw-away-name">Esperando...</div>
-                    </div>
-                </div>
-
-                <button class="btn-draw-action" id="btn-draw-action" onclick="manejarGiroMatch()">
-                    <i class="fa-solid fa-play"></i> GIRAR RULETA MANUALMENTE
-                </button>
-                
-                <p class="equipos-restantes" id="txt-restantes">Estado: Listo para sortear</p>
-            </div>
         </div>
 
         <!-- SECCIÓN DE CALENDARIO SEMANAL -->
@@ -711,26 +569,11 @@
         const URL_RAW_GIST = `https://gist.githubusercontent.com/Carlewis12/${GIST_ID}/raw/sorteo.json`;
         const PASSWORD_ADMIN = "*+C4r13w1s121198~";
 
-        let datosCargadosGlobal = null;
-        let esAdminLogueado = false; 
-
-        // Variables de la Ruleta
-        let equiposDisponiblesRuleta = [];
-        let canvas, ctx;
-        let startAngle = 0;
-        let arc = 0;
-        let spinTimeout = null;
-        let spinAngleStart = 0;
-        let spinTime = 0;
-        let spinTimeTotal = 278000; // Exactamente 4 minutos y 38 segundos en milisegundos (278s)
-        let faseSorteo = 'HOST';
-
         function verificarAdmin() {
             let pass = prompt("Ingresa la contraseña de administrador:");
             if (pass === PASSWORD_ADMIN) {
-                esAdminLogueado = true;
                 document.getElementById('adminPanel').style.display = 'block';
-                alert("¡Acceso concedido! Panel de control activado.");
+                alert("¡Acceso concedido! Ya puedes gestionar los días de juego, fechas y categorías.");
             } else if (pass !== null) {
                 alert("Contraseña incorrecta.");
             }
@@ -740,108 +583,188 @@
             if (!fechaStr) return '';
             let partes = fechaStr.split('-');
             if (partes.length !== 3) return fechaStr;
-            let anio = partes[0], mes = partes[1], dia = partes[2];
+            let anio = partes[0];
+            let mes = partes[1];
+            let dia = partes[2];
             return incluirAnio ? `${dia}/${mes}/${anio}` : `${dia}/${mes}`;
         }
 
-        function generarEstructuraDias(equipos, fechaInicioStr) {
-            let diasConfig = [
-                { nombre: 'Lunes', clase: 'day-lunes', offset: 0 },
-                { nombre: 'Martes', clase: 'day-martes', offset: 1 },
-                { nombre: 'Miércoles', clase: 'day-miercoles', offset: 2 },
-                { nombre: 'Jueves', clase: 'day-jueves', offset: 3 },
-                { nombre: 'Viernes', clase: 'day-viernes', offset: 4 }
-            ];
+        function generarEstructuraDias(equipos, fechaInicioStr, fechaCierreStr, diasSeleccionados) {
+            const ordenDias = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+            
+            const mapaDiasJs = {
+                1: 'lunes',
+                2: 'martes',
+                3: 'miercoles',
+                4: 'jueves',
+                5: 'viernes',
+                6: 'sabado',
+                0: 'domingo'
+            };
+
+            const maestroDiasInfo = {
+                'lunes': { nombre: 'Lunes', clase: 'day-lunes' },
+                'martes': { nombre: 'Martes', clase: 'day-martes' },
+                'miercoles': { nombre: 'Miércoles', clase: 'day-miercoles' },
+                'jueves': { nombre: 'Jueves', clase: 'day-jueves' },
+                'viernes': { nombre: 'Viernes', clase: 'day-viernes' },
+                'sabado': { nombre: 'Sábado', clase: 'day-sabado' },
+                'domingo': { nombre: 'Domingo', clase: 'day-domingo' }
+            };
+
+            let fechaInicio = new Date(fechaInicioStr + 'T00:00:00');
+            let fechaFin = new Date(fechaCierreStr + 'T00:00:00');
+            
+            let fechasPorDia = {};
+            let cursor = new Date(fechaInicio);
+
+            while (cursor <= fechaFin) {
+                let jsDayIndex = cursor.getDay();
+                let idDiaStr = mapaDiasJs[jsDayIndex];
+                
+                let diaStr = String(cursor.getDate()).padStart(2, '0');
+                let mesStr = String(cursor.getMonth() + 1).padStart(2, '0');
+                
+                fechasPorDia[idDiaStr] = `${diaStr}/${mesStr}`;
+                
+                cursor.setDate(cursor.getDate() + 1);
+            }
 
             let estructuraSemana = [];
-            let fechaBase = fechaInicioStr ? new Date(fechaInicioStr + 'T00:00:00') : new Date();
 
-            diasConfig.forEach((diaObj) => {
-                let eqMezclados = [...equipos];
-                for (let i = eqMezclados.length - 1; i > 0; i--) {
-                    let j = Math.floor(Math.random() * (i + 1));
-                    [eqMezclados[i], eqMezclados[j]] = [eqMezclados[j], eqMezclados[i]];
+            ordenDias.forEach(idDia => {
+                if (diasSeleccionados.includes(idDia) && fechasPorDia[idDia]) {
+                    let eqMezclados = [...equipos];
+                    for (let i = eqMezclados.length - 1; i > 0; i--) {
+                        let j = Math.floor(Math.random() * (i + 1));
+                        [eqMezclados[i], eqMezclados[j]] = [eqMezclados[j], eqMezclados[i]];
+                    }
+
+                    let matchesDelDia = [];
+                    for (let i = 0; i < eqMezclados.length - 1; i += 2) {
+                        matchesDelDia.push({ host: eqMezclados[i], away: eqMezclados[i+1] });
+                    }
+
+                    let descanso = eqMezclados.length % 2 !== 0 ? eqMezclados[eqMezclados.length - 1] : null;
+
+                    estructuraSemana.push({
+                        nombre: maestroDiasInfo[idDia].nombre,
+                        clase: maestroDiasInfo[idDia].clase,
+                        fecha: fechasPorDia[idDia],
+                        matches: matchesDelDia,
+                        descansa: descanso
+                    });
                 }
-
-                let matchesDelDia = [];
-                for (let i = 0; i < eqMezclados.length - 1; i += 2) {
-                    matchesDelDia.push({ host: eqMezclados[i], away: eqMezclados[i+1] });
-                }
-                let descanso = eqMezclados.length % 2 !== 0 ? eqMezclados[eqMezclados.length - 1] : null;
-                let fechaDia = new Date(fechaBase);
-                fechaDia.setDate(fechaBase.getDate() + diaObj.offset);
-                let diaStr = String(fechaDia.getDate()).padStart(2, '0');
-                let mesStr = String(fechaDia.getMonth() + 1).padStart(2, '0');
-
-                estructuraSemana.push({
-                    nombre: diaObj.nombre, clase: diaObj.clase,
-                    fecha: `${diaStr}/${mesStr}`, matches: matchesDelDia, descansa: descanso
-                });
             });
 
             return estructuraSemana;
         }
 
-        // SORTEO EN VIVO DICTAMINADO POR LA RULETA
-        async function ejecutarSorteoConRuletaEnVivo() {
+        async function ejecutarYPublicarSorteo() {
             let fechaInicio = document.getElementById('inputFechaInicio').value;
             let fechaCierre = document.getElementById('inputFechaCierre').value;
-            if (!fechaInicio || !fechaCierre) { alert("Selecciona las fechas de inicio y cierre."); return; }
+
+            if (!fechaInicio || !fechaCierre) {
+                alert("Por favor selecciona tanto la fecha de inicio como la de cierre de la semana.");
+                return;
+            }
+
+            let diasIds = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+            let diasSeleccionados = [];
+            diasIds.forEach(id => {
+                if (document.getElementById(`chk_${id}`).checked) {
+                    diasSeleccionados.push(id);
+                }
+            });
+
+            if (diasSeleccionados.length === 0) {
+                alert("Debes marcar al menos un día de juego en el panel.");
+                return;
+            }
 
             let rookieArr = document.getElementById('inputRookie').value.split(',').map(e => e.trim()).filter(e => e.length > 0);
             let beginnerArr = document.getElementById('inputBeginner').value.split(',').map(e => e.trim()).filter(e => e.length > 0);
             let masterArr = document.getElementById('inputMaster').value.split(',').map(e => e.trim()).filter(e => e.length > 0);
 
             if (rookieArr.length < 2 && beginnerArr.length < 2 && masterArr.length < 2) {
-                alert("Debes ingresar al menos 2 equipos en alguna categoría."); return;
+                alert("Debes ingresar al menos 2 equipos en alguna de las categorías para sortear.");
+                return;
             }
 
-            let githubToken = prompt("Ingresa tu Token de acceso personal de GitHub:");
+            let githubToken = prompt("Ingresa tu Token de acceso personal de GitHub para autorizar la subida:");
             if (!githubToken) return;
 
-            // Generamos la estructura base con los equipos ingresados
+            if(!confirm("¿Estás seguro de generar y publicar los sorteos con los días seleccionados? Se actualizará en tiempo real.")) return;
+
             let datosGlobales = {
-                fechaInicio: fechaInicio, fechaCierre: fechaCierre,
-                rookie: rookieArr.length >= 2 ? generarEstructuraDias(rookieArr, fechaInicio) : [],
-                beginner: beginnerArr.length >= 2 ? generarEstructuraDias(beginnerArr, fechaInicio) : [],
-                master: masterArr.length >= 2 ? generarEstructuraDias(masterArr, fechaInicio) : []
+                fechaInicio: fechaInicio,
+                fechaCierre: fechaCierre,
+                diasSeleccionados: diasSeleccionados,
+                rookie: rookieArr.length >= 2 ? generarEstructuraDias(rookieArr, fechaInicio, fechaCierre, diasSeleccionados) : [],
+                beginner: beginnerArr.length >= 2 ? generarEstructuraDias(beginnerArr, fechaInicio, fechaCierre, diasSeleccionados) : [],
+                master: masterArr.length >= 2 ? generarEstructuraDias(masterArr, fechaInicio, fechaCierre, diasSeleccionados) : []
             };
 
             try {
                 let response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
                     method: 'PATCH',
-                    headers: { 'Authorization': `token ${githubToken.trim()}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ files: { "sorteo.json": { content: JSON.stringify(datosGlobales, null, 2) } } })
+                    headers: {
+                        'Authorization': `token ${githubToken.trim()}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        files: {
+                            "sorteo.json": {
+                                content: JSON.stringify(datosGlobales, null, 2)
+                            }
+                        }
+                    })
                 });
 
                 if(response.ok) {
-                    alert("¡Sorteo generado con éxito! La ruleta empezará a girar para mostrar el proceso.");
-                    datosCargadosGlobal = datosGlobales;
+                    alert("¡Sorteos, fechas y días de juego publicados con éxito en la nube!");
                     renderizarCalendario(datosGlobales);
-                    cambiarCategoriaRuletaVisual();
-                    // Desplazarse hacia la ruleta para ver el giro en vivo
-                    document.getElementById('seccionRuletaInteractiva').scrollIntoView({ behavior: 'smooth' });
-                    iniciarGiroAnimado();
                 } else {
-                    alert("Error al guardar en GitHub. Revisa tu Token.");
+                    alert("Error al sincronizar con GitHub. Revisa que tu Token sea correcto.");
                 }
-            } catch (error) { alert("Error de red al conectar con GitHub."); }
+            } catch (error) {
+                console.error(error);
+                alert("Ocurrió un error de red al intentar guardar los sorteos.");
+            }
         }
 
         async function eliminarSorteo() {
-            let githubToken = prompt("Ingresa tu Token de GitHub para eliminar los datos actuales:");
+            let githubToken = prompt("Ingresa tu Token de acceso personal de GitHub para autorizar la eliminación:");
             if (!githubToken) return;
+
+            if(!confirm("¿Estás seguro de ELIMINAR los sorteos y fechas actuales?")) return;
+
             try {
                 let response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
                     method: 'PATCH',
-                    headers: { 'Authorization': `token ${githubToken.trim()}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ files: { "sorteo.json": { content: JSON.stringify({ rookie:[], beginner:[], master:[] }, null, 2) } } })
+                    headers: {
+                        'Authorization': `token ${githubToken.trim()}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        files: {
+                            "sorteo.json": {
+                                content: JSON.stringify({}, null, 2)
+                            }
+                        }
+                    })
                 });
+
                 if(response.ok) {
-                    alert("Sorteos eliminados correctamente.");
-                    window.location.reload();
+                    alert("¡Sorteos eliminados con éxito!");
+                    location.reload();
+                } else {
+                    alert("Error al sincronizar con GitHub. Revisa que tu Token sea correcto.");
                 }
-            } catch (e) { alert("Error al eliminar."); }
+            } catch (error) {
+                console.error(error);
+                alert("Ocurrió un error de red al intentar eliminar los sorteos.");
+            }
         }
 
         function renderizarDiasHTML(semanaData) {
@@ -852,17 +775,26 @@
                     matchesHtml += `
                         <div class="match-card">
                             <div class="team-side host">
-                                <span class="role-label host-lbl">HOST</span><span class="team-name">${m.host}</span>
+                                <span class="role-label host-lbl">HOST</span>
+                                <span class="team-name">${m.host}</span>
                             </div>
                             <div class="vs-badge">VS</div>
                             <div class="team-side away">
-                                <span class="role-label away-lbl">AWAY</span><span class="team-name">${m.away}</span>
+                                <span class="role-label away-lbl">AWAY</span>
+                                <span class="team-name">${m.away}</span>
                             </div>
-                        </div>`;
+                        </div>
+                    `;
                 });
+
                 if (dia.descansa) {
-                    matchesHtml += `<div class="bye-card"><i class="fa-solid fa-triangle-exclamation"></i> ${dia.descansa} descansa hoy</div>`;
+                    matchesHtml += `
+                        <div class="bye-card">
+                            <i class="fa-solid fa-triangle-exclamation"></i> ${dia.descansa} descansa hoy
+                        </div>
+                    `;
                 }
+
                 html += `
                     <div class="day-box">
                         <div class="day-header-container">
@@ -871,204 +803,109 @@
                             <div></div>
                         </div>
                         ${matchesHtml}
-                    </div>`;
+                    </div>
+                `;
             });
-            return html + '</div>';
+            html += '</div>';
+            return html;
         }
 
         function renderizarCalendario(data) {
             let contenedor = document.getElementById('contenedorResultados');
             contenedor.innerHTML = '';
+
             let fechasHtmlStr = '';
             if (data.fechaInicio && data.fechaCierre) {
-                fechasHtmlStr = `<i class="fa-solid fa-calendar-days"></i> INICIO ${formatearFechaLegible(data.fechaInicio, true)} / CIERRE ${formatearFechaLegible(data.fechaCierre, true)}`;
+                let inicioFmt = formatearFechaLegible(data.fechaInicio, true);
+                let cierreFmt = formatearFechaLegible(data.fechaCierre, true);
+                fechasHtmlStr = `<i class="fa-solid fa-calendar-days"></i> INICIO ${inicioFmt} / CIERRE ${cierreFmt}`;
             }
 
-            let categorias = ['rookie', 'beginner', 'master'];
-            let iconos = ['fa-award', 'fa-medal', 'fa-trophy'];
             let hayContenido = false;
 
-            categorias.forEach((cat, index) => {
-                if (data[cat] && data[cat].length > 0) {
-                    hayContenido = true;
-                    let sec = document.createElement('div');
-                    sec.className = 'category-section';
-                    sec.innerHTML = `
-                        <div class="category-header-flex">
-                            <h3 class="category-title cat-title-${cat}"><i class="fa-solid ${iconos[index]}"></i> Categoría ${cat.charAt(0).toUpperCase() + cat.slice(1)}</h3>
-                            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                                <button class="btn-repetir-sorteo" onclick="prepararRepeticionSorteo('${cat}')"><i class="fa-solid fa-rotate-right"></i> Ver Repetición Ruleta</button>
-                                ${fechasHtmlStr ? `<div class="rango-fechas-badge badge-${cat}">${fechasHtmlStr}</div>` : ''}
-                            </div>
-                        </div>
-                        ${renderizarDiasHTML(data[cat])}
-                    `;
-                    contenedor.appendChild(sec);
-                }
-            });
+            if (data.rookie && data.rookie.length > 0) {
+                hayContenido = true;
+                let sec = document.createElement('div');
+                sec.className = 'category-section';
+                sec.innerHTML = `
+                    <div class="category-header-flex">
+                        <h3 class="category-title cat-title-rookie"><i class="fa-solid fa-award"></i> Categoría Rookie</h3>
+                        ${fechasHtmlStr ? `<div class="rango-fechas-badge badge-rookie">${fechasHtmlStr}</div>` : ''}
+                    </div>
+                    ${renderizarDiasHTML(data.rookie)}
+                `;
+                contenedor.appendChild(sec);
+            }
+
+            if (data.beginner && data.beginner.length > 0) {
+                hayContenido = true;
+                let sec = document.createElement('div');
+                sec.className = 'category-section';
+                sec.innerHTML = `
+                    <div class="category-header-flex">
+                        <h3 class="category-title cat-title-beginner"><i class="fa-solid fa-medal"></i> Categoría Beginner</h3>
+                        ${fechasHtmlStr ? `<div class="rango-fechas-badge badge-beginner">${fechasHtmlStr}</div>` : ''}
+                    </div>
+                    ${renderizarDiasHTML(data.beginner)}
+                `;
+                contenedor.appendChild(sec);
+            }
+
+            if (data.master && data.master.length > 0) {
+                hayContenido = true;
+                let sec = document.createElement('div');
+                sec.className = 'category-section';
+                sec.innerHTML = `
+                    <div class="category-header-flex">
+                        <h3 class="category-title cat-title-master"><i class="fa-solid fa-trophy"></i> Categoría Master</h3>
+                        ${fechasHtmlStr ? `<div class="rango-fechas-badge badge-master">${fechasHtmlStr}</div>` : ''}
+                    </div>
+                    ${renderizarDiasHTML(data.master)}
+                `;
+                contenedor.appendChild(sec);
+            }
 
             if (!hayContenido) {
-                contenedor.innerHTML = `<div style="text-align: center; color: #94a3b8; padding: 30px;"><p>Sin datos oficiales publicados.</p></div>`;
+                contenedor.innerHTML = `
+                    <div style="text-align: center; color: #94a3b8; padding: 30px;">
+                        <i class="fa-solid fa-hourglass-start" style="font-size: 2rem; margin-bottom: 10px; color: var(--accent-blue);"></i>
+                        <p>El administrador aún no ha publicado los sorteos oficiales para esta semana.</p>
+                    </div>
+                `;
             }
-        }
-
-        function inicializarRuletaCanvas() {
-            canvas = document.getElementById("wheelCanvas");
-            if (!canvas) return;
-            ctx = canvas.getContext("2d");
-            cambiarCategoriaRuletaVisual();
-        }
-
-        function cambiarCategoriaRuletaVisual() {
-            let catSeleccionada = document.getElementById('selectorCategoriaRuleta').value;
-            let equiposTemp = [];
-
-            if (datosCargadosGlobal && datosCargadosGlobal[catSeleccionada] && datosCargadosGlobal[catSeleccionada].length > 0) {
-                let setEq = new Set();
-                datosCargadosGlobal[catSeleccionada].forEach(dia => {
-                    dia.matches.forEach(m => { setEq.add(m.host); setEq.add(m.away); });
-                    if (dia.descansa) setEq.add(dia.descansa);
-                });
-                equiposTemp = Array.from(setEq);
-            }
-
-            if (equiposTemp.length === 0) equiposTemp = ["Alpha Team", "Bravo Sins", "Demons COD", "ShadowsElite", "Dark Unity", "Las Respawn", "Emperium"];
-
-            equiposDisponiblesRuleta = equiposTemp;
-            faseSorteo = 'HOST';
-            document.getElementById('draw-host-name').innerText = 'Esperando...';
-            document.getElementById('draw-away-name').innerText = 'Esperando...';
-            document.getElementById('box-host').classList.add('active-glow');
-            document.getElementById('box-away').classList.remove('active-glow');
-            document.getElementById('roulette-subtitle').innerText = 'Visualizador de cruces y repetición para la categoría';
-
-            actualizarDibujoRuleta();
-        }
-
-        function actualizarDibujoRuleta() {
-            document.getElementById('txt-restantes').innerText = "Equipos en categoría: " + equiposDisponiblesRuleta.length;
-            if(equiposDisponiblesRuleta.length === 0) return;
-            arc = Math.PI / (equiposDisponiblesRuleta.length / 2);
-            dibujarRuleta();
-        }
-
-        function dibujarRuleta() {
-            if (!canvas || !ctx) return;
-            let outsideRadius = 185;
-            let textRadius = 120;
-            
-            ctx.clearRect(0, 0, 400, 400);
-
-            ctx.beginPath();
-            ctx.arc(200, 200, outsideRadius + 2, 0, 2 * Math.PI, false);
-            ctx.strokeStyle = "#3b82f6";
-            ctx.lineWidth = 4;
-            ctx.stroke();
-
-            let color1 = "#1a1f2e";
-            let color2 = "#1e3a8a";
-
-            for (let i = 0; i < equiposDisponiblesRuleta.length; i++) {
-                let angle = startAngle + i * arc;
-                ctx.fillStyle = (i % 2 === 0) ? color1 : color2;
-
-                ctx.beginPath();
-                ctx.moveTo(200, 200);
-                ctx.arc(200, 200, outsideRadius, angle, angle + arc, false);
-                ctx.fill();
-
-                ctx.strokeStyle = "rgba(255,255,255,0.05)";
-                ctx.lineWidth = 1;
-                ctx.stroke();
-
-                ctx.save();
-                ctx.fillStyle = "white";
-                ctx.font = "600 13px 'Rajdhani', sans-serif";
-                ctx.translate(200 + Math.cos(angle + arc / 2) * textRadius, 200 + Math.sin(angle + arc / 2) * textRadius);
-                ctx.rotate(angle + arc / 2 + Math.PI / 2);
-                let text = equiposDisponiblesRuleta[i];
-                ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
-                ctx.restore();
-            }
-        }
-
-        function manejarGiroMatch() {
-            if(equiposDisponiblesRuleta.length === 0) {
-                alert("No quedan equipos.");
-                return;
-            }
-            iniciarGiroAnimado();
-        }
-
-        // DURACIÓN EXACTA DE 4 MINUTOS Y 38 SEGUNDOS (278,000 ms)
-        function iniciarGiroAnimado() {
-            document.getElementById("btn-draw-action").disabled = true;
-            spinAngleStart = Math.random() * 10 + 20; 
-            spinTime = 0;
-            spinTimeTotal = 278000; // 4 minutos y 38 segundos exactos
-            girarProcesoRuleta();
-        }
-
-        function girarProcesoRuleta() {
-            spinTime += 30;
-            if (spinTime >= spinTimeTotal) {
-                detenerRuletaYAsignar();
-                return;
-            }
-            let spinAngle = spinAngleStart - easeOutRuleta(spinTime, 0, spinAngleStart, spinTimeTotal);
-            startAngle += (spinAngle * Math.PI / 180);
-            dibujarRuleta();
-            spinTimeout = setTimeout(girarProcesoRuleta, 30);
-        }
-
-        function easeOutRuleta(t, b, c, d) {
-            let ts = (t /= d) * t;
-            let tc = ts * t;
-            return b + c * (tc + -3 * ts + 3 * t);
-        }
-
-        function detenerRuletaYAsignar() {
-            document.getElementById("btn-draw-action").disabled = false;
-            let degrees = startAngle * 180 / Math.PI + 90;
-            let arcd = arc * 180 / Math.PI;
-            let index = Math.floor((360 - degrees % 360) / arcd);
-            
-            index = index % equiposDisponiblesRuleta.length;
-            if (index < 0) index += equiposDisponiblesRuleta.length;
-            
-            let equipoSeleccionado = equiposDisponiblesRuleta[index];
-
-            if (faseSorteo === 'HOST') {
-                document.getElementById('draw-host-name').innerText = equipoSeleccionado;
-                faseSorteo = 'AWAY';
-                document.getElementById('box-host').classList.remove('active-glow');
-                document.getElementById('box-away').classList.add('active-glow');
-            } else {
-                document.getElementById('draw-away-name').innerText = equipoSeleccionado;
-                faseSorteo = 'HOST';
-                document.getElementById('box-away').classList.remove('active-glow');
-                document.getElementById('box-host').classList.add('active-glow');
-            }
-        }
-
-        // SOLUCIÓN PARA EL BOTÓN "VER REPETICIÓN"
-        function prepararRepeticionSorteo(cat) {
-            document.getElementById('selectorCategoriaRuleta').value = cat;
-            cambiarCategoriaRuletaVisual();
-            // Desplazamiento suave y preciso hacia la sección de la ruleta para ver la repetición
-            document.getElementById('seccionRuletaInteractiva').scrollIntoView({ behavior: 'smooth' });
         }
 
         window.onload = function() {
-            inicializarRuletaCanvas();
             fetch(URL_RAW_GIST + '?' + new Date().getTime())
-                .then(r => { if (!r.ok) throw new Error(); return r.json(); })
-                .then(data => {
-                    datosCargadosGlobal = Array.isArray(data) ? { master: data } : data;
-                    renderizarCalendario(datosCargadosGlobal);
-                    cambiarCategoriaRuletaVisual();
+                .then(response => {
+                    if (!response.ok) throw new Error("Sin datos");
+                    return response.json();
                 })
-                .catch(() => { /* Modo local */ });
+                .then(data => {
+                    if(data && (data.rookie || data.beginner || data.master || Array.isArray(data))) {
+                        if (Array.isArray(data)) {
+                            renderizarCalendario({ master: data });
+                        } else {
+                            renderizarCalendario(data);
+                            if (data.diasSeleccionados && Array.isArray(data.diasSeleccionados)) {
+                                ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'].forEach(id => {
+                                    let chk = document.getElementById(`chk_${id}`);
+                                    if (chk) chk.checked = data.diasSeleccionados.includes(id);
+                                });
+                            }
+                        }
+                    } else {
+                        throw new Error("Vacío");
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('contenedorResultados').innerHTML = `
+                        <div style="text-align: center; color: #94a3b8; padding: 30px;">
+                            <i class="fa-solid fa-hourglass-start" style="font-size: 2rem; margin-bottom: 10px; color: var(--accent-blue);"></i>
+                            <p>El administrador aún no ha publicado los sorteos oficiales para esta semana.</p>
+                        </div>
+                    `;
+                });
         };
     </script>
 </body>
