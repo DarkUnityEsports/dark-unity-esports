@@ -4,98 +4,228 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dark Unity Esports - Sobre Nosotros</title>
+    <!-- Fuentes de Google Fonts (Rajdhani para títulos y Lora + Playfair para estilo revista) -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Rajdhani:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body {
-            background-color: #0b0f19;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --bg-deep: #0a0c10;
+            --bg-card: #121620;
+            --accent-blue-dark: #172554;
+            --accent-blue-light: #2563eb;
+            --text-white: #ffffff;
+            --text-gray-light: #cbd5e1;
+            --text-gray-dark: #64748b;
+        }
+
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-white);
+            font-family: 'Roboto', sans-serif;
+            padding: 2rem 1rem;
+            line-height: 1.7;
+        }
+
         .container {
-            max-width: 900px;
-            margin: 40px auto;
-            background: #111827;
-            border: 1px solid #1f2937;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            max-width: 850px;
+            margin: 2rem auto;
+            background: var(--bg-card);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            border-radius: 16px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+            background-image: 
+                linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
+                linear-gradient(to bottom, var(--bg-card), var(--bg-card));
         }
+
+        .main-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(37, 99, 235, 0.3);
+            padding-bottom: 1.5rem;
+        }
+
         h1 {
-            color: #00d2ff;
-            text-align: center;
-            margin-bottom: 10px;
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-white);
+            font-size: 2.5rem;
+            margin-bottom: 0.3rem;
+            text-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
         }
+
+        h1 span {
+            color: var(--accent-blue-light);
+        }
+
         .subtitle {
-            text-align: center;
-            color: #9ca3af;
-            font-size: 1.1rem;
-            margin-bottom: 30px;
+            color: var(--text-gray-dark);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
         }
+
         .bio-section {
-            margin-bottom: 25px;
+            margin-bottom: 2.2rem;
+            text-align: center; /* Centra la estructura general de la sección */
         }
+
         .bio-section h2 {
-            color: #38bdf8;
-            font-size: 1.3rem;
-            border-bottom: 2px solid #1f2937;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-blue-light);
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            display: inline-block;
+            position: relative;
         }
-        .bio-section p, .bio-section li {
-            color: #d1d5db;
+
+        /* Pequeño detalle de línea elegante bajo los títulos centrados */
+        .bio-section h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -4px;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent-blue-light);
+            border-radius: 2px;
+        }
+
+        .bio-section p {
+            font-family: 'Lora', serif; /* Fuente estilo revista literaria/editorial */
+            color: var(--text-gray-light);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            text-align: justify; /* Justificado elegante tipo revista */
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        /* Listado de proyectos con estilo editorial */
+        .bio-section ul {
+            list-style: none;
+            max-width: 750px;
+            margin: 0 auto;
+            text-align: left;
+            padding: 0;
+        }
+
+        .bio-section li {
+            font-family: 'Lora', serif;
+            color: var(--text-gray-light);
+            font-size: 1.02rem;
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
             line-height: 1.6;
         }
-        ul {
-            padding-left: 20px;
+
+        .bio-section li::before {
+            content: '▪';
+            position: absolute;
+            left: 0;
+            color: var(--accent-blue-light);
+            font-size: 1.2rem;
         }
+
+        .bio-section li strong {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            color: var(--text-white);
+            text-transform: uppercase;
+        }
+
+        .footer-action {
+            text-align: center;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(37, 99, 235, 0.3);
+            padding-top: 1.5rem;
+        }
+
         .btn-back {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #00d2ff;
-            color: #0b0f19;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.7rem 1.6rem;
+            background: linear-gradient(135deg, var(--accent-blue-dark), var(--accent-blue-light));
+            color: var(--text-white);
             text-decoration: none;
-            font-weight: bold;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             border-radius: 6px;
-            transition: background 0.3s;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            transition: all 0.3s ease;
         }
+
         .btn-back:hover {
-            background-color: #38bdf8;
+            opacity: 0.95;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1.2rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>DARK UNITY ESPORTS</h1>
-        <div class="subtitle">Organización competitiva de Call of Duty: Mobile</div>
-
-        <div class="bio-section">
-            <h2>Nuestra Fundación</h2>
-            <p>Dark Unity Esports nació en <strong>octubre de 2025</strong> como una organización competitiva enfocada en Call of Duty: Mobile, concebida para reunir a jugadores apasionados, potenciar el talento de la región y estructurar un entorno competitivo serio y profesional.</p>
+        <div class="main-header">
+            <h1>DARK UNITY <span>ESPORTS</span></h1>
+            <div class="subtitle">Organización Competitiva de Call of Duty: Mobile</div>
         </div>
 
         <div class="bio-section">
-            <h2>A Qué Nos Dedicamos</h2>
-            <p>Nos especializamos en la gestión de rosters competitivos, la organización de torneos oficiales, scrims de alto nivel y ligas activas. Brindamos un espacio estructurado donde los equipos y jugadores pueden demostrar su nivel y crecer dentro de la escena de esports.</p>
+            <h2>Biografía</h2>
+            <p>Dark Unity Esports fue creada en agosto de 2024 por Carlewis Cortez como una comunidad pequeña cuyo enfoque principal era realizar scrims entre equipos siguiendo el reglamento oficial de los CHAMPS. Con el paso del tiempo, la organización fue creciendo, manteniéndose constante en la escena competitiva, captando nuevos equipos y consolidándose para mantener la comunidad activa de forma permanente.</p>
         </div>
 
         <div class="bio-section">
-            <h2>Nuestra Visión</h2>
-            <p>Consolidarnos como una de las comunidades y organizaciones de referencia en Latinoamérica para Call of Duty: Mobile, destacando por nuestro juego limpio (fair play), la transparencia en nuestras normativas internas y el impulso constante al talento competitivo.</p>
+            <h2>Misión</h2>
+            <p>Mantener una comunidad activa encargada de efectuar un ranking competitivo semanal, donde equipos de distintas categorías participen y demuestren su nivel de juego. Fomentamos la constancia para que los nuevos equipos adquieran experiencia, se desarrollen como rosters competitivos y se motiven a dar el siguiente salto hacia ligas o torneos de mayor categoría.</p>
         </div>
 
         <div class="bio-section">
-            <h2>Nuestros Proyectos</h2>
+            <h2>Visión</h2>
+            <p>Formar jugadores y equipos de alto nivel, brindando una experiencia completa dentro del marco competitivo de Call of Duty: Mobile. Buscamos crecer como una organización responsable y justa, garantizando seguridad, transparencia y equidad absoluta en cada etapa, desde los equipos principiantes hasta los más experimentados.</p>
+        </div>
+
+        <div class="bio-section">
+            <h2>Proyectos</h2>
             <ul>
-                <li><strong>Ligas y Torneos:</strong> Desarrollo de competiciones propias, destacando nuestra exitosa <em>Dark Unity Primera Edición</em>.</li>
-                <li><strong>Academias:</strong> Expansión y gestión de rosters oficiales como <em>Emperium Academy Dark</em>.</li>
-                <li><strong>Herramientas Tecnológicas:</strong> Innovación constante con sistemas propios, como nuestro bot de registro automatizado <em>Keiko-sam Unity</em> en Discord.</li>
+                <li><strong>Ranking Semanal:</strong> Seguimiento y actualización constante de la tabla de posiciones competitiva.</li>
+                <li><strong>Torneos por Eliminación:</strong> Emocionantes copas y fases eliminatorias para medir el verdadero nivel de los rosters.</li>
+                <li><strong>Comunidad Autónoma:</strong> Estructura propia para la organización logística en actividades, eventos y gestión de la escena competitiva.</li>
             </ul>
         </div>
 
-        <a href="index.html" class="btn-back">← Volver al Inicio</a>
+        <div class="footer-action">
+            <a href="index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
+        </div>
     </div>
 
 </body>
