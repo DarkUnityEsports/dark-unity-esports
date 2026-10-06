@@ -590,57 +590,57 @@
         }
 
         function generarEstructuraDias(equipos, fechaInicioStr, fechaCierreStr, diasSeleccionados) {
-    const ordenDias = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
-    
-    const mapaDiasJs = {
-        1: 'lunes',
-        2: 'martes',
-        3: 'miercoles',
-        4: 'jueves',
-        5: 'viernes',
-        6: 'sabado',
-        0: 'domingo'
-    };
-
     const maestroDiasInfo = {
-        'lunes': { nombre: 'Lunes', clase: 'day-lunes' },
-        'martes': { nombre: 'Martes', clase: 'day-martes' },
-        'miercoles': { nombre: 'Miércoles', clase: 'day-miercoles' },
-        'jueves': { nombre: 'Jueves', clase: 'day-jueves' },
-        'viernes': { nombre: 'Viernes', clase: 'day-viernes' },
-        'sabado': { nombre: 'Sábado', clase: 'day-sabado' },
-        'domingo': { nombre: 'Domingo', clase: 'day-domingo' }
+        'lunes': { nombre: 'Lunes', clase: 'day-lunes', jsDay: 1 },
+        'martes': { nombre: 'Martes', clase: 'day-martes', jsDay: 2 },
+        'miercoles': { nombre: 'Miércoles', clase: 'day-miercoles', jsDay: 3 },
+        'jueves': { nombre: 'Jueves', clase: 'day-jueves', jsDay: 4 },
+        'viernes': { nombre: 'Viernes', clase: 'day-viernes', jsDay: 5 },
+        'sabado': { nombre: 'Sábado', clase: 'day-sabado', jsDay: 6 },
+        'domingo': { nombre: 'Domingo', clase: 'day-domingo', jsDay: 0 }
     };
 
-    // Usamos UTC para evitar problemas de desfase horario local
-    let [anoI, mesI, diaI] = fechaInicioStr.split('-').map(Number);
-    let [anoF, mesF, diaF] = fechaCierreStr.split('-').map(Number);
-    
-    let fechaInicio = new Date(Date.UTC(anoI, mesI - 1, diaI));
-    let fechaFin = new Date(Date.UTC(anoF, mesF - 1, diaF));
-    
-    let fechasPorDia = {};
-    let cursor = new Date(fechaInicio);
-
-    while (cursor <= fechaFin) {
-        let jsDayIndex = cursor.getUTCDay();
-        let idDiaStr = mapaDiasJs[jsDayIndex];
-        
-        let diaStr = String(cursor.getUTCDate()).padStart(2, '0');
-        let mesStr = String(cursor.getUTCMonth() + 1).padStart(2, '0');
-        
-        fechasPorDia[idDiaStr] = `${diaStr}/${mesStr}`;
-        
-        cursor.setUTCDate(cursor.getUTCDate() + 1);
+    // Asegurarnos de limpiar y parsear bien las fechas sin errores de zona horaria
+    // Soporta tanto formato YYYY-MM-DD como DD/MM/YYYY por seguridad
+    function parsearFechaLocal(str) {
+        if (!str) return new Date();
+        if (str.includes('/')) {
+            const partes = str.split('/');
+            if (partes.length === 3) {
+                // Asume DD/MM/YYYY
+                return new Date(partes[2], partes[1] - 1, partes[0]);
+            }
+        }
+        const partes = str.split('-');
+        if (partes.length === 3) {
+            // Asume YYYY-MM-DD
+            return new Date(partes[0], partes[1] - 1, partes[2]);
+        }
+        return new Date(str);
     }
 
+    let fechaInicio = parsearFechaLocal(fechaInicioStr);
+    let fechaFin = parsearFechaLocal(fechaCierreStr);
+    
     let estructuraSemana = [];
+    let cursor = new Date(fechaInicio);
 
-    ordenDias.forEach(idDia => {
-        if (diasSeleccionados.includes(idDia) && fechasPorDia[idDia]) {
+    // Recorremos día por día desde la fecha de inicio hasta la fecha de cierre del rango
+    while (cursor <= fechaFin) {
+        let jsDayIndex = cursor.getDay();
+        let idDiaEncontrado = Object.keys(maestroDiasInfo).find(
+            key => maestroDiasInfo[key].jsDay === jsDayIndex
+        );
+
+        // Si el día actual del cursor está dentro de los días que el admin seleccionó en los checkboxes
+        if (idDiaEncontrado && diasSeleccionados.includes(idDiaEncontrado)) {
+            let diaStr = String(cursor.getDate()).padStart(2, '0');
+            let mesStr = String(cursor.getMonth() + 1).padStart(2, '0');
+            let fechaFormateada = `${diaStr}/${mesStr}`;
+
             let eqMezclados = [...equipos];
             
-            // Corrección del operador de resta en el bucle
+            // Mezcla aleatoria de equipos (Fisher-Yates)
             for (let i = eqMezclados.length - 1; i > 0; i--) {
                 let j = Math.floor(Math.random() * (i + 1));
                 [eqMezclados[i], eqMezclados[j]] = [eqMezclados[j], eqMezclados[i]];
@@ -654,14 +654,17 @@
             let descanso = eqMezclados.length % 2 !== 0 ? eqMezclados[eqMezclados.length - 1] : null;
 
             estructuraSemana.push({
-                nombre: maestroDiasInfo[idDia].nombre,
-                clase: maestroDiasInfo[idDia].clase,
-                fecha: fechasPorDia[idDia],
+                nombre: maestroDiasInfo[idDiaEncontrado].nombre,
+                clase: maestroDiasInfo[idDiaEncontrado].clase,
+                fecha: fechaFormateada,
                 matches: matchesDelDia,
                 descansa: descanso
             });
         }
-    });
+
+        // Avanzar al siguiente día del calendario de manera segura
+        cursor.setDate(cursor.getDate() + 1);
+    }
 
     return estructuraSemana;
 }
