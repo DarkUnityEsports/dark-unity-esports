@@ -47,10 +47,25 @@
         }
 
         .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
             text-align: center;
             margin-bottom: 2.5rem;
             border-bottom: 1px solid rgba(37, 99, 235, 0.3);
             padding-bottom: 1.5rem;
+        }
+
+        .logo-brand {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .header-text {
+            flex-grow: 1;
         }
 
         h1 {
@@ -188,6 +203,14 @@
             h1 {
                 font-size: 2rem;
             }
+            .main-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .logo-brand {
+                width: 60px;
+                height: 60px;
+            }
         }
     </style>
 </head>
@@ -195,8 +218,12 @@
 
     <div class="container">
         <div class="main-header">
-            <h1>DARK UNITY <span>ESPORTS</span></h1>
-            <div class="subtitle">Organización Competitiva de Call of Duty: Mobile</div>
+            <img src="LOGODARK.png" alt="Logo Dark Unity" class="logo-brand">
+            <div class="header-text">
+                <h1>DARK UNITY <span>ESPORTS</span></h1>
+                <div class="subtitle">Organización Competitiva de Call of Duty: Mobile</div>
+            </div>
+            <img src="NETX_NETWORK.png" alt="Logo Next Network" class="logo-brand">
         </div>
 
         <div class="bio-section">
