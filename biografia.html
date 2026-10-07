@@ -51,7 +51,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
+            gap: 15px;
             text-align: center;
             margin-bottom: 2.5rem;
             border-bottom: 1px solid rgba(37, 99, 235, 0.3);
@@ -59,8 +59,8 @@
         }
 
         .logo-brand {
-            width: 75px;
-            height: 75px;
+            width: 110px; /* Logos más grandes en PC */
+            height: 110px;
             object-fit: contain;
             border-radius: 50%;
             flex-shrink: 0;
@@ -76,7 +76,7 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             color: var(--text-white);
-            font-size: 2.2rem;
+            font-size: 2.1rem;
             margin-bottom: 0.2rem;
             text-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
             white-space: nowrap; /* Mantiene el título principal en una línea limpia */
@@ -88,7 +88,7 @@
 
         .subtitle {
             color: var(--text-gray-dark);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             font-family: 'Rajdhani', sans-serif;
@@ -198,21 +198,21 @@
             box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
         }
 
-        /* Ajustes específicos para móviles muy pequeños para que mantenga la línea sin salirse */
+        /* Ajustes específicos para móviles para mantener proporciones grandes pero sin salirse de la línea */
         @media (max-width: 550px) {
             .container {
                 padding: 1.5rem 1rem;
             }
+            .logo-brand {
+                width: 72px; /* Logos visiblemente más grandes en móviles que los 50px anteriores */
+                height: 72px;
+            }
             h1 {
-                font-size: 1.4rem;
+                font-size: 1.25rem;
                 letter-spacing: 1px;
             }
             .subtitle {
-                font-size: 0.7rem;
-            }
-            .logo-brand {
-                width: 50px;
-                height: 50px;
+                font-size: 0.65rem;
             }
         }
     </style>
@@ -220,7 +220,7 @@
 <body>
 
     <div class="container">
-        <!-- Encabezado con los logos exactamente a los lados y el título en línea limpia -->
+        <!-- Encabezado con los logos aumentados exactamente a los lados y el título en línea limpia -->
         <div class="main-header">
             <img src="LOGODARK.png" alt="Logo Dark Unity" class="logo-brand">
             <div class="header-text">
