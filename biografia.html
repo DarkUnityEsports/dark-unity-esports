@@ -46,27 +46,29 @@
                 linear-gradient(to bottom, var(--bg-card), var(--bg-card));
         }
 
+        /* Encabezado en una sola línea estricta usando flexbox */
         .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
             text-align: center;
             margin-bottom: 2.5rem;
             border-bottom: 1px solid rgba(37, 99, 235, 0.3);
             padding-bottom: 1.5rem;
         }
 
-        /* Contenedor de los logos para que se adapten perfectamente en cualquier pantalla */
-        .logos-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.2rem;
-            padding: 0 1rem;
-        }
-
         .logo-brand {
-            width: 85px;
-            height: 85px;
+            width: 75px;
+            height: 75px;
             object-fit: contain;
             border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .header-text {
+            flex-grow: 1;
+            min-width: 0; /* Evita que el texto desborde el contenedor flexible */
         }
 
         h1 {
@@ -74,9 +76,10 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             color: var(--text-white);
-            font-size: 2.5rem;
-            margin-bottom: 0.3rem;
+            font-size: 2.2rem;
+            margin-bottom: 0.2rem;
             text-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+            white-space: nowrap; /* Mantiene el título principal en una línea limpia */
         }
 
         h1 span {
@@ -85,9 +88,9 @@
 
         .subtitle {
             color: var(--text-gray-dark);
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             font-family: 'Rajdhani', sans-serif;
             font-weight: 700;
         }
@@ -195,19 +198,21 @@
             box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
         }
 
-        @media (max-width: 768px) {
+        /* Ajustes específicos para móviles muy pequeños para que mantenga la línea sin salirse */
+        @media (max-width: 550px) {
             .container {
-                padding: 2rem 1.2rem;
+                padding: 1.5rem 1rem;
             }
             h1 {
-                font-size: 1.8rem;
+                font-size: 1.4rem;
+                letter-spacing: 1px;
+            }
+            .subtitle {
+                font-size: 0.7rem;
             }
             .logo-brand {
-                width: 70px;
-                height: 70px;
-            }
-            .logos-container {
-                padding: 0;
+                width: 50px;
+                height: 50px;
             }
         }
     </style>
@@ -215,14 +220,14 @@
 <body>
 
     <div class="container">
+        <!-- Encabezado con los logos exactamente a los lados y el título en línea limpia -->
         <div class="main-header">
-            <!-- Logos ubicados a los extremos de manera flexible que se adaptan a celulares y zoom -->
-            <div class="logos-container">
-                <img src="LOGODARK.png" alt="Logo Dark Unity" class="logo-brand">
-                <img src="NEXT_NETWORK.png" alt="Logo Next Network" class="logo-brand">
+            <img src="LOGODARK.png" alt="Logo Dark Unity" class="logo-brand">
+            <div class="header-text">
+                <h1>DARK UNITY <span>ESPORTS</span></h1>
+                <div class="subtitle">Organización Competitiva de Call of Duty: Mobile</div>
             </div>
-            <h1>DARK UNITY <span>ESPORTS</span></h1>
-            <div class="subtitle">Organización Competitiva de Call of Duty: Mobile</div>
+            <img src="NEXT_NETWORK.png" alt="Logo Next Network" class="logo-brand">
         </div>
 
         <div class="bio-section">
