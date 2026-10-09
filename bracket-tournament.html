@@ -10,7 +10,7 @@
     <link rel="manifest" href="site.webmanifest">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-    <!-- Librería para tomar la captura de pantalla en HD -->
+    <!-- Librería para la captura de pantalla en HD -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
@@ -138,7 +138,6 @@
             flex-direction: column;
         }
 
-        /* Estilo de las etiquetas intermedias (GRUPO / TOP) */
         .section-label {
             font-size: 0.75rem;
             color: var(--accent-blue-light);
@@ -154,7 +153,6 @@
             color: #f1c40f;
         }
 
-        /* Estilo de los Rectángulos de Equipos */
         .team-box {
             background: var(--card-bg);
             border: 1px solid var(--accent-blue-dark);
@@ -280,7 +278,6 @@
             color: var(--bg-deep);
         }
 
-        /* Colores distintivos opcionales para Discord y WhatsApp */
         .btn-discord { background: #5865F2; }
         .btn-discord:hover { background: #4752C4; color: #fff; }
 
@@ -290,7 +287,6 @@
         .btn-download { background: #f1c40f; color: #000; }
         .btn-download:hover { background: #d4ac0d; color: #000; }
 
-        /* --- RESPONSIVE MEJORADO PARA MÓVILES --- */
         @media (max-width: 768px) {
             .header-title {
                 gap: 10px;
@@ -328,7 +324,7 @@
         </div>
 
         <!-- Envoltorio de Scroll Horizontal -->
-        <div class="bracket-scroll-wrapper">
+        <div class="bracket-scroll-wrapper" id="bracket-scroll-box">
             <div class="bracket-grid">
                
                 <!-- COLUMNA 1: Cuartos de Final -->
@@ -450,14 +446,13 @@
         <!-- Botones inferiores de navegación y descarga HD -->
         <div class="actions-footer">
             <a href="index.html" class="action-btn"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
-            <!-- Reemplaza los enlaces # con las URLs reales de tu comunidad -->
             <a href="https://discord.gg/TU_ENLACE_DISCORD" target="_blank" class="action-btn btn-discord"><i class="fa-brands fa-discord"></i> Discord</a>
             <a href="https://whatsapp.com/TU_ENLACE_WHATSAPP" target="_blank" class="action-btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
             <button onclick="descargarBracketHD()" class="action-btn btn-download"><i class="fa-solid fa-camera"></i> Descargar HD</button>
         </div>
     </div>
 
-    <!-- Script para conectar con Google Sheets y la funcionalidad de captura HD -->
+    <!-- Script para conectar con Google Sheets y la funcionalidad de captura HD avanzada -->
     <script>
         const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzTngcH64tXxtowwQ7cdqU9S66iMREuF_sXAbq2IGIWZY8UML5lEZP1BkxcS2o4U8pZkw/exec';
 
@@ -492,24 +487,46 @@
             }
         }
 
-        // Función para tomar la captura de pantalla en HD del bracket
+        // Función mejorada para forzar el fondo completo y ancho total en la captura HD
         function descargarBracketHD() {
             const elemento = document.getElementById('bracket-capture-area');
+            const scrollBox = document.getElementById('bracket-scroll-box');
             
-            // Opciones para asegurar alta resolución (HD)
+            // Guardamos el ancho previo para restaurarlo al terminar
+            const originalWidth = scrollBox.style.width;
+            const originalOverflow = scrollBox.style.overflowX;
+
+            // Expandimos el contenedor interno para que incluya las 4 columnas enteras sin scroll en la foto
+            scrollBox.style.width = 'max-content';
+            scrollBox.style.overflowX = 'visible';
+
             const opciones = {
-                scale: 2, // Multiplica la resolución por 2 para nitidez HD
-                useCORS: true, // Permite cargar imágenes externas (como los logos de Drive)
-                backgroundColor: '#0b0f19' // Fondo oscuro de tu página
+                scale: 2, // Nitidez HD
+                useCORS: true,
+                backgroundColor: '#0b0f19', // Asegura el color de fondo base oscuro
+                onclone: function(clonedDoc) {
+                    // Forzamos la imagen de fondo en el clon de forma explícita para que html2canvas no la ignore
+                    let clonedBody = clonedDoc.body;
+                    clonedBody.style.backgroundColor = '#0b0f19';
+                    clonedBody.style.backgroundImage = "linear-gradient(rgba(11, 15, 25, 0.56), rgba(11, 15, 25, 0.65)), url('FONDO-BRACKET.jpg')";
+                    clonedBody.style.backgroundSize = 'cover';
+                    clonedBody.style.backgroundPosition = 'center';
+                }
             };
 
             html2canvas(elemento, opciones).then(canvas => {
+                // Restauramos los estilos originales en la pantalla del usuario
+                scrollBox.style.width = originalWidth;
+                scrollBox.style.overflowX = originalOverflow;
+
                 let enlace = document.createElement('a');
                 enlace.download = 'DarkUnity-Playoffs-Bracket.png';
                 enlace.href = canvas.toDataURL('image/png');
                 enlace.click();
             }).catch(error => {
                 console.error('Error al generar la captura:', error);
+                scrollBox.style.width = originalWidth;
+                scrollBox.style.overflowX = originalOverflow;
                 alert('Hubo un error al generar la captura en HD.');
             });
         }
