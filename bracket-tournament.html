@@ -10,8 +10,6 @@
     <link rel="manifest" href="site.webmanifest">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-    <!-- Librería para la captura de pantalla en HD -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --bg-deep: #0b0f19;
@@ -313,13 +311,13 @@
         <!-- Encabezado optimizado -->
         <div class="header-wrapper">
             <div class="header-title">
-                <img src="LOGODARK.png" alt="Logo Dark Unity" class="logo-brand">
+                <img src="LOGODARK.png" alt="Logo Dark Unity" class="logo-brand" id="img_brand_left">
                 <div class="header-text-center">
                     <span class="subtitle">Dark Unity eSports Tournament</span>
                     <h1>PLAYOFFS BRACKET 8 - EQUIPOS</h1>
                     <p style="color: var(--text-gray); font-size: 0.75rem; margin: 0;">SINGLE ELIMINATION | BEST OF 5</p>
                 </div>
-                <img src="NEXT_NETWORK.png" alt="Logo Next Network" class="logo-brand">
+                <img src="NEXT_NETWORK.png" alt="Logo Next Network" class="logo-brand" id="img_brand_right">
             </div>
         </div>
 
@@ -340,23 +338,23 @@
                     <div class="column-content">
                         <div class="section-label">GRUPO A</div>
                         <div class="matchup-pair">
-                            <div class="team-box"><div class="team-inner winner"><div class="team-info-group"><img id="logo_team_1" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_1">CARGANDO...</span></div><span class="score" id="score_team_1">0</span></div></div>
-                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_team_2" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_2">CARGANDO...</span></div><span class="score" id="score_team_2">0</span></div></div>
+                            <div class="team-box"><div class="team-inner winner"><div class="team-info-group"><img id="logo_team_1" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" crossorigin="anonymous"><span id="name_team_1">CARGANDO...</span></div><span class="score" id="score_team_1">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_team_2" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" crossorigin="anonymous"><span id="name_team_2">CARGANDO...</span></div><span class="score" id="score_team_2">0</span></div></div>
                         </div>
                         <div class="matchup-pair qf-split">
-                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_team_3" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_3">CARGANDO...</span></div><span class="score" id="score_team_3">0</span></div></div>
-                            <div class="team-box"><div class="team-inner winner"><div class="team-info-group"><img id="logo_team_4" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_4">CARGANDO...</span></div><span class="score" id="score_team_4">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_team_3" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" crossorigin="anonymous"><span id="name_team_3">CARGANDO...</span></div><span class="score" id="score_team_3">0</span></div></div>
+                            <div class="team-box"><div class="team-inner winner"><div class="team-info-group"><img id="logo_team_4" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" crossorigin="anonymous"><span id="name_team_4">CARGANDO...</span></div><span class="score" id="score_team_4">0</span></div></div>
                         </div>
 
                         <div class="section-label">GRUPO B</div>
                         <div class="matchup-pair">
-                            <div class="team-box"><div class="team-inner winner"><div class="team-info-group"><img id="logo_team_5" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_5">CARGANDO...</span></div><span class="score" id="score_team_5">0</span></div></div>
-                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_team_6" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_6">CARGANDO...</span></div><span class="score" id="score_team_6">0</span></div></div>
+                            <div class="team-box"><div class="team-inner winner"><div class="team-info-group"><img id="logo_team_5" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" crossorigin="anonymous"><span id="name_team_5">CARGANDO...</span></div><span class="score" id="score_team_5">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_team_6" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" crossorigin="anonymous"><span id="name_team_6">CARGANDO...</span></div><span class="score" id="score_team_6">0</span></div></div>
                         </div>
 
                         <div class="matchup-pair">
-                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_team_7" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_7">CARGANDO...</span></div><span class="score" id="score_team_7">0</span></div></div>
-                            <div class="team-box"><div class="team-inner winner"><div class="team-info-group"><img id="logo_team_8" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_8">CARGANDO...</span></div><span class="score" id="score_team_8">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_team_7" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" crossorigin="anonymous"><span id="name_team_7">CARGANDO...</span></div><span class="score" id="score_team_7">0</span></div></div>
+                            <div class="team-box"><div class="team-inner winner"><div class="team-info-group"><img id="logo_team_8" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" crossorigin="anonymous"><span id="name_team_8">CARGANDO...</span></div><span class="score" id="score_team_8">0</span></div></div>
                         </div>
                     </div>
                 </div>
@@ -374,14 +372,14 @@
                     <div class="column-content semi-container">
                         <div class="section-label">GRUPO A</div>
                         <div class="matchup-pair">
-                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_semi_1" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_semi_1">CARGANDO...</span></div><span class="score" id="score_semi_1">0</span></div></div>
-                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_semi_2" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_semi_2">CARGANDO</span></div><span class="score" id="score_semi_2">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_semi_1" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" crossorigin="anonymous"><span id="name_semi_1">CARGANDO...</span></div><span class="score" id="score_semi_1">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_semi_2" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" crossorigin="anonymous"><span id="name_semi_2">CARGANDO</span></div><span class="score" id="score_semi_2">0</span></div></div>
                         </div>
                        
                         <div class="section-label">GRUPO B</div>
                         <div class="matchup-pair">
-                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_semi_3" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_semi_3">CARGANDO...</span></div><span class="score" id="score_semi_3">0</span></div></div>
-                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_semi_4" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_semi_4">CARGANDO...</span></div><span class="score" id="score_semi_4">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_semi_3" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" crossorigin="anonymous"><span id="name_semi_3">CARGANDO...</span></div><span class="score" id="score_semi_3">0</span></div></div>
+                            <div class="team-box"><div class="team-inner"><div class="team-info-group"><img id="logo_semi_4" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" crossorigin="anonymous"><span id="name_semi_4">CARGANDO...</span></div><span class="score" id="score_semi_4">0</span></div></div>
                         </div>
                     </div>
                 </div>
@@ -401,7 +399,7 @@
                         <div class="matchup-pair">
                             <div class="team-box" style="border-color: #f1c40f;">
                                 <div class="team-inner" style="background: rgba(241,196,15,0.05);">
-                                    <div class="team-info-group"><img id="logo_final_1" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_final_1">CARGANDO...</span></div><span class="score" id="score_final_1" style="background: #f1c40f; color: #000;">0</span>
+                                    <div class="team-info-group"><img id="logo_final_1" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" crossorigin="anonymous"><span id="name_final_1">CARGANDO...</span></div><span class="score" id="score_final_1" style="background: #f1c40f; color: #000;">0</span>
                                 </div>
                             </div>
                         </div>
@@ -410,7 +408,7 @@
                         <div class="matchup-pair">
                             <div class="team-box" style="border-color: #f1c40f;">
                                 <div class="team-inner" style="background: rgba(241,196,15,0.05);">
-                                    <div class="team-info-group"><img id="logo_final_2" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_final_2">CARGANDO...</span></div><span class="score" id="score_final_2" style="background: #f1c40f; color: #000;">0</span>
+                                    <div class="team-info-group"><img id="logo_final_2" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" crossorigin="anonymous"><span id="name_final_2">CARGANDO...</span></div><span class="score" id="score_final_2" style="background: #f1c40f; color: #000;">0</span>
                                 </div>
                             </div>
                         </div>
@@ -432,7 +430,7 @@
                         <div class="matchup-pair">
                             <div class="team-box" style="border-color: #38bdf8;">
                                 <div class="team-inner" style="background: rgba(56, 189, 248, 0.05);">
-                                    <div class="team-info-group"><img id="logo_team_winner" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" onerror="this.src='https://via.placeholder.com/28'"><span id="name_team_winner" style="font-weight: bold;">CARGANDO...</span></div>
+                                    <div class="team-info-group"><img id="logo_team_winner" src="https://via.placeholder.com/28" alt="Logo" class="team-logo" crossorigin="anonymous"><span id="name_team_winner" style="font-weight: bold;">CARGANDO...</span></div>
                                     <span class="score" id="score_team_winner" style="background: #38bdf8; color: #000;">🏆</span>
                                 </div>
                             </div>
@@ -452,9 +450,12 @@
         </div>
     </div>
 
-    <!-- Script para conectar con Google Sheets y la funcionalidad de captura HD avanzada -->
+    <!-- Script de sincronización y captura nativa HD -->
     <script>
         const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzTngcH64tXxtowwQ7cdqU9S66iMREuF_sXAbq2IGIWZY8UML5lEZP1BkxcS2o4U8pZkw/exec';
+
+        // Almacén global para guardar las imágenes precargadas (evita problemas de CORS)
+        const cacheImagenes = {};
 
         function convertirLinkDrive(url) {
             if (!url) return "https://via.placeholder.com/28";
@@ -463,6 +464,15 @@
                 return `https://lh3.googleusercontent.com/d/${match[1]}`;
             }
             return url;
+        }
+
+        // Precarga imágenes con CORS habilitado para que el canvas pueda dibujarlas
+        function precargarImagen(url) {
+            if (!url || cacheImagenes[url]) return;
+            let img = new Image();
+            img.crossOrigin = "anonymous";
+            img.src = url;
+            cacheImagenes[url] = img;
         }
 
         async function cargarDatosBracket() {
@@ -479,7 +489,9 @@
                     if (nameSpan) nameSpan.textContent = data[key].name;
                     if (scoreSpan) scoreSpan.textContent = data[key].score;
                     if (logoImg && data[key].logo) {
-                        logoImg.src = convertirLinkDrive(data[key].logo);
+                        let urlOptimizada = convertirLinkDrive(data[key].logo);
+                        logoImg.src = urlOptimizada;
+                        precargarImagen(urlOptimizada);
                     }
                 }
             } catch (error) {
@@ -487,52 +499,245 @@
             }
         }
 
-        // Función mejorada para forzar el fondo completo y ancho total en la captura HD
-        function descargarBracketHD() {
-            const elemento = document.getElementById('bracket-capture-area');
-            const scrollBox = document.getElementById('bracket-scroll-box');
-            
-            // Guardamos el ancho previo para restaurarlo al terminar
-            const originalWidth = scrollBox.style.width;
-            const originalOverflow = scrollBox.style.overflowX;
-
-            // Expandimos el contenedor interno para que incluya las 4 columnas enteras sin scroll en la foto
-            scrollBox.style.width = 'max-content';
-            scrollBox.style.overflowX = 'visible';
-
-            const opciones = {
-                scale: 2, // Nitidez HD
-                useCORS: true,
-                backgroundColor: '#0b0f19', // Asegura el color de fondo base oscuro
-                onclone: function(clonedDoc) {
-                    // Forzamos la imagen de fondo en el clon de forma explícita para que html2canvas no la ignore
-                    let clonedBody = clonedDoc.body;
-                    clonedBody.style.backgroundColor = '#0b0f19';
-                    clonedBody.style.backgroundImage = "linear-gradient(rgba(11, 15, 25, 0.56), rgba(11, 15, 25, 0.65)), url('FONDO-BRACKET.jpg')";
-                    clonedBody.style.backgroundSize = 'cover';
-                    clonedBody.style.backgroundPosition = 'center';
-                }
-            };
-
-            html2canvas(elemento, opciones).then(canvas => {
-                // Restauramos los estilos originales en la pantalla del usuario
-                scrollBox.style.width = originalWidth;
-                scrollBox.style.overflowX = originalOverflow;
-
-                let enlace = document.createElement('a');
-                enlace.download = 'DarkUnity-Playoffs-Bracket.png';
-                enlace.href = canvas.toDataURL('image/png');
-                enlace.click();
-            }).catch(error => {
-                console.error('Error al generar la captura:', error);
-                scrollBox.style.width = originalWidth;
-                scrollBox.style.overflowX = originalOverflow;
-                alert('Hubo un error al generar la captura en HD.');
-            });
-        }
+        // Precargamos los logos principales de la marca
+        precargarImagen('LOGODARK.png');
+        precargarImagen('NEXT_NETWORK.png');
+        precargarImagen('FONDO-BRACKET.jpg');
 
         cargarDatosBracket();
         setInterval(cargarDatosBracket, 30000);
+
+        // --- GENERADOR NATIVO DE CAPTURA HD EN CANVAS ---
+        function descargarBracketHD() {
+            // Creamos un lienzo invisible en alta resolución (1920x1080 Full HD)
+            const canvas = document.createElement('canvas');
+            canvas.width = 1920;
+            canvas.height = 1080;
+            const ctx = canvas.getContext('2d');
+
+            // 1. Dibujar el fondo y el degradado oscuro
+            let bgImg = cacheImagenes['FONDO-BRACKET.jpg'];
+            if (bgImg && bgImg.complete) {
+                ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+            } else {
+                ctx.fillStyle = '#0b0f19';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            // Capa de opacidad oscura encima del fondo (como el CSS)
+            ctx.fillStyle = 'rgba(11, 15, 25, 0.75)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 2. Dibujar Encabezado (Logos y Títulos)
+            let logoLeft = cacheImagenes['LOGODARK.png'];
+            if (logoLeft && logoLeft.complete) {
+                ctx.drawImage(logoLeft, 150, 60, 110, 110);
+            }
+
+            let logoRight = cacheImagenes['NEXT_NETWORK.png'];
+            if (logoRight && logoRight.complete) {
+                ctx.drawImage(logoRight, 1660, 60, 110, 110);
+            }
+
+            // Textos del encabezado
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#a0aec0';
+            ctx.font = 'bold 20px "Segoe UI", sans-serif';
+            ctx.fillText('DARK UNITY ESPORTS TOURNAMENT', canvas.width / 2, 75);
+
+            ctx.fillStyle = '#38bdf8';
+            ctx.font = 'bold 38px "Rajdhani", sans-serif';
+            ctx.fillText('PLAYOFFS BRACKET 8 - EQUIPOS', canvas.width / 2, 120);
+
+            ctx.fillStyle = '#a0aec0';
+            ctx.font = '16px "Segoe UI", sans-serif';
+            ctx.fillText('SINGLE ELIMINATION | BEST OF 5', canvas.width / 2, 148);
+
+            // Línea separadora del encabezado
+            ctx.strokeStyle = 'rgba(37, 99, 235, 0.4)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(200, 190);
+            ctx.lineTo(1720, 190);
+            ctx.stroke();
+
+            // 3. Función auxiliar para dibujar tarjetas de equipos en el canvas
+            function dibujarTarjetaEquipo(x, y, ancho, alto, nombreEquipo, puntaje, urlLogo, esGanador, esDorado) {
+                // Fondo de la tarjeta
+                ctx.fillStyle = '#121620';
+                ctx.strokeStyle = esDorado ? '#f1c40f' : '#1e3a8a';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.roundRect(x, y, ancho, alto, 4);
+                ctx.fill();
+                ctx.stroke();
+
+                // Caja interna
+                ctx.fillStyle = esGanador ? 'rgba(56, 189, 248, 0.08)' : (esDorado ? 'rgba(241, 196, 15, 0.05)' : '#090d14');
+                ctx.beginPath();
+                ctx.roundRect(x + 3, y + 3, ancho - 6, alto - 6, 2);
+                ctx.fill();
+
+                if (esGanador) {
+                    ctx.strokeStyle = '#38bdf8';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(x + 3, y + 3);
+                    ctx.lineTo(x + 3, y + alto - 3);
+                    ctx.stroke();
+                }
+
+                // Logo del equipo
+                if (urlLogo && cacheImagenes[urlLogo] && cacheImagenes[urlLogo].complete) {
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(x + 24, y + alto / 2, 14, 0, Math.PI * 2);
+                    ctx.clip();
+                    ctx.drawImage(cacheImagenes[urlLogo], x + 10, y + (alto / 2) - 14, 28, 28);
+                    ctx.restore();
+
+                    // Borde del logo
+                    ctx.strokeStyle = '#38bdf8';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.arc(x + 24, y + alto / 2, 14, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+
+                // Nombre del equipo
+                ctx.textAlign = 'left';
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 15px "Segoe UI", sans-serif';
+                ctx.fillText(nombreEquipo || 'CARGANDO...', x + 48, y + (alto / 2) + 5);
+
+                // Puntaje / Score
+                ctx.fillStyle = esDorado ? '#f1c40f' : '#1e3a8a';
+                ctx.beginPath();
+                ctx.roundRect(x + ancho - 38, y + (alto / 2) - 12, 30, 24, 3);
+                ctx.fill();
+
+                ctx.textAlign = 'center';
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 14px "Segoe UI", sans-serif';
+                ctx.fillText(puntaje !== undefined ? puntaje : '0', x + ancho - 23, y + (alto / 2) + 5);
+            }
+
+            // Datos actuales extraídos de la pantalla para dibujarlos en HD
+            // Cuartos de Columna 1
+            let xCol1 = 120;
+            let yBase = 260;
+
+            // Títulos de columnas
+            ctx.textAlign = 'left';
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 16px "Rajdhani", sans-serif';
+            ctx.fillText('CUARTOS DE FINAL', xCol1, yBase);
+            
+            // Fecha Cuartos
+            dibujarTarjetaEquipo(xCol1, yBase + 15, 340, 36, document.getElementById('name_date_cuartos').textContent, '', '', false, false);
+            
+            let yMatch = yBase + 65;
+            ctx.fillStyle = '#38bdf8';
+            ctx.font = 'bold 12px "Rajdhani", sans-serif';
+            ctx.fillText('GRUPO A', xCol1, yMatch);
+            yMatch += 18;
+
+            // Equipos Cuartos Grupo A
+            for (let i = 1; i <= 4; i++) {
+                let name = document.getElementById('name_team_' + i).textContent;
+                let score = document.getElementById('score_team_' + i).textContent;
+                let logoUrl = document.getElementById('logo_team_' + i).src;
+                let isWinner = (i === 1 || i === 4); // Ejemplo visual de ganadores
+                dibujarTarjetaEquipo(xCol1, yMatch, 340, 42, name, score, logoUrl, isWinner, false);
+                yMatch += 50;
+            }
+
+            yMatch += 10;
+            ctx.fillStyle = '#38bdf8';
+            ctx.fillText('GRUPO B', xCol1, yMatch);
+            yMatch += 18;
+
+            for (let i = 5; i <= 8; i++) {
+                let name = document.getElementById('name_team_' + i).textContent;
+                let score = document.getElementById('score_team_' + i).textContent;
+                let logoUrl = document.getElementById('logo_team_' + i).src;
+                let isWinner = (i === 5 || i === 8);
+                dibujarTarjetaEquipo(xCol1, yMatch, 340, 42, name, score, logoUrl, isWinner, false);
+                yMatch += 50;
+            }
+
+            // Columna 2: Semifinales
+            let xCol2 = 540;
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('SEMIFINALES', xCol2, yBase);
+            dibujarTarjetaEquipo(xCol2, yBase + 15, 340, 36, document.getElementById('name_date_semis').textContent, '', '', false, false);
+
+            let ySemi = yBase + 65;
+            ctx.fillStyle = '#38bdf8';
+            ctx.fillText('GRUPO A', xCol2, ySemi);
+            ySemi += 18;
+
+            for (let i = 1; i <= 2; i++) {
+                let name = document.getElementById('name_semi_' + i).textContent;
+                let score = document.getElementById('score_semi_' + i).textContent;
+                let logoUrl = document.getElementById('logo_semi_' + i).src;
+                dibujarTarjetaEquipo(xCol2, ySemi, 340, 42, name, score, logoUrl, false, false);
+                ySemi += 50;
+            }
+
+            ySemi += 115; // Espacio proporcional
+            ctx.fillStyle = '#38bdf8';
+            ctx.fillText('GRUPO B', xCol2, ySemi);
+            ySemi += 18;
+
+            for (let i = 3; i <= 4; i++) {
+                let name = document.getElementById('name_semi_' + i).textContent;
+                let score = document.getElementById('score_semi_' + i).textContent;
+                let logoUrl = document.getElementById('logo_semi_' + i).src;
+                dibujarTarjetaEquipo(xCol2, ySemi, 340, 42, name, score, logoUrl, false, false);
+                ySemi += 50;
+            }
+
+            // Columna 3: Gran Final
+            let xCol3 = 960;
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('GRAN FINAL', xCol3, yBase);
+            dibujarTarjetaEquipo(xCol3, yBase + 15, 340, 36, document.getElementById('name_date_final').textContent, '', '', false, false);
+
+            let yFinal = yBase + 65;
+            ctx.fillStyle = '#f1c40f';
+            ctx.fillText('TOP A', xCol3, yFinal);
+            yFinal += 18;
+            dibujarTarjetaEquipo(xCol3, yFinal, 340, 42, document.getElementById('name_final_1').textContent, document.getElementById('score_final_1').textContent, document.getElementById('logo_final_1').src, false, true);
+
+            yFinal += 80;
+            ctx.fillStyle = '#f1c40f';
+            ctx.fillText('TOP B', xCol3, yFinal);
+            yFinal += 18;
+            dibujarTarjetaEquipo(xCol3, yFinal, 340, 42, document.getElementById('name_final_2').textContent, document.getElementById('score_final_2').textContent, document.getElementById('logo_final_2').src, false, true);
+
+            // Columna 4: Campeón
+            let xCol4 = 1380;
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('CAMPEÓN 🏆', xCol4, yBase);
+            dibujarTarjetaEquipo(xCol4, yBase + 15, 340, 36, document.getElementById('name_date_champion').textContent, '', '', false, false);
+
+            let yChamp = yBase + 65;
+            ctx.fillStyle = '#38bdf8';
+            ctx.fillText('TEAM WINNER', xCol4, yChamp);
+            yChamp += 18;
+            
+            // Dibujar tarjeta de Campeón Especial
+            let nameChamp = document.getElementById('name_team_winner').textContent;
+            let logoChamp = document.getElementById('logo_team_winner').src;
+            dibujarTarjetaEquipo(xCol4, yChamp, 340, 42, nameChamp, '🏆', logoChamp, true, false);
+
+            // Descargar el archivo resultante en alta calidad PNG
+            let enlace = document.createElement('a');
+            enlace.download = 'DarkUnity-Playoffs-Bracket-HD.png';
+            enlace.href = canvas.toDataURL('image/png');
+            enlace.click();
+        }
     </script>
 </body>
 </html>
