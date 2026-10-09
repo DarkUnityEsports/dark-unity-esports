@@ -10,6 +10,8 @@
     <link rel="manifest" href="site.webmanifest">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Librería para tomar la captura de pantalla en HD -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --bg-deep: #0b0f19;
@@ -60,7 +62,7 @@
         }
 
         .logo-brand {
-            width: 110px;  /* Logos más grandes y vistosos */
+            width: 110px;
             height: 110px;
             object-fit: contain;
             border-radius: 50%;
@@ -148,7 +150,6 @@
             opacity: 0.85;
         }
 
-        /* Estilo específico para TOP A y TOP B en color dorado */
         .final-container .section-label {
             color: #f1c40f;
         }
@@ -180,7 +181,6 @@
             background: rgba(56, 189, 248, 0.05);
         }
 
-        /* Estilo integrado para el logo de los equipos */
         .team-logo {
             width: 28px;
             height: 28px;
@@ -250,34 +250,58 @@
             margin-top: 0px;
         }
 
-        .back-btn {
-            display: inline-block;
+        /* --- CONTENEDOR DE BOTONES INFERIORES --- */
+        .actions-footer {
             margin-top: 30px;
-            padding: 10px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
             background: var(--accent-blue-dark);
             color: var(--text-white);
             text-decoration: none;
             border-radius: 6px;
             font-weight: bold;
             font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
         }
-        .back-btn:hover {
+
+        .action-btn:hover {
             background: var(--accent-blue-light);
             color: var(--bg-deep);
         }
 
-        /* --- RESPONSIVE MEJORADO PARA MÓVILES (Evita cortes y agranda logos) --- */
+        /* Colores distintivos opcionales para Discord y WhatsApp */
+        .btn-discord { background: #5865F2; }
+        .btn-discord:hover { background: #4752C4; color: #fff; }
+
+        .btn-whatsapp { background: #25D366; color: #000; }
+        .btn-whatsapp:hover { background: #1EBE5D; color: #000; }
+
+        .btn-download { background: #f1c40f; color: #000; }
+        .btn-download:hover { background: #d4ac0d; color: #000; }
+
+        /* --- RESPONSIVE MEJORADO PARA MÓVILES --- */
         @media (max-width: 768px) {
             .header-title {
                 gap: 10px;
             }
             .logo-brand {
-                width: 85px; /* Logos bastante más grandes y proporcionados en teléfono */
+                width: 85px;
                 height: 85px;
             }
             .header-title h1 {
-                font-size: 1.15rem; /* Letra ajustada para que no se corte feo */
-                white-space: normal; /* Permite salto de línea natural y ordenado */
+                font-size: 1.15rem;
+                white-space: normal;
                 line-height: 1.2;
             }
             .subtitle {
@@ -289,14 +313,14 @@
 </head>
 <body>
 
-    <div class="container">
+    <div class="container" id="bracket-capture-area">
         <!-- Encabezado optimizado -->
         <div class="header-wrapper">
             <div class="header-title">
                 <img src="LOGODARK.png" alt="Logo Dark Unity" class="logo-brand">
                 <div class="header-text-center">
                     <span class="subtitle">Dark Unity eSports Tournament</span>
-                    <h1>PLAYOFFS BRACKET</h1>
+                    <h1>PLAYOFFS BRACKET 8 - EQUIPOS</h1>
                     <p style="color: var(--text-gray); font-size: 0.75rem; margin: 0;">SINGLE ELIMINATION | BEST OF 5</p>
                 </div>
                 <img src="NEXT_NETWORK.png" alt="Logo Next Network" class="logo-brand">
@@ -423,14 +447,20 @@
             </div>
         </div>
 
-        <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
+        <!-- Botones inferiores de navegación y descarga HD -->
+        <div class="actions-footer">
+            <a href="index.html" class="action-btn"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
+            <!-- Reemplaza los enlaces # con las URLs reales de tu comunidad -->
+            <a href="https://discord.gg/TU_ENLACE_DISCORD" target="_blank" class="action-btn btn-discord"><i class="fa-brands fa-discord"></i> Discord</a>
+            <a href="https://whatsapp.com/TU_ENLACE_WHATSAPP" target="_blank" class="action-btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+            <button onclick="descargarBracketHD()" class="action-btn btn-download"><i class="fa-solid fa-camera"></i> Descargar HD</button>
+        </div>
     </div>
 
-    <!-- Script para conectar con Google Sheets y convertir enlaces de Drive -->
+    <!-- Script para conectar con Google Sheets y la funcionalidad de captura HD -->
     <script>
         const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzTngcH64tXxtowwQ7cdqU9S66iMREuF_sXAbq2IGIWZY8UML5lEZP1BkxcS2o4U8pZkw/exec';
 
-        // Función que transforma los enlaces de Google Drive para que la imagen cargue correctamente
         function convertirLinkDrive(url) {
             if (!url) return "https://via.placeholder.com/28";
             let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
@@ -460,6 +490,28 @@
             } catch (error) {
                 console.error('Error al sincronizar con Google Sheets:', error);
             }
+        }
+
+        // Función para tomar la captura de pantalla en HD del bracket
+        function descargarBracketHD() {
+            const elemento = document.getElementById('bracket-capture-area');
+            
+            // Opciones para asegurar alta resolución (HD)
+            const opciones = {
+                scale: 2, // Multiplica la resolución por 2 para nitidez HD
+                useCORS: true, // Permite cargar imágenes externas (como los logos de Drive)
+                backgroundColor: '#0b0f19' // Fondo oscuro de tu página
+            };
+
+            html2canvas(elemento, opciones).then(canvas => {
+                let enlace = document.createElement('a');
+                enlace.download = 'DarkUnity-Playoffs-Bracket.png';
+                enlace.href = canvas.toDataURL('image/png');
+                enlace.click();
+            }).catch(error => {
+                console.error('Error al generar la captura:', error);
+                alert('Hubo un error al generar la captura en HD.');
+            });
         }
 
         cargarDatosBracket();
