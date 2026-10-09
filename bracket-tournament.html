@@ -39,7 +39,7 @@
             margin: 0 auto;
         }
         
-        /* --- ENCABEZADO OPTIMIZADO Y MÁS COMPACTO --- */
+        /* --- ENCABEZADO OPTIMIZADO Y MÁS GRANDE --- */
         .header-wrapper {
             width: 100%;
             display: flex;
@@ -53,15 +53,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 25px; /* Controla qué tan juntos o separados están los logos del texto */
+            gap: 20px;
             width: 100%;
-            max-width: 800px; /* Evita que los logos se dispersen demasiado en pantallas grandes */
+            max-width: 850px;
             text-align: center;
         }
 
         .logo-brand {
-            width: 90px;  /* Tamaño ideal más grande y vistoso */
-            height: 90px;
+            width: 110px;  /* Logos más grandes y vistosos */
+            height: 110px;
             object-fit: contain;
             border-radius: 50%;
             flex-shrink: 0;
@@ -266,21 +266,23 @@
             color: var(--bg-deep);
         }
 
-        /* --- RESPONSIVE MEJORADO PARA MÓVILES --- */
+        /* --- RESPONSIVE MEJORADO PARA MÓVILES (Evita cortes y agranda logos) --- */
         @media (max-width: 768px) {
             .header-title {
-                gap: 12px;
+                gap: 10px;
             }
             .logo-brand {
-                width: 60px; /* Tamaño adaptado y limpio en móviles */
-                height: 60px;
+                width: 85px; /* Logos bastante más grandes y proporcionados en teléfono */
+                height: 85px;
             }
             .header-title h1 {
-                font-size: 1.3rem;
-                white-space: normal; /* Permite que el título baje de línea ordenadamente si la pantalla es muy pequeña */
+                font-size: 1.15rem; /* Letra ajustada para que no se corte feo */
+                white-space: normal; /* Permite salto de línea natural y ordenado */
+                line-height: 1.2;
             }
             .subtitle {
-                font-size: 0.7rem;
+                font-size: 0.65rem;
+                letter-spacing: 1px;
             }
         }
     </style>
@@ -288,7 +290,7 @@
 <body>
 
     <div class="container">
-        <!-- Encabezado con ancho controlado para que los logos no se alejen demasiado en PC y luzcan ordenados en móviles -->
+        <!-- Encabezado optimizado -->
         <div class="header-wrapper">
             <div class="header-title">
                 <img src="LOGODARK.png" alt="Logo Dark Unity" class="logo-brand">
