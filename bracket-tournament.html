@@ -9,7 +9,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Fuente Rajdhani para mantener la misma línea estética de la web -->
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -40,21 +39,29 @@
             margin: 0 auto;
         }
         
-        /* --- ENCABEZADO MODIFICADO CON LOS LOGOS A LOS EXTREMOS --- */
-        .header-title {
+        /* --- ENCABEZADO OPTIMIZADO Y MÁS COMPACTO --- */
+        .header-wrapper {
+            width: 100%;
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            text-align: center;
+            justify-content: center;
             margin-bottom: 25px;
             border-bottom: 1px solid rgba(37, 99, 235, 0.3);
             padding-bottom: 1.5rem;
         }
 
+        .header-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px; /* Controla qué tan juntos o separados están los logos del texto */
+            width: 100%;
+            max-width: 800px; /* Evita que los logos se dispersen demasiado en pantallas grandes */
+            text-align: center;
+        }
+
         .logo-brand {
-            width: 100px;
-            height: 100px;
+            width: 90px;  /* Tamaño ideal más grande y vistoso */
+            height: 90px;
             object-fit: contain;
             border-radius: 50%;
             flex-shrink: 0;
@@ -69,7 +76,7 @@
         .header-title h1 {
             font-family: 'Rajdhani', sans-serif;
             color: var(--accent-blue-light);
-            font-size: 2.1rem;
+            font-size: 2rem;
             margin-bottom: 0.2rem;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -210,12 +217,10 @@
             margin-bottom: 20px;
         }
 
-        /* Separación extra para el bloque central de cuartos */
         .matchup-pair.qf-split {
             margin-bottom: 40px;
         }
 
-        /* Semifinales bajadas un poco más para un centrado perfecto */
         .semi-container {
             display: flex;
             flex-direction: column;
@@ -227,7 +232,6 @@
             margin-bottom: 110px;
         }
 
-        /* Gran Final ajustada proporcionalmente al nuevo margen de semifinales */
         .final-container {
             display: flex;
             flex-direction: column;
@@ -239,7 +243,6 @@
             margin-bottom: 20px;
         }
 
-        /* Contenedor específico para alinear el Team Winner a la altura de TOP A */
         .winner-container {
             display: flex;
             flex-direction: column;
@@ -263,18 +266,21 @@
             color: var(--bg-deep);
         }
 
-        /* Responsive para móviles en los logos del encabezado */
+        /* --- RESPONSIVE MEJORADO PARA MÓVILES --- */
         @media (max-width: 768px) {
             .header-title {
-                flex-direction: column;
-                gap: 15px;
+                gap: 12px;
             }
             .logo-brand {
-                width: 75px;
-                height: 75px;
+                width: 60px; /* Tamaño adaptado y limpio en móviles */
+                height: 60px;
             }
             .header-title h1 {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
+                white-space: normal; /* Permite que el título baje de línea ordenadamente si la pantalla es muy pequeña */
+            }
+            .subtitle {
+                font-size: 0.7rem;
             }
         }
     </style>
@@ -282,15 +288,17 @@
 <body>
 
     <div class="container">
-        <!-- Encabezado con LOGODARK.png a la izquierda, título al centro y NEXT_NETWORK.png a la derecha -->
-        <div class="header-title">
-            <img src="LOGODARK.png" alt="Logo Dark Unity" class="logo-brand">
-            <div class="header-text-center">
-                <span class="subtitle">Dark Unity eSports Tournament</span>
-                <h1>PLAYOFFS BRACKET - 8 EQUIPOS</h1>
-                <p style="color: var(--text-gray); font-size: 0.8rem; margin: 0;">SINGLE ELIMINATION | BEST OF 5</p>
+        <!-- Encabezado con ancho controlado para que los logos no se alejen demasiado en PC y luzcan ordenados en móviles -->
+        <div class="header-wrapper">
+            <div class="header-title">
+                <img src="LOGODARK.png" alt="Logo Dark Unity" class="logo-brand">
+                <div class="header-text-center">
+                    <span class="subtitle">Dark Unity eSports Tournament</span>
+                    <h1>PLAYOFFS BRACKET - 8 EQUIPOS</h1>
+                    <p style="color: var(--text-gray); font-size: 0.75rem; margin: 0;">SINGLE ELIMINATION | BEST OF 5</p>
+                </div>
+                <img src="NEXT_NETWORK.png" alt="Logo Next Network" class="logo-brand">
             </div>
-            <img src="NEXT_NETWORK.png" alt="Logo Next Network" class="logo-brand">
         </div>
 
         <!-- Envoltorio de Scroll Horizontal -->
