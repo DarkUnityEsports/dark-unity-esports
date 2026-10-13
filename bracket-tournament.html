@@ -515,22 +515,43 @@
     // ============================================
     function urlABase64(url) {
     return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.onload = function () {
-            try {
-                const canvas = document.createElement('canvas');
-                canvas.width = img.naturalWidth;
-                canvas.height = img.naturalHeight;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0);
-                resolve(canvas.toDataURL('image/png'));
-            } catch (e) {
-                reject(e);
-            }
+        const intentar = (conCORS) => {
+            const img = new Image();
+            if (conCORS) img.crossOrigin = 'anonymous';
+            
+            img.onload = function () {
+                try {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.naturalWidth;
+                    canvas.height = img.naturalHeight;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    const dataURL = canvas.toDataURL('image/png');
+                    if (dataURL === 'data:,' || canvas.width === 0) {
+                        throw new Error('Canvas tainted');
+                    }
+                    resolve(dataURL);
+                } catch (e) {
+                    if (conCORS) {
+                        intentar(false);
+                    } else {
+                        reject(e);
+                    }
+                }
+            };
+            
+            img.onerror = function () {
+                if (conCORS) {
+                    intentar(false);
+                } else {
+                    reject(new Error('No se pudo cargar: ' + url));
+                }
+            };
+            
+            img.src = url;
         };
-        img.onerror = reject;
-        img.src = url;
+        
+        intentar(true);
     });
 }
 
@@ -557,14 +578,27 @@
     const imgsOriginales = elemento.querySelectorAll('img');
     const imgsClon = clon.querySelectorAll('img');
 
+    console.log(`🔍 Convirtiendo ${imgsOriginales.length} imágenes a Base64...`);
+
     for (let i = 0; i < imgsOriginales.length; i++) {
         const srcOriginal = imgsOriginales[i].src;
-        if (!srcOriginal || srcOriginal.startsWith('data:')) continue;
+        const idImg = imgsOriginales[i].id || `(sin id, posición ${i})`;
+        
+        if (!srcOriginal || srcOriginal.startsWith('data:')) {
+            console.log(`⏭️ ${idImg}: ya es Base64 o vacía, se omite`);
+            continue;
+        }
+        
         try {
             const base64 = await urlABase64(srcOriginal);
             imgsClon[i].src = base64;
+            imgsClon[i].onerror = null;
+            imgsClon[i].removeAttribute('onerror');
+            console.log(`✅ ${idImg}: convertida (${base64.length} chars)`);
         } catch (e) {
-            console.warn('No se pudo convertir a Base64:', srcOriginal, e);
+            console.error(`❌ ${idImg}: FALLÓ la conversión`, srcOriginal, e);
+            imgsClon[i].onerror = null;
+            imgsClon[i].removeAttribute('onerror');
         }
     }
 
@@ -575,8 +609,9 @@
         clon.style.backgroundSize = 'cover';
         clon.style.backgroundPosition = 'center';
         clon.style.backgroundRepeat = 'no-repeat';
+        console.log('✅ Fondo convertido a Base64');
     } catch (e) {
-        console.warn('No se pudo convertir el fondo a Base64:', e);
+        console.warn('⚠️ No se pudo convertir el fondo a Base64:', e);
     }
 
     clon.style.position = 'fixed';
