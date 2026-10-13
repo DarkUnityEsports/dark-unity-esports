@@ -609,6 +609,15 @@
     const scrollBox = document.getElementById('bracket-scroll-box');
     const grid = scrollBox.querySelector('.bracket-grid');
 
+    // 🔽 BLOQUE NUEVO: Capturamos el botón y guardamos su estado original
+    const boton = document.querySelector('.btn-download');
+    const textoOriginal = boton.innerHTML;
+    boton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generando...';
+    boton.disabled = true;
+    boton.style.opacity = '0.7';
+    boton.style.cursor = 'wait';
+    // 🔽 FIN BLOQUE NUEVO
+
     const originalWidth = scrollBox.style.width;
     const originalOverflow = scrollBox.style.overflowX;
 
@@ -668,6 +677,14 @@
         scrollBox.style.overflowX = originalOverflow;
         scrollBox.style.overflow = '';
         alert('Hubo un error al generar la captura en HD. Revisa la consola para más detalles.');
+
+    } finally {
+        // 🔽 BLOQUE NUEVO: Restauramos el botón SIEMPRE (éxito o error)
+        boton.innerHTML = textoOriginal;
+        boton.disabled = false;
+        boton.style.opacity = '1';
+        boton.style.cursor = 'pointer';
+        // 🔽 FIN BLOQUE NUEVO
     }
 }
     // ============================================
