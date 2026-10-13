@@ -551,7 +551,7 @@
     // ============================================
     // NUEVO: Convierte todas las imágenes y el fondo a Base64
     // ============================================
-    async function prepararClonParaCaptura(elemento) {
+    async function prepararClonParaCaptura(elemento, anchoReal, altoReal) {
     const clon = elemento.cloneNode(true);
 
     const imgsOriginales = elemento.querySelectorAll('img');
@@ -582,8 +582,20 @@
     clon.style.position = 'fixed';
     clon.style.left = '-99999px';
     clon.style.top = '0';
-    clon.style.width = elemento.offsetWidth + 'px';
+    clon.style.width = anchoReal + 'px';
+    clon.style.minWidth = anchoReal + 'px';
+    clon.style.maxWidth = 'none';
+    clon.style.height = 'auto';
     clon.style.zIndex = '-1';
+    clon.style.overflow = 'visible';
+
+    const scrollClon = clon.querySelector('#bracket-scroll-box');
+    if (scrollClon) {
+        scrollClon.style.width = 'max-content';
+        scrollClon.style.overflowX = 'visible';
+        scrollClon.style.overflow = 'visible';
+    }
+
     document.body.appendChild(clon);
 
     return clon;
@@ -595,16 +607,36 @@
     async function descargarBracketHD() {
     const elemento = document.getElementById('bracket-capture-area');
     const scrollBox = document.getElementById('bracket-scroll-box');
+    const grid = scrollBox.querySelector('.bracket-grid');
 
     const originalWidth = scrollBox.style.width;
     const originalOverflow = scrollBox.style.overflowX;
 
     scrollBox.style.width = 'max-content';
     scrollBox.style.overflowX = 'visible';
+    scrollBox.style.overflow = 'visible';
 
     try {
         await esperarImagenesCargadas(elemento);
-        const clon = await prepararClonParaCaptura(elemento);
+
+        await new Promise(r => setTimeout(r, 150));
+
+        const anchoReal = Math.max(
+            elemento.scrollWidth,
+            grid ? grid.scrollWidth : 0,
+            grid ? grid.offsetWidth : 0,
+            elemento.offsetWidth
+        );
+        const altoReal = Math.max(
+            elemento.scrollHeight,
+            grid ? grid.scrollHeight : 0,
+            grid ? grid.offsetHeight : 0,
+            elemento.offsetHeight
+        );
+
+        console.log('Dimensiones calculadas:', anchoReal, 'x', altoReal);
+
+        const clon = await prepararClonParaCaptura(elemento, anchoReal, altoReal);
 
         const canvas = await html2canvas(clon, {
             scale: 2,
@@ -612,15 +644,18 @@
             allowTaint: true,
             backgroundColor: '#0b0f19',
             logging: false,
-            width: clon.scrollWidth,
-            height: clon.scrollHeight,
-            windowWidth: clon.scrollWidth,
-            windowHeight: clon.scrollHeight
+            width: anchoReal,
+            height: altoReal,
+            windowWidth: anchoReal,
+            windowHeight: altoReal,
+            scrollX: 0,
+            scrollY: 0
         });
 
         document.body.removeChild(clon);
         scrollBox.style.width = originalWidth;
         scrollBox.style.overflowX = originalOverflow;
+        scrollBox.style.overflow = '';
 
         const enlace = document.createElement('a');
         enlace.download = 'DarkUnity-Playoffs-Bracket.png';
@@ -631,10 +666,10 @@
         console.error('Error al generar la captura:', error);
         scrollBox.style.width = originalWidth;
         scrollBox.style.overflowX = originalOverflow;
+        scrollBox.style.overflow = '';
         alert('Hubo un error al generar la captura en HD. Revisa la consola para más detalles.');
     }
 }
-
     // ============================================
     // INICIALIZACIÓN - SIN CAMBIOS
     // ============================================
