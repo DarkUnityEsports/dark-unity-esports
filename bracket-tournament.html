@@ -499,9 +499,23 @@
             if (nameSpan) nameSpan.textContent = data[key].name;
             if (scoreSpan) scoreSpan.textContent = data[key].score;
             if (logoImg && data[key].logo) {
-                const nuevaSrc = convertirLinkDrive(data[key].logo);
-                if (logoImg.src !== nuevaSrc) {
-                    logoImg.src = nuevaSrc;
+                // Extraer el ID del link de Drive
+                const match = data[key].logo.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+                if (match && match[1]) {
+                    const idLogo = match[1];
+                    // Evitar recargar si ya está cargado
+                    if (logoImg.dataset.logoId !== idLogo) {
+                        logoImg.dataset.logoId = idLogo;
+                        try {
+                            const resp = await fetch(`${WEB_APP_URL}?img=${idLogo}`);
+                            const json = await resp.json();
+                            if (json.success) {
+                                logoImg.src = json.data; // Asignar Base64 directamente
+                            }
+                        } catch (e) {
+                            console.warn('Error cargando logo:', key, e);
+                        }
+                    }
                 }
             }
         }
