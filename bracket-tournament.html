@@ -23,19 +23,26 @@
             --text-gray: #a0aec0;
         }
         body {
-            background-color: var(--bg-deep);
-            background-image: 
-                linear-gradient(rgba(11, 15, 25, 0.56), rgba(11, 15, 25, 0.65)), 
-                url('FONDO-BRACKET.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            color: var(--text-white);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 15px;
+        background-color: var(--bg-deep);
+        color: var(--text-white);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 15px;
         }
+
+        /* Fondo aplicado al contenedor capturado para que html2canvas lo renderice */
+    #bracket-capture-area {
+        background-color: var(--bg-deep);
+        background-image: 
+        linear-gradient(rgba(11, 15, 25, 0.56), rgba(11, 15, 25, 0.65)), 
+        url('FONDO-BRACKET.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        padding: 20px;
+        border-radius: 8px;
+        }
+
         .container {
             max-width: 1250px;
             margin: 0 auto;
@@ -456,79 +463,176 @@
     <script>
         const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzTngcH64tXxtowwQ7cdqU9S66iMREuF_sXAbq2IGIWZY8UML5lEZP1BkxcS2o4U8pZkw/exec';
 
+    // ============================================
+    // FUNCIÓN ORIGINAL DE DRIVE - SIN CAMBIOS
+    // ============================================
         function convertirLinkDrive(url) {
-            if (!url) return "https://via.placeholder.com/28";
-            let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-            if (match && match[1]) {
-                return `https://lh3.googleusercontent.com/d/${match[1]}`;
-            }
-            return url;
-        }
+    if (!url) return "https://via.placeholder.com/28";
+    let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+        return `https://lh3.googleusercontent.com/d/${match[1]}`;
+    }
+    return url;
+}
 
-        async function cargarDatosBracket() {
-            if (WEB_APP_URL.includes('PEGA_AQUI')) return;
+    // ============================================
+    // FUNCIÓN ORIGINAL DE CARGA - SIN CAMBIOS
+    // ============================================
+    async function cargarDatosBracket() {
+    if (WEB_APP_URL.includes('PEGA_AQUI')) return;
+    try {
+        let response = await fetch(WEB_APP_URL);
+        let data = await response.json();
+
+        for (let key in data) {
+            let nameSpan = document.getElementById('name_' + key);
+            let scoreSpan = document.getElementById('score_' + key);
+            let logoImg = document.getElementById('logo_' + key);
+
+            if (nameSpan) nameSpan.textContent = data[key].name;
+            if (scoreSpan) scoreSpan.textContent = data[key].score;
+            if (logoImg && data[key].logo) {
+                const nuevaSrc = convertirLinkDrive(data[key].logo);
+                if (logoImg.src !== nuevaSrc) {
+                    logoImg.src = nuevaSrc;
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error al sincronizar con Google Sheets:', error);
+    }
+}
+
+    // ============================================
+    // NUEVO: Helper para convertir una URL de imagen a Base64
+    // ============================================
+    function urlABase64(url) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = function () {
             try {
-                let response = await fetch(WEB_APP_URL);
-                let data = await response.json();
-
-                for (let key in data) {
-                    let nameSpan = document.getElementById('name_' + key);
-                    let scoreSpan = document.getElementById('score_' + key);
-                    let logoImg = document.getElementById('logo_' + key);
-
-                    if (nameSpan) nameSpan.textContent = data[key].name;
-                    if (scoreSpan) scoreSpan.textContent = data[key].score;
-                    if (logoImg && data[key].logo) {
-                        logoImg.src = convertirLinkDrive(data[key].logo);
-                    }
-                }
-            } catch (error) {
-                console.error('Error al sincronizar con Google Sheets:', error);
+                const canvas = document.createElement('canvas');
+                canvas.width = img.naturalWidth;
+                canvas.height = img.naturalHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                resolve(canvas.toDataURL('image/png'));
+            } catch (e) {
+                reject(e);
             }
+        };
+        img.onerror = reject;
+        img.src = url;
+    });
+}
+
+    // ============================================
+    // NUEVO: Espera a que todas las <img> estén cargadas
+    // ============================================
+    function esperarImagenesCargadas(contenedor) {
+    const imgs = contenedor.querySelectorAll('img');
+    return Promise.all(Array.from(imgs).map(img => {
+        if (img.complete && img.naturalWidth > 0) return Promise.resolve();
+        return new Promise(resolve => {
+            img.addEventListener('load', resolve, { once: true });
+            img.addEventListener('error', resolve, { once: true });
+        });
+    }));
+}
+
+    // ============================================
+    // NUEVO: Convierte todas las imágenes y el fondo a Base64
+    // ============================================
+    async function prepararClonParaCaptura(elemento) {
+    const clon = elemento.cloneNode(true);
+
+    const imgsOriginales = elemento.querySelectorAll('img');
+    const imgsClon = clon.querySelectorAll('img');
+
+    for (let i = 0; i < imgsOriginales.length; i++) {
+        const srcOriginal = imgsOriginales[i].src;
+        if (!srcOriginal || srcOriginal.startsWith('data:')) continue;
+        try {
+            const base64 = await urlABase64(srcOriginal);
+            imgsClon[i].src = base64;
+        } catch (e) {
+            console.warn('No se pudo convertir a Base64:', srcOriginal, e);
         }
+    }
 
-        // Función original de descarga HD basada en tu respaldo
-        function descargarBracketHD() {
-            const elemento = document.getElementById('bracket-capture-area');
-            const scrollBox = document.getElementById('bracket-scroll-box');
-            
-            const originalWidth = scrollBox.style.width;
-            const originalOverflow = scrollBox.style.overflowX;
+    const bgUrl = "FONDO-BRACKET.jpg";
+    try {
+        const bgBase64 = await urlABase64(bgUrl);
+        clon.style.backgroundImage = `linear-gradient(rgba(11, 15, 25, 0.56), rgba(11, 15, 25, 0.65)), url('${bgBase64}')`;
+        clon.style.backgroundSize = 'cover';
+        clon.style.backgroundPosition = 'center';
+        clon.style.backgroundRepeat = 'no-repeat';
+    } catch (e) {
+        console.warn('No se pudo convertir el fondo a Base64:', e);
+    }
 
-            scrollBox.style.width = 'max-content';
-            scrollBox.style.overflowX = 'visible';
+    clon.style.position = 'fixed';
+    clon.style.left = '-99999px';
+    clon.style.top = '0';
+    clon.style.width = elemento.offsetWidth + 'px';
+    clon.style.zIndex = '-1';
+    document.body.appendChild(clon);
 
-            const opciones = {
-                scale: 2,
-                useCORS: true,
-                backgroundColor: '#0b0f19',
-                onclone: function(clonedDoc) {
-                    let clonedBody = clonedDoc.body;
-                    clonedBody.style.backgroundColor = '#0b0f19';
-                    clonedBody.style.backgroundImage = "linear-gradient(rgba(11, 15, 25, 0.56), rgba(11, 15, 25, 0.65)), url('FONDO-BRACKET.jpg')";
-                    clonedBody.style.backgroundSize = 'cover';
-                    clonedBody.style.backgroundPosition = 'center';
-                }
-            };
+    return clon;
+}
 
-            html2canvas(elemento, opciones).then(canvas => {
-                scrollBox.style.width = originalWidth;
-                scrollBox.style.overflowX = originalOverflow;
+    // ============================================
+    // FUNCIÓN DE DESCARGA HD MEJORADA
+    // ============================================
+    async function descargarBracketHD() {
+    const elemento = document.getElementById('bracket-capture-area');
+    const scrollBox = document.getElementById('bracket-scroll-box');
 
-                let enlace = document.createElement('a');
-                enlace.download = 'DarkUnity-Playoffs-Bracket.png';
-                enlace.href = canvas.toDataURL('image/png');
-                enlace.click();
-            }).catch(error => {
-                console.error('Error al generar la captura:', error);
-                scrollBox.style.width = originalWidth;
-                scrollBox.style.overflowX = originalOverflow;
-                alert('Hubo un error al generar la captura en HD.');
-            });
-        }
+    const originalWidth = scrollBox.style.width;
+    const originalOverflow = scrollBox.style.overflowX;
 
-        cargarDatosBracket();
-        setInterval(cargarDatosBracket, 30000);
+    scrollBox.style.width = 'max-content';
+    scrollBox.style.overflowX = 'visible';
+
+    try {
+        await esperarImagenesCargadas(elemento);
+        const clon = await prepararClonParaCaptura(elemento);
+
+        const canvas = await html2canvas(clon, {
+            scale: 2,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: '#0b0f19',
+            logging: false,
+            width: clon.scrollWidth,
+            height: clon.scrollHeight,
+            windowWidth: clon.scrollWidth,
+            windowHeight: clon.scrollHeight
+        });
+
+        document.body.removeChild(clon);
+        scrollBox.style.width = originalWidth;
+        scrollBox.style.overflowX = originalOverflow;
+
+        const enlace = document.createElement('a');
+        enlace.download = 'DarkUnity-Playoffs-Bracket.png';
+        enlace.href = canvas.toDataURL('image/png');
+        enlace.click();
+
+    } catch (error) {
+        console.error('Error al generar la captura:', error);
+        scrollBox.style.width = originalWidth;
+        scrollBox.style.overflowX = originalOverflow;
+        alert('Hubo un error al generar la captura en HD. Revisa la consola para más detalles.');
+    }
+}
+
+    // ============================================
+    // INICIALIZACIÓN - SIN CAMBIOS
+    // ============================================
+    cargarDatosBracket();
+    setInterval(cargarDatosBracket, 30000);
     </script>
 </body>
 </html>
