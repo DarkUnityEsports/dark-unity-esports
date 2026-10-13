@@ -468,16 +468,16 @@
 
     <!-- Script original de Google Sheets y su convertidor de Drive intactos -->
     <script>
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzTngcH64tXxtowwQ7cdqU9S66iMREuF_sXAbq2IGIWZY8UML5lEZP1BkxcS2o4U8pZkw/exec';
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzoCvUDy8GxLhIxlOilIkwTz29JsCVK9gfhY-TGlQO3K7iEEQj28c6ljAX9-dxAX62IAQ/exec';
 
     // ============================================
     // FUNCIÓN ORIGINAL DE DRIVE - SIN CAMBIOS
     // ============================================
-        function convertirLinkDrive(url) {
+    function convertirLinkDrive(url) {
     if (!url) return "https://via.placeholder.com/28";
     let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
     if (match && match[1]) {
-        return `https://lh3.googleusercontent.com/d/${match[1]}`;
+        return `https://script.google.com/macros/s/AKfycbzoCvUDy8GxLhIxlOilIkwTz29JsCVK9gfhY-TGlQO3K7iEEQj28c6ljAX9-dxAX62IAQ/exec?img=${match[1]}`;
     }
     return url;
 }
