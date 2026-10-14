@@ -8,6 +8,9 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Librería para captura HD -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --bg-deep: #0b0f19;
@@ -47,22 +50,15 @@
             text-transform: uppercase;
             letter-spacing: 1.5px;
         }
-        
         @media (min-width: 768px) {
-            header h2 {
-                font-size: 2.5rem;
-                letter-spacing: 2px;
-            }
+            header h2 { font-size: 2.5rem; letter-spacing: 2px; }
         }
-
         header p {
             color: #94a3b8;
             font-size: 0.95rem;
         }
         @media (min-width: 768px) {
-            header p {
-                font-size: 1.1rem;
-            }
+            header p { font-size: 1.1rem; }
         }
 
         .container {
@@ -75,6 +71,7 @@
             gap: 10px;
             flex-wrap: wrap;
             margin-bottom: 15px;
+            justify-content: center;
         }
 
         .btn-volver {
@@ -86,24 +83,84 @@
             border-radius: 6px;
             font-weight: bold;
             transition: background 0.3s, color 0.3s;
+            font-size: 0.9rem;
         }
         .btn-volver:hover {
             background: #374151;
             color: #00e5ff;
         }
 
+        /* 🆕 Botón "Descargar Ranking Completo" */
+        .btn-download-all {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #f1c40f;
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-download-all:hover {
+            background: #d4ac0d;
+        }
+        .btn-download-all:disabled {
+            opacity: 0.7;
+            cursor: wait;
+        }
+
         /* Estilos por Categoría */
         .categoria-section {
             margin-bottom: 45px;
+            position: relative;
         }
+
+        /* Header de la categoría con botón a la derecha */
+        .categoria-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
         .categoria-titulo {
             color: #ffffff;
             font-size: 1.4rem;
-            margin-bottom: 12px;
             text-transform: uppercase;
             letter-spacing: 1px;
             border-left: 4px solid #00e5ff;
             padding-left: 10px;
+            margin: 0;
+        }
+
+        /* 🆕 Botón de captura por categoría */
+        .btn-capture-cat {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: #f1c40f;
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            white-space: nowrap;
+        }
+        .btn-capture-cat:hover {
+            background: #d4ac0d;
+        }
+        .btn-capture-cat:disabled {
+            opacity: 0.7;
+            cursor: wait;
         }
 
         /* Fechas Badge */
@@ -146,11 +203,10 @@
             white-space: nowrap;
         }
 
-        /* ANCHOS Y ALINEACIONES DE COLUMNAS */
         th.posicion, td.posicion {
             width: 60px;
             text-align: center;
-            color: #ffffff; /* 🔑 FIX: Color por defecto para todas las posiciones */
+            color: #ffffff;
             font-weight: 700;
         }
         th.col-equipo, td.col-equipo {
@@ -191,16 +247,25 @@
             background-color: rgba(0, 229, 255, 0.05);
         }
 
-        /* 🏆 Colores especiales para el podio */
-        .top-1 { 
-            color: #ffd700 !important; 
-            text-shadow: 0 0 8px rgba(255, 215, 0, 0.4); 
-        }
-        .top-2 { 
-            color: #c0c0c0 !important; 
-        }
-        .top-3 { 
-            color: #cd7f32 !important; 
+        .top-1 { color: #ffd700 !important; text-shadow: 0 0 8px rgba(255, 215, 0, 0.4); }
+        .top-2 { color: #c0c0c0 !important; }
+        .top-3 { color: #cd7f32 !important; }
+
+        /* Zona de captura temporal (oculta del usuario pero visible para html2canvas) */
+        .captura-temp {
+            position: fixed;
+            left: -99999px;
+            top: 0;
+            z-index: -1;
+            padding: 24px;
+            background-color: #0b0f19;
+            background-image: 
+                linear-gradient(rgba(11, 15, 25, 0.50), rgba(11, 15, 25, 0.65)),
+                url('FONDO-MARCADOR.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -210,6 +275,9 @@
         <div class="nav-buttons">
             <a href="index.html" class="btn-volver">← Volver al Inicio</a>
             <a href="https://darkunityesports.github.io/dark-unity-esports/calendario.html" class="btn-volver">← Volver al Calendario</a>
+            <button class="btn-download-all" onclick="descargarRankingCompleto()">
+                <i class="fa-solid fa-camera"></i> Descargar Ranking Completo
+            </button>
         </div>
         
         <header>
@@ -218,8 +286,13 @@
         </header>
 
         <!-- ================= CATEGORÍA ROOKIE ================= -->
-        <div class="categoria-section">
-            <h2 class="categoria-titulo">🛡️ Categoría Rookie</h2>
+        <div class="categoria-section" id="seccion-rocky">
+            <div class="categoria-header">
+                <h2 class="categoria-titulo">🛡️ Categoría Rookie</h2>
+                <button class="btn-capture-cat" onclick="descargarCategoria('rocky', 'Rookie')">
+                    <i class="fa-solid fa-camera"></i> <span>Descargar HD</span>
+                </button>
+            </div>
             <div class="ranking-dates" id="wrapper-fecha-rocky">
                 <span class="date-badge">📅 <span id="texto-fecha-rocky"></span></span>
             </div>
@@ -241,8 +314,13 @@
         </div>
 
         <!-- ================= CATEGORÍA BEGINNER ================= -->
-        <div class="categoria-section">
-            <h2 class="categoria-titulo">⚡ Categoría Beginner</h2>
+        <div class="categoria-section" id="seccion-beginner">
+            <div class="categoria-header">
+                <h2 class="categoria-titulo">⚡ Categoría Beginner</h2>
+                <button class="btn-capture-cat" onclick="descargarCategoria('beginner', 'Beginner')">
+                    <i class="fa-solid fa-camera"></i> <span>Descargar HD</span>
+                </button>
+            </div>
             <div class="ranking-dates" id="wrapper-fecha-beginner">
                 <span class="date-badge">📅 <span id="texto-fecha-beginner"></span></span>
             </div>
@@ -264,8 +342,13 @@
         </div>
       
         <!-- ================= CATEGORÍA MASTER ================= -->
-        <div class="categoria-section">
-            <h2 class="categoria-titulo">🔥 Categoría ELITE / Master</h2>
+        <div class="categoria-section" id="seccion-master">
+            <div class="categoria-header">
+                <h2 class="categoria-titulo">🔥 Categoría ELITE / Master</h2>
+                <button class="btn-capture-cat" onclick="descargarCategoria('master', 'Master')">
+                    <i class="fa-solid fa-camera"></i> <span>Descargar HD</span>
+                </button>
+            </div>
             <div class="ranking-dates" id="wrapper-fecha-master">
                 <span class="date-badge">📅 <span id="texto-fecha-master"></span></span>
             </div>
@@ -287,21 +370,23 @@
         </div>
     </div>
 
-    <!-- SCRIPT DE CONEXIÓN CON SHEETDB (REDUNDANCIA EN CASCADA) -->
+    <!-- SCRIPT DE CONEXIÓN CON SHEETDB + CAPTURA HD -->
     <script>
         const APIS_SHEETDB = [
-            "https://sheetdb.io/api/v1/bl39mzkh3q49q", // carlewistaker@gmail.com - 500 peticiones mensuales
-            "https://sheetdb.io/api/v1/g9grt37d3tjxp", // carlewiscortez84@gmail.com - 500 peticiones mensuales
-            "https://sheetdb.io/api/v1/ykytq9d0i7we0", // carlewiscortez44@gmail.com - 500 peticiones mensuales
-            "https://sheetdb.io/api/v1/p7oxuv1tkymxo", // soportepcvenezuela1@gmail.com - 500 peticiones mensuales
-            "https://sheetdb.io/api/v1/4fnmphnj100qq", // cortezcarlewis076@gmail.com - 500 peticiones mensuales
-            "https://sheetdb.io/api/v1/pstmhlvzvjwwp", // carlewiscortez911@gmail.com - 500 peticiones mensuales
+            "https://sheetdb.io/api/v1/bl39mzkh3q49q",
+            "https://sheetdb.io/api/v1/g9grt37d3tjxp",
+            "https://sheetdb.io/api/v1/ykytq9d0i7we0",
+            "https://sheetdb.io/api/v1/p7oxuv1tkymxo",
+            "https://sheetdb.io/api/v1/4fnmphnj100qq",
+            "https://sheetdb.io/api/v1/pstmhlvzvjwwp",
         ];
 
+        // ═══════════════════════════════════════════════════
+        // CARGA DE DATOS
+        // ═══════════════════════════════════════════════════
         async function cargarRankingDinamico() {
             let datos = null;
 
-            // 🔑 Rotación aleatoria para distribuir carga entre las cuentas
             const urlsMezcladas = [...APIS_SHEETDB].sort(() => Math.random() - 0.5);
 
             for (let i = 0; i < urlsMezcladas.length; i++) {
@@ -311,12 +396,10 @@
                     
                     const json = await respuesta.json();
                     
-                    // 🔑 Validación: verificar que la respuesta tenga datos reales
                     if (Array.isArray(json) && json.length > 0) {
                         datos = json;
                         break;
                     }
-                    // Si viene vacío, probar la siguiente URL
                     console.warn(`API #${i + 1} respondió vacío, probando siguiente...`);
                 } catch (error) {
                     console.warn(`La API #${i + 1} falló. Probando siguiente...`);
@@ -325,7 +408,6 @@
 
             if (!datos) {
                 console.error("No se pudo conectar a ninguna API.");
-                // Mostrar mensaje de error en las tablas
                 ['rocky', 'beginner', 'master'].forEach(cat => {
                     const tbody = document.getElementById('cuerpo-' + cat);
                     if (tbody) {
@@ -407,6 +489,236 @@
             if (fechaMaster) {
                 document.getElementById("texto-fecha-master").textContent = fechaMaster;
                 document.getElementById("wrapper-fecha-master").style.display = "block";
+            }
+        }
+
+        // ═══════════════════════════════════════════════════
+        // CAPTURA HD — Utilidades
+        // ═══════════════════════════════════════════════════
+        function urlABase64(url) {
+            return new Promise((resolve, reject) => {
+                const intentar = (conCORS) => {
+                    const img = new Image();
+                    if (conCORS) img.crossOrigin = 'anonymous';
+                    
+                    img.onload = function () {
+                        try {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = img.naturalWidth;
+                            canvas.height = img.naturalHeight;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0);
+                            resolve(canvas.toDataURL('image/png'));
+                        } catch (e) {
+                            if (conCORS) intentar(false);
+                            else reject(e);
+                        }
+                    };
+                    img.onerror = function () {
+                        if (conCORS) intentar(false);
+                        else reject(new Error('No se pudo cargar: ' + url));
+                    };
+                    img.src = url;
+                };
+                intentar(true);
+            });
+        }
+
+        // Clona un elemento y le pone el fondo en Base64
+        async function prepararClon(elemento, anchoReal, altoReal) {
+            const clon = elemento.cloneNode(true);
+
+            // Convertir el fondo a Base64
+            try {
+                const bgBase64 = await urlABase64('FONDO-MARCADOR.jpg');
+                clon.style.backgroundImage = `linear-gradient(rgba(11, 15, 25, 0.50), rgba(11, 15, 25, 0.65)), url('${bgBase64}')`;
+                clon.style.backgroundSize = 'cover';
+                clon.style.backgroundPosition = 'center';
+                clon.style.backgroundRepeat = 'no-repeat';
+            } catch (e) {
+                console.warn('No se pudo convertir el fondo:', e);
+            }
+
+            // Expandir el overflow para que se vea toda la tabla
+            const tablaContainer = clon.querySelector('.tabla-container');
+            if (tablaContainer) {
+                tablaContainer.style.overflow = 'visible';
+                tablaContainer.style.overflowX = 'visible';
+            }
+            const tabla = clon.querySelector('table');
+            if (tabla) {
+                tabla.style.minWidth = 'auto';
+                tabla.style.width = '100%';
+            }
+
+            clon.style.position = 'fixed';
+            clon.style.left = '-99999px';
+            clon.style.top = '0';
+            clon.style.width = anchoReal + 'px';
+            clon.style.minWidth = anchoReal + 'px';
+            clon.style.padding = '24px';
+            clon.style.borderRadius = '8px';
+            clon.style.backgroundColor = '#0b0f19';
+            clon.style.zIndex = '-1';
+            clon.style.overflow = 'visible';
+
+            document.body.appendChild(clon);
+            return clon;
+        }
+
+        // Captura y descarga un elemento
+        async function capturarElemento(elemento, nombreArchivo, boton) {
+            const textoOriginal = boton.innerHTML;
+            boton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Generando...</span>';
+            boton.disabled = true;
+
+            try {
+                // Esperar a que las imágenes estén cargadas
+                const imgs = elemento.querySelectorAll('img');
+                await Promise.all(Array.from(imgs).map(img => {
+                    if (img.complete) return Promise.resolve();
+                    return new Promise(r => {
+                        img.addEventListener('load', r, { once: true });
+                        img.addEventListener('error', r, { once: true });
+                    });
+                }));
+
+                await new Promise(r => setTimeout(r, 100));
+
+                // Calcular dimensiones reales
+                const anchoReal = Math.max(elemento.scrollWidth, elemento.offsetWidth);
+                const altoReal = Math.max(elemento.scrollHeight, elemento.offsetHeight);
+
+                const clon = await prepararClon(elemento, anchoReal, altoReal);
+
+                const canvas = await html2canvas(clon, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#0b0f19',
+                    logging: false,
+                    width: anchoReal + 48, // + padding
+                    height: clon.scrollHeight,
+                    windowWidth: anchoReal + 48,
+                    windowHeight: clon.scrollHeight
+                });
+
+                document.body.removeChild(clon);
+
+                const enlace = document.createElement('a');
+                enlace.download = nombreArchivo;
+                enlace.href = canvas.toDataURL('image/png');
+                enlace.click();
+
+            } catch (error) {
+                console.error('Error al generar la captura:', error);
+                alert('Hubo un error al generar la captura.');
+            } finally {
+                boton.innerHTML = textoOriginal;
+                boton.disabled = false;
+            }
+        }
+
+        // ═══════════════════════════════════════════════════
+        // DESCARGAS — Funciones expuestas al HTML
+        // ═══════════════════════════════════════════════════
+        async function descargarCategoria(catId, catNombre) {
+            const elemento = document.getElementById('seccion-' + catId);
+            const boton = elemento.querySelector('.btn-capture-cat');
+            if (!elemento) return;
+
+            await capturarElemento(
+                elemento,
+                `DarkUnity-Ranking-${catNombre}.png`,
+                boton
+            );
+        }
+
+        async function descargarRankingCompleto() {
+            const boton = document.querySelector('.btn-download-all');
+            const textoOriginal = boton.innerHTML;
+            boton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generando...';
+            boton.disabled = true;
+
+            try {
+                // Crear un contenedor temporal con las 3 categorías
+                const temp = document.createElement('div');
+                temp.style.position = 'fixed';
+                temp.style.left = '-99999px';
+                temp.style.top = '0';
+                temp.style.padding = '30px';
+                temp.style.backgroundColor = '#0b0f19';
+                temp.style.width = '900px';
+
+                // Encabezado
+                const encabezado = document.createElement('div');
+                encabezado.innerHTML = `
+                    <h2 style="color: #00e5ff; text-align: center; font-size: 2.2rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px;">RANKING COMPETITIVO SEMANAL 🏆</h2>
+                    <p style="color: #94a3b8; text-align: center; margin-bottom: 30px;">Tabla de posiciones oficial | Dark Unity eSports</p>
+                `;
+                temp.appendChild(encabezado);
+
+                // Clonar las 3 secciones
+                ['rocky', 'beginner', 'master'].forEach(catId => {
+                    const seccion = document.getElementById('seccion-' + catId);
+                    if (!seccion) return;
+                    const clon = seccion.cloneNode(true);
+                    // Quitar el botón del clon
+                    const btn = clon.querySelector('.btn-capture-cat');
+                    if (btn) btn.remove();
+                    temp.appendChild(clon);
+                });
+
+                document.body.appendChild(temp);
+
+                // Esperar para que se renderice
+                await new Promise(r => setTimeout(r, 200));
+
+                // Convertir el fondo a Base64
+                try {
+                    const bgBase64 = await urlABase64('FONDO-MARCADOR.jpg');
+                    temp.style.backgroundImage = `linear-gradient(rgba(11, 15, 25, 0.50), rgba(11, 15, 25, 0.65)), url('${bgBase64}')`;
+                    temp.style.backgroundSize = 'cover';
+                    temp.style.backgroundPosition = 'center';
+                } catch (e) {}
+
+                // Expandir tablas
+                temp.querySelectorAll('.tabla-container').forEach(tc => {
+                    tc.style.overflow = 'visible';
+                });
+                temp.querySelectorAll('table').forEach(t => {
+                    t.style.minWidth = 'auto';
+                    t.style.width = '100%';
+                });
+
+                const anchoReal = 900;
+                const altoReal = temp.scrollHeight;
+
+                const canvas = await html2canvas(temp, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#0b0f19',
+                    logging: false,
+                    width: anchoReal,
+                    height: altoReal,
+                    windowWidth: anchoReal,
+                    windowHeight: altoReal
+                });
+
+                document.body.removeChild(temp);
+
+                const enlace = document.createElement('a');
+                enlace.download = 'DarkUnity-Ranking-Completo.png';
+                enlace.href = canvas.toDataURL('image/png');
+                enlace.click();
+
+            } catch (error) {
+                console.error('Error al generar la captura completa:', error);
+                alert('Hubo un error al generar la captura completa.');
+            } finally {
+                boton.innerHTML = textoOriginal;
+                boton.disabled = false;
             }
         }
 
