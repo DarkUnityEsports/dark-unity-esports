@@ -19,7 +19,6 @@
             --card-bg: rgba(17, 24, 39, 0.85);
             --card-border: rgba(56, 189, 248, 0.3);
             
-            /* Colores de roles actualizados: HOST Azul, AWAY Rojo */
             --host-blue: #3b82f6;
             --away-red: #ef4444;
 
@@ -451,7 +450,6 @@
             margin-bottom: 3px;
         }
 
-        /* HOST Azul, AWAY Rojo */
         .role-label.host-lbl { color: var(--host-blue); }
         .role-label.away-lbl { color: var(--away-red); }
 
@@ -546,7 +544,7 @@
             </div>
 
             <div class="admin-group">
-                <label for="inputMaster" style="color: var(--cat-master);"><i class="fa-solid fa-shield"></i> Categoría Master:</label>
+                <label for="inputMaster" style="color: var(--cat-master);"><i class="fa-solid fa-shield"></i> Categoría Elite / Master:</label>
                 <textarea id="inputMaster" class="admin-textarea" placeholder="Equipo 1, Equipo 2, Equipo 3..."></textarea>
             </div>
             
@@ -571,14 +569,30 @@
     <script>
         const GIST_ID = "191ee79793ed1101d40bd4a940710a3b"; 
         const URL_RAW_GIST = `https://gist.githubusercontent.com/Carlewis12/${GIST_ID}/raw/sorteo.json`;
-        const PASSWORD_ADMIN = "*+C4r13w1s121198~";
 
-        function verificarAdmin() {
+        // 🔐 Hash SHA-256 de la contraseña (NO es la contraseña, es su hash)
+        const PASSWORD_HASH = "93f2637bc7cbfe3bf199059f3709538dea017818f2046f89b16d1dadfe770b5c";
+
+        // 🔐 Función para calcular SHA-256
+        async function calcularSHA256(texto) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(texto);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // 🔐 Verificación con hash
+        async function verificarAdmin() {
             let pass = prompt("Ingresa la contraseña de administrador:");
-            if (pass === PASSWORD_ADMIN) {
+            if (!pass) return;
+            
+            const hashIngresado = await calcularSHA256(pass);
+            
+            if (hashIngresado === PASSWORD_HASH) {
                 document.getElementById('adminPanel').style.display = 'block';
                 alert("¡Acceso concedido! Ya puedes gestionar los días de juego, fechas y categorías.");
-            } else if (pass !== null) {
+            } else {
                 alert("Contraseña incorrecta.");
             }
         }
@@ -594,83 +608,75 @@
         }
 
         function generarEstructuraDias(equipos, fechaInicioStr, fechaCierreStr, diasSeleccionados) {
-    const maestroDiasInfo = {
-        'lunes': { nombre: 'Lunes', clase: 'day-lunes', jsDay: 1 },
-        'martes': { nombre: 'Martes', clase: 'day-martes', jsDay: 2 },
-        'miercoles': { nombre: 'Miércoles', clase: 'day-miercoles', jsDay: 3 },
-        'jueves': { nombre: 'Jueves', clase: 'day-jueves', jsDay: 4 },
-        'viernes': { nombre: 'Viernes', clase: 'day-viernes', jsDay: 5 },
-        'sabado': { nombre: 'Sábado', clase: 'day-sabado', jsDay: 6 },
-        'domingo': { nombre: 'Domingo', clase: 'day-domingo', jsDay: 0 }
-    };
+            const maestroDiasInfo = {
+                'lunes': { nombre: 'Lunes', clase: 'day-lunes', jsDay: 1 },
+                'martes': { nombre: 'Martes', clase: 'day-martes', jsDay: 2 },
+                'miercoles': { nombre: 'Miércoles', clase: 'day-miercoles', jsDay: 3 },
+                'jueves': { nombre: 'Jueves', clase: 'day-jueves', jsDay: 4 },
+                'viernes': { nombre: 'Viernes', clase: 'day-viernes', jsDay: 5 },
+                'sabado': { nombre: 'Sábado', clase: 'day-sabado', jsDay: 6 },
+                'domingo': { nombre: 'Domingo', clase: 'day-domingo', jsDay: 0 }
+            };
 
-    // Asegurarnos de limpiar y parsear bien las fechas sin errores de zona horaria
-    // Soporta tanto formato YYYY-MM-DD como DD/MM/YYYY por seguridad
-    function parsearFechaLocal(str) {
-        if (!str) return new Date();
-        if (str.includes('/')) {
-            const partes = str.split('/');
-            if (partes.length === 3) {
-                // Asume DD/MM/YYYY
-                return new Date(partes[2], partes[1] - 1, partes[0]);
+            function parsearFechaLocal(str) {
+                if (!str) return new Date();
+                if (str.includes('/')) {
+                    const partes = str.split('/');
+                    if (partes.length === 3) {
+                        return new Date(partes[2], partes[1] - 1, partes[0]);
+                    }
+                }
+                const partes = str.split('-');
+                if (partes.length === 3) {
+                    return new Date(partes[0], partes[1] - 1, partes[2]);
+                }
+                return new Date(str);
             }
-        }
-        const partes = str.split('-');
-        if (partes.length === 3) {
-            // Asume YYYY-MM-DD
-            return new Date(partes[0], partes[1] - 1, partes[2]);
-        }
-        return new Date(str);
-    }
 
-    let fechaInicio = parsearFechaLocal(fechaInicioStr);
-    let fechaFin = parsearFechaLocal(fechaCierreStr);
-    
-    let estructuraSemana = [];
-    let cursor = new Date(fechaInicio);
-
-    // Recorremos día por día desde la fecha de inicio hasta la fecha de cierre del rango
-    while (cursor <= fechaFin) {
-        let jsDayIndex = cursor.getDay();
-        let idDiaEncontrado = Object.keys(maestroDiasInfo).find(
-            key => maestroDiasInfo[key].jsDay === jsDayIndex
-        );
-
-        // Si el día actual del cursor está dentro de los días que el admin seleccionó en los checkboxes
-        if (idDiaEncontrado && diasSeleccionados.includes(idDiaEncontrado)) {
-            let diaStr = String(cursor.getDate()).padStart(2, '0');
-            let mesStr = String(cursor.getMonth() + 1).padStart(2, '0');
-            let fechaFormateada = `${diaStr}/${mesStr}`;
-
-            let eqMezclados = [...equipos];
+            let fechaInicio = parsearFechaLocal(fechaInicioStr);
+            let fechaFin = parsearFechaLocal(fechaCierreStr);
             
-            // Mezcla aleatoria de equipos (Fisher-Yates)
-            for (let i = eqMezclados.length - 1; i > 0; i--) {
-                let j = Math.floor(Math.random() * (i + 1));
-                [eqMezclados[i], eqMezclados[j]] = [eqMezclados[j], eqMezclados[i]];
+            let estructuraSemana = [];
+            let cursor = new Date(fechaInicio);
+
+            while (cursor <= fechaFin) {
+                let jsDayIndex = cursor.getDay();
+                let idDiaEncontrado = Object.keys(maestroDiasInfo).find(
+                    key => maestroDiasInfo[key].jsDay === jsDayIndex
+                );
+
+                if (idDiaEncontrado && diasSeleccionados.includes(idDiaEncontrado)) {
+                    let diaStr = String(cursor.getDate()).padStart(2, '0');
+                    let mesStr = String(cursor.getMonth() + 1).padStart(2, '0');
+                    let fechaFormateada = `${diaStr}/${mesStr}`;
+
+                    let eqMezclados = [...equipos];
+                    
+                    for (let i = eqMezclados.length - 1; i > 0; i--) {
+                        let j = Math.floor(Math.random() * (i + 1));
+                        [eqMezclados[i], eqMezclados[j]] = [eqMezclados[j], eqMezclados[i]];
+                    }
+
+                    let matchesDelDia = [];
+                    for (let i = 0; i < eqMezclados.length - 1; i += 2) {
+                        matchesDelDia.push({ host: eqMezclados[i], away: eqMezclados[i+1] });
+                    }
+
+                    let descanso = eqMezclados.length % 2 !== 0 ? eqMezclados[eqMezclados.length - 1] : null;
+
+                    estructuraSemana.push({
+                        nombre: maestroDiasInfo[idDiaEncontrado].nombre,
+                        clase: maestroDiasInfo[idDiaEncontrado].clase,
+                        fecha: fechaFormateada,
+                        matches: matchesDelDia,
+                        descansa: descanso
+                    });
+                }
+
+                cursor.setDate(cursor.getDate() + 1);
             }
 
-            let matchesDelDia = [];
-            for (let i = 0; i < eqMezclados.length - 1; i += 2) {
-                matchesDelDia.push({ host: eqMezclados[i], away: eqMezclados[i+1] });
-            }
-
-            let descanso = eqMezclados.length % 2 !== 0 ? eqMezclados[eqMezclados.length - 1] : null;
-
-            estructuraSemana.push({
-                nombre: maestroDiasInfo[idDiaEncontrado].nombre,
-                clase: maestroDiasInfo[idDiaEncontrado].clase,
-                fecha: fechaFormateada,
-                matches: matchesDelDia,
-                descansa: descanso
-            });
-        }
-
-        // Avanzar al siguiente día del calendario de manera segura
-        cursor.setDate(cursor.getDate() + 1);
-        }
- 
-        return estructuraSemana;
+            return estructuraSemana;
         }
 
         async function ejecutarYPublicarSorteo() {
@@ -836,7 +842,7 @@
 
             let hayContenido = false;
 
-            if (data.rookie && data.rookie.length > 0) {
+                        if (data.rookie && data.rookie.length > 0) {
                 hayContenido = true;
                 let sec = document.createElement('div');
                 sec.className = 'category-section';
@@ -870,7 +876,7 @@
                 sec.className = 'category-section';
                 sec.innerHTML = `
                     <div class="category-header-flex">
-                        <h3 class="category-title cat-title-master"><i class="fa-solid fa-trophy"></i> Categoría Master</h3>
+                        <h3 class="category-title cat-title-master"><i class="fa-solid fa-trophy"></i> Categoría Elite / Master</h3>
                         ${fechasHtmlStr ? `<div class="rango-fechas-badge badge-master">${fechasHtmlStr}</div>` : ''}
                     </div>
                     ${renderizarDiasHTML(data.master)}
