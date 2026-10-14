@@ -9,7 +9,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Librería para captura HD -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
@@ -66,51 +65,67 @@
             margin: 0 auto;
         }
         
+        /* 🆕 Navegación: 3 botones en una línea */
         .nav-buttons {
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 8px;
+            flex-wrap: nowrap;
             margin-bottom: 15px;
             justify-content: center;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+        .nav-buttons::-webkit-scrollbar {
+            display: none;
         }
 
         .btn-volver {
-            display: inline-block;
-            padding: 10px 20px;
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 12px;
             background: #1f2937;
             color: #ffffff;
             text-decoration: none;
             border-radius: 6px;
             font-weight: bold;
             transition: background 0.3s, color 0.3s;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
         .btn-volver:hover {
             background: #374151;
             color: #00e5ff;
         }
 
-        /* 🆕 Botón "Descargar Ranking Completo" */
         .btn-download-all {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
+            gap: 6px;
+            padding: 8px 12px;
             background: #f1c40f;
             color: #000;
             border: none;
             border-radius: 6px;
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: background 0.3s;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
-        .btn-download-all:hover {
-            background: #d4ac0d;
-        }
-        .btn-download-all:disabled {
-            opacity: 0.7;
-            cursor: wait;
+        .btn-download-all:hover { background: #d4ac0d; }
+        .btn-download-all:disabled { opacity: 0.7; cursor: wait; }
+        .btn-download-all .texto-largo { display: none; }
+        .btn-download-all .texto-corto { display: inline; }
+
+        @media (min-width: 600px) {
+            .nav-buttons { flex-wrap: wrap; }
+            .btn-volver { padding: 10px 20px; font-size: 0.9rem; }
+            .btn-download-all { padding: 10px 20px; font-size: 0.9rem; }
+            .btn-download-all .texto-largo { display: inline; }
+            .btn-download-all .texto-corto { display: none; }
         }
 
         /* Estilos por Categoría */
@@ -119,7 +134,6 @@
             position: relative;
         }
 
-        /* Header de la categoría con botón a la derecha */
         .categoria-header {
             display: flex;
             justify-content: space-between;
@@ -139,7 +153,6 @@
             margin: 0;
         }
 
-        /* 🆕 Botón de captura por categoría */
         .btn-capture-cat {
             display: inline-flex;
             align-items: center;
@@ -155,15 +168,9 @@
             transition: background 0.3s;
             white-space: nowrap;
         }
-        .btn-capture-cat:hover {
-            background: #d4ac0d;
-        }
-        .btn-capture-cat:disabled {
-            opacity: 0.7;
-            cursor: wait;
-        }
+        .btn-capture-cat:hover { background: #d4ac0d; }
+        .btn-capture-cat:disabled { opacity: 0.7; cursor: wait; }
 
-        /* Fechas Badge */
         .ranking-dates {
             margin-bottom: 10px;
             text-align: left;
@@ -182,7 +189,6 @@
             text-transform: uppercase;
         }
 
-        /* CONTENEDOR CON SCROLL HORIZONTAL */
         .tabla-container {
             background: #111827;
             border: 1px solid #1f2937;
@@ -209,29 +215,11 @@
             color: #ffffff;
             font-weight: 700;
         }
-        th.col-equipo, td.col-equipo {
-            width: 38%;
-            color: #ffffff;
-        }
-        th.col-juegos, td.col-juegos {
-            width: 14%;
-            text-align: center;
-            color: #00e5ff;
-        }
-        th.col-jg, td.col-jg {
-            width: 14%;
-            text-align: center;
-            color: #10b981;
-        }
-        th.col-jp, td.col-jp {
-            width: 14%;
-            text-align: center;
-            color: #ef4444;
-        }
-        th.col-puntos, td.col-puntos {
-            width: 20%;
-            text-align: right;
-        }
+        th.col-equipo, td.col-equipo { width: 38%; color: #ffffff; }
+        th.col-juegos, td.col-juegos { width: 14%; text-align: center; color: #00e5ff; }
+        th.col-jg, td.col-jg { width: 14%; text-align: center; color: #10b981; }
+        th.col-jp, td.col-jp { width: 14%; text-align: center; color: #ef4444; }
+        th.col-puntos, td.col-puntos { width: 20%; text-align: right; }
 
         th {
             background-color: #1f2937;
@@ -240,43 +228,24 @@
             font-size: 0.8rem;
             letter-spacing: 1px;
         }
-        tr:not(:last-child) td {
-            border-bottom: 1px solid #1f2937;
-        }
-        tr:hover {
-            background-color: rgba(0, 229, 255, 0.05);
-        }
+        tr:not(:last-child) td { border-bottom: 1px solid #1f2937; }
+        tr:hover { background-color: rgba(0, 229, 255, 0.05); }
 
         .top-1 { color: #ffd700 !important; text-shadow: 0 0 8px rgba(255, 215, 0, 0.4); }
         .top-2 { color: #c0c0c0 !important; }
         .top-3 { color: #cd7f32 !important; }
-
-        /* Zona de captura temporal (oculta del usuario pero visible para html2canvas) */
-        .captura-temp {
-            position: fixed;
-            left: -99999px;
-            top: 0;
-            z-index: -1;
-            padding: 24px;
-            background-color: #0b0f19;
-            background-image: 
-                linear-gradient(rgba(11, 15, 25, 0.50), rgba(11, 15, 25, 0.65)),
-                url('FONDO-MARCADOR.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            border-radius: 8px;
-        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="nav-buttons">
-            <a href="index.html" class="btn-volver">← Volver al Inicio</a>
-            <a href="https://darkunityesports.github.io/dark-unity-esports/calendario.html" class="btn-volver">← Volver al Calendario</a>
+            <a href="index.html" class="btn-volver">← Inicio</a>
+            <a href="https://darkunityesports.github.io/dark-unity-esports/calendario.html" class="btn-volver">← Calendario</a>
             <button class="btn-download-all" onclick="descargarRankingCompleto()">
-                <i class="fa-solid fa-camera"></i> Descargar Ranking Completo
+                <i class="fa-solid fa-camera"></i>
+                <span class="texto-largo">Descargar Ranking Completo</span>
+                <span class="texto-corto">Ranking Completo</span>
             </button>
         </div>
         
@@ -285,7 +254,6 @@
             <p>Tabla de posiciones oficial | Dark Unity eSports</p>
         </header>
 
-        <!-- ================= CATEGORÍA ROOKIE ================= -->
         <div class="categoria-section" id="seccion-rocky">
             <div class="categoria-header">
                 <h2 class="categoria-titulo">🛡️ Categoría Rookie</h2>
@@ -313,7 +281,6 @@
             </div>
         </div>
 
-        <!-- ================= CATEGORÍA BEGINNER ================= -->
         <div class="categoria-section" id="seccion-beginner">
             <div class="categoria-header">
                 <h2 class="categoria-titulo">⚡ Categoría Beginner</h2>
@@ -341,7 +308,6 @@
             </div>
         </div>
       
-        <!-- ================= CATEGORÍA MASTER ================= -->
         <div class="categoria-section" id="seccion-master">
             <div class="categoria-header">
                 <h2 class="categoria-titulo">🔥 Categoría ELITE / Master</h2>
@@ -370,7 +336,6 @@
         </div>
     </div>
 
-    <!-- SCRIPT DE CONEXIÓN CON SHEETDB + CAPTURA HD -->
     <script>
         const APIS_SHEETDB = [
             "https://sheetdb.io/api/v1/bl39mzkh3q49q",
@@ -381,26 +346,19 @@
             "https://sheetdb.io/api/v1/pstmhlvzvjwwp",
         ];
 
-        // ═══════════════════════════════════════════════════
-        // CARGA DE DATOS
-        // ═══════════════════════════════════════════════════
         async function cargarRankingDinamico() {
             let datos = null;
-
             const urlsMezcladas = [...APIS_SHEETDB].sort(() => Math.random() - 0.5);
 
             for (let i = 0; i < urlsMezcladas.length; i++) {
                 try {
                     const respuesta = await fetch(urlsMezcladas[i]);
                     if (!respuesta.ok) throw new Error(`Error HTTP: ${respuesta.status}`);
-                    
                     const json = await respuesta.json();
-                    
                     if (Array.isArray(json) && json.length > 0) {
                         datos = json;
                         break;
                     }
-                    console.warn(`API #${i + 1} respondió vacío, probando siguiente...`);
                 } catch (error) {
                     console.warn(`La API #${i + 1} falló. Probando siguiente...`);
                 }
@@ -410,20 +368,13 @@
                 console.error("No se pudo conectar a ninguna API.");
                 ['rocky', 'beginner', 'master'].forEach(cat => {
                     const tbody = document.getElementById('cuerpo-' + cat);
-                    if (tbody) {
-                        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#ef4444;">Error al cargar los datos</td></tr>';
-                    }
+                    if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#ef4444;">Error al cargar los datos</td></tr>';
                 });
                 return;
             }
 
-            let htmlRocky = "";
-            let htmlBeginner = "";
-            let htmlMaster = "";
-            
-            let fechaRocky = "";
-            let fechaBeginner = "";
-            let fechaMaster = "";
+            let htmlRocky = "", htmlBeginner = "", htmlMaster = "";
+            let fechaRocky = "", fechaBeginner = "", fechaMaster = "";
 
             datos.forEach((fila) => {
                 let cat = (fila.category || "").toLowerCase().trim();
@@ -461,13 +412,9 @@
                     </tr>
                 `;
 
-                if (cat === "rookie" || cat === "rocky") {
-                    htmlRocky += filaHTML;
-                } else if (cat === "beginner") {
-                    htmlBeginner += filaHTML;
-                } else if (cat === "master") {
-                    htmlMaster += filaHTML;
-                }
+                if (cat === "rookie" || cat === "rocky") htmlRocky += filaHTML;
+                else if (cat === "beginner") htmlBeginner += filaHTML;
+                else if (cat === "master") htmlMaster += filaHTML;
             });
 
             const cuerpoRocky = document.getElementById("cuerpo-rocky");
@@ -493,14 +440,13 @@
         }
 
         // ═══════════════════════════════════════════════════
-        // CAPTURA HD — Utilidades
+        // CAPTURA HD
         // ═══════════════════════════════════════════════════
         function urlABase64(url) {
             return new Promise((resolve, reject) => {
                 const intentar = (conCORS) => {
                     const img = new Image();
                     if (conCORS) img.crossOrigin = 'anonymous';
-                    
                     img.onload = function () {
                         try {
                             const canvas = document.createElement('canvas');
@@ -524,11 +470,14 @@
             });
         }
 
-        // Clona un elemento y le pone el fondo en Base64
-        async function prepararClon(elemento, anchoReal, altoReal) {
+        async function prepararClon(elemento, anchoReal) {
             const clon = elemento.cloneNode(true);
 
-            // Convertir el fondo a Base64
+            // 🔑 Quitar el botón de captura del clon (que NO aparezca en la imagen)
+            const btnCopia = clon.querySelector('.btn-capture-cat');
+            if (btnCopia) btnCopia.remove();
+
+            // Fondo Base64
             try {
                 const bgBase64 = await urlABase64('FONDO-MARCADOR.jpg');
                 clon.style.backgroundImage = `linear-gradient(rgba(11, 15, 25, 0.50), rgba(11, 15, 25, 0.65)), url('${bgBase64}')`;
@@ -539,17 +488,15 @@
                 console.warn('No se pudo convertir el fondo:', e);
             }
 
-            // Expandir el overflow para que se vea toda la tabla
-            const tablaContainer = clon.querySelector('.tabla-container');
-            if (tablaContainer) {
-                tablaContainer.style.overflow = 'visible';
-                tablaContainer.style.overflowX = 'visible';
-            }
-            const tabla = clon.querySelector('table');
-            if (tabla) {
-                tabla.style.minWidth = 'auto';
-                tabla.style.width = '100%';
-            }
+            // Expandir tablas para que no se corten
+            clon.querySelectorAll('.tabla-container').forEach(tc => {
+                tc.style.overflow = 'visible';
+                tc.style.overflowX = 'visible';
+            });
+            clon.querySelectorAll('table').forEach(t => {
+                t.style.minWidth = 'auto';
+                t.style.width = '100%';
+            });
 
             clon.style.position = 'fixed';
             clon.style.left = '-99999px';
@@ -566,14 +513,12 @@
             return clon;
         }
 
-        // Captura y descarga un elemento
         async function capturarElemento(elemento, nombreArchivo, boton) {
             const textoOriginal = boton.innerHTML;
             boton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Generando...</span>';
             boton.disabled = true;
 
             try {
-                // Esperar a que las imágenes estén cargadas
                 const imgs = elemento.querySelectorAll('img');
                 await Promise.all(Array.from(imgs).map(img => {
                     if (img.complete) return Promise.resolve();
@@ -585,11 +530,10 @@
 
                 await new Promise(r => setTimeout(r, 100));
 
-                // Calcular dimensiones reales
-                const anchoReal = Math.max(elemento.scrollWidth, elemento.offsetWidth);
-                const altoReal = Math.max(elemento.scrollHeight, elemento.offsetHeight);
+                // 🔑 Ancho fijo de 900px (independiente del viewport móvil)
+                const anchoReal = 900;
 
-                const clon = await prepararClon(elemento, anchoReal, altoReal);
+                const clon = await prepararClon(elemento, anchoReal);
 
                 const canvas = await html2canvas(clon, {
                     scale: 2,
@@ -597,9 +541,9 @@
                     allowTaint: true,
                     backgroundColor: '#0b0f19',
                     logging: false,
-                    width: anchoReal + 48, // + padding
+                    width: anchoReal,
                     height: clon.scrollHeight,
-                    windowWidth: anchoReal + 48,
+                    windowWidth: anchoReal,
                     windowHeight: clon.scrollHeight
                 });
 
@@ -619,19 +563,11 @@
             }
         }
 
-        // ═══════════════════════════════════════════════════
-        // DESCARGAS — Funciones expuestas al HTML
-        // ═══════════════════════════════════════════════════
         async function descargarCategoria(catId, catNombre) {
             const elemento = document.getElementById('seccion-' + catId);
-            const boton = elemento.querySelector('.btn-capture-cat');
             if (!elemento) return;
-
-            await capturarElemento(
-                elemento,
-                `DarkUnity-Ranking-${catNombre}.png`,
-                boton
-            );
+            const boton = elemento.querySelector('.btn-capture-cat');
+            await capturarElemento(elemento, `DarkUnity-Ranking-${catNombre}.png`, boton);
         }
 
         async function descargarRankingCompleto() {
@@ -641,7 +577,6 @@
             boton.disabled = true;
 
             try {
-                // Crear un contenedor temporal con las 3 categorías
                 const temp = document.createElement('div');
                 temp.style.position = 'fixed';
                 temp.style.left = '-99999px';
@@ -650,7 +585,6 @@
                 temp.style.backgroundColor = '#0b0f19';
                 temp.style.width = '900px';
 
-                // Encabezado
                 const encabezado = document.createElement('div');
                 encabezado.innerHTML = `
                     <h2 style="color: #00e5ff; text-align: center; font-size: 2.2rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px;">RANKING COMPETITIVO SEMANAL 🏆</h2>
@@ -658,23 +592,18 @@
                 `;
                 temp.appendChild(encabezado);
 
-                // Clonar las 3 secciones
                 ['rocky', 'beginner', 'master'].forEach(catId => {
                     const seccion = document.getElementById('seccion-' + catId);
                     if (!seccion) return;
                     const clon = seccion.cloneNode(true);
-                    // Quitar el botón del clon
                     const btn = clon.querySelector('.btn-capture-cat');
                     if (btn) btn.remove();
                     temp.appendChild(clon);
                 });
 
                 document.body.appendChild(temp);
-
-                // Esperar para que se renderice
                 await new Promise(r => setTimeout(r, 200));
 
-                // Convertir el fondo a Base64
                 try {
                     const bgBase64 = await urlABase64('FONDO-MARCADOR.jpg');
                     temp.style.backgroundImage = `linear-gradient(rgba(11, 15, 25, 0.50), rgba(11, 15, 25, 0.65)), url('${bgBase64}')`;
@@ -682,17 +611,8 @@
                     temp.style.backgroundPosition = 'center';
                 } catch (e) {}
 
-                // Expandir tablas
-                temp.querySelectorAll('.tabla-container').forEach(tc => {
-                    tc.style.overflow = 'visible';
-                });
-                temp.querySelectorAll('table').forEach(t => {
-                    t.style.minWidth = 'auto';
-                    t.style.width = '100%';
-                });
-
-                const anchoReal = 900;
-                const altoReal = temp.scrollHeight;
+                temp.querySelectorAll('.tabla-container').forEach(tc => { tc.style.overflow = 'visible'; });
+                temp.querySelectorAll('table').forEach(t => { t.style.minWidth = 'auto'; t.style.width = '100%'; });
 
                 const canvas = await html2canvas(temp, {
                     scale: 2,
@@ -700,10 +620,10 @@
                     allowTaint: true,
                     backgroundColor: '#0b0f19',
                     logging: false,
-                    width: anchoReal,
-                    height: altoReal,
-                    windowWidth: anchoReal,
-                    windowHeight: altoReal
+                    width: 900,
+                    height: temp.scrollHeight,
+                    windowWidth: 900,
+                    windowHeight: temp.scrollHeight
                 });
 
                 document.body.removeChild(temp);
