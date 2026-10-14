@@ -157,7 +157,7 @@
             gap: 1.2rem;
         }
 
-        /* TARJETA DE PARTIDO (Colores invertidos: Azul a la izquierda, Rojo a la derecha) */
+        /* TARJETA DE PARTIDO */
         .match-card {
             background-color: var(--bg-card);
             background-image: 
@@ -441,7 +441,7 @@
         <h1 class="section-title">Calendario <span>Matchday</span></h1>
         <p class="section-subtitle">Filtra por categoría o estado para encontrar rápidamente los enfrentamientos.</p>
 
-        <!-- Filtros por Categoría (Controlados por la columna 'category' del Sheets) -->
+        <!-- Filtros por Categoría -->
         <div class="filters-wrapper">
             <div class="filter-label"><i class="fa-solid fa-layer-group"></i> Categoría:</div>
             <div class="filter-tabs" id="categoryFilterTabs">
@@ -465,6 +465,57 @@
     </div>
 
     <script>
+        // ═══════════════════════════════════════════════════
+        // URL del Apps Script (mismo endpoint del bracket)
+        // Se usa como proxy CORS para los logos de Drive
+        // ═══════════════════════════════════════════════════
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzoCvUDy8GxLhIxlOilIkwTz29JsCVK9gfhY-TGlQO3K7iEEQj28c6ljAX9-dxAX62IAQ/exec';
+
+        // ═══════════════════════════════════════════════════
+        // Cache de logos en memoria (evita llamadas duplicadas)
+        // ═══════════════════════════════════════════════════
+        const logosCache = {};
+
+        // Carga un logo de Drive vía Apps Script y devuelve el Base64
+        async function cargarLogoBase64(urlDrive) {
+            if (!urlDrive) return "https://via.placeholder.com/52";
+
+            const match = urlDrive.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+            if (!match || !match[1]) return urlDrive;
+
+            const idLogo = match[1];
+
+            // 1) Si ya está en caché de memoria, devolverlo al instante
+            if (logosCache[idLogo]) return logosCache[idLogo];
+
+            // 2) Si está en localStorage, usarlo
+            try {
+                const lsCache = localStorage.getItem('logo_' + idLogo);
+                if (lsCache) {
+                    logosCache[idLogo] = lsCache;
+                    return lsCache;
+                }
+            } catch (e) {}
+
+            // 3) Descargar del Apps Script
+            try {
+                const resp = await fetch(`${WEB_APP_URL}?img=${idLogo}`);
+                const json = await resp.json();
+                if (json.success) {
+                    logosCache[idLogo] = json.data;
+                    try { localStorage.setItem('logo_' + idLogo, json.data); } catch(e) {}
+                    return json.data;
+                }
+            } catch (e) {
+                console.warn('Error cargando logo:', idLogo, e);
+            }
+
+            return "https://via.placeholder.com/52";
+        }
+
+        // ═══════════════════════════════════════════════════
+        // Configuración del calendario
+        // ═══════════════════════════════════════════════════
         const SHEETDB_URLS = [
             "https://sheetdb.io/api/v1/7fivo9pz7mgtd", // lootboxstore2026@gmail.com (500 peticiones por mes)
             "https://sheetdb.io/api/v1/cgjg6vnh2uupo", // lootboxstore2025@gmail.com (500 peticiones por mes)
@@ -479,24 +530,21 @@
         let categoriaSeleccionada = 'all';
         let estadoSeleccionado = 'all';
 
-        function convertirLinkDrive(url) {
-            if (!url) return "https://via.placeholder.com/52";
-            let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-            if (match && match[1]) {
-                return `https://lh3.googleusercontent.com/d/${match[1]}`;
-            }
-            return url;
-        }
-
+        // ═══════════════════════════════════════════════════
+        // Carga inicial del calendario (con redundancia en cascada)
+        // ═══════════════════════════════════════════════════
         async function cargarCalendario() {
             const container = document.getElementById('matchesContainer');
             container.innerHTML = '<p style="text-align:center; color:#64748b;">Cargando partidos...</p>';
 
             let datosObtenidos = false;
 
-            for (let i = 0; i < SHEETDB_URLS.length; i++) {
+            // Mezclar URLs para distribuir la carga (rotación aleatoria)
+            const urlsMezcladas = [...SHEETDB_URLS].sort(() => Math.random() - 0.5);
+
+            for (let i = 0; i < urlsMezcladas.length; i++) {
                 try {
-                    const response = await fetch(SHEETDB_URLS[i]);
+                    const response = await fetch(urlsMezcladas[i]);
                     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                     
                     const data = await response.json();
@@ -504,7 +552,7 @@
                     if (Array.isArray(data) && data.length > 0) {
                         allMatchesData = data;
                         datosObtenidos = true;
-                        aplicarFiltros();
+                        await aplicarFiltros();
                         break;
                     }
                 } catch (error) {
@@ -517,6 +565,9 @@
             }
         }
 
+        // ═══════════════════════════════════════════════════
+        // Filtros
+        // ═══════════════════════════════════════════════════
         function filtrarPorCategoria(categoria, btnElement) {
             const buttons = document.querySelectorAll('#categoryFilterTabs .filter-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
@@ -533,7 +584,11 @@
             aplicarFiltros();
         }
 
-        function aplicarFiltros() {
+        // ═══════════════════════════════════════════════════
+        // Aplicar filtros y renderizar tarjetas
+        // (Con precarga de logos en paralelo + caché)
+        // ═══════════════════════════════════════════════════
+        async function aplicarFiltros() {
             const container = document.getElementById('matchesContainer');
             container.innerHTML = '';
 
@@ -559,6 +614,22 @@
                 return;
             }
 
+            // 🔑 PRECARGAR todos los logos en paralelo antes de renderizar
+            const promesasLogos = [];
+            matchesFiltrados.forEach(match => {
+                promesasLogos.push(cargarLogoBase64(match.team1Logo));
+                promesasLogos.push(cargarLogoBase64(match.team2Logo));
+            });
+            await Promise.all(promesasLogos);
+
+            // Helper para extraer el ID de una URL de Drive
+            const extraerId = (url) => {
+                if (!url) return null;
+                const m = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+                return m ? m[1] : null;
+            };
+
+            // Renderizar tarjetas (los logos ya están listos en caché)
             matchesFiltrados.forEach(match => {
                 let centerContentText = match.centerContent || "VS";
                 let centerTextUpper = centerContentText.trim().toUpperCase();
@@ -568,10 +639,14 @@
                 let dateTimeText = match.dateTimeText || "Próximamente";
                 let streamUrl = match.streamUrl || "#";
                 let team1Name = match.team1Name || "Equipo 1";
-                let team1Logo = convertirLinkDrive(match.team1Logo);
                 let team2Name = match.team2Name || "Equipo 2";
-                let team2Logo = convertirLinkDrive(match.team2Logo);
                 let serverInfo = match.serverInfo || "Servidor: LATAM";
+
+                // Los logos ya están en caché → asignación instantánea
+                const id1 = extraerId(match.team1Logo);
+                const id2 = extraerId(match.team2Logo);
+                let team1Logo = (id1 && logosCache[id1]) ? logosCache[id1] : "https://via.placeholder.com/52";
+                let team2Logo = (id2 && logosCache[id2]) ? logosCache[id2] : "https://via.placeholder.com/52";
 
                 let streamBtnHtml = `<a href="${streamUrl}" target="_blank" class="match-stream-btn"><i class="fa-solid fa-tv"></i> Ver Transmisión</a>`;
 
