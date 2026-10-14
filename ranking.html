@@ -76,9 +76,7 @@
             padding-bottom: 4px;
             scrollbar-width: none;
         }
-        .nav-buttons::-webkit-scrollbar {
-            display: none;
-        }
+        .nav-buttons::-webkit-scrollbar { display: none; }
 
         .btn-volver {
             display: inline-flex;
@@ -94,10 +92,7 @@
             white-space: nowrap;
             flex-shrink: 0;
         }
-        .btn-volver:hover {
-            background: #374151;
-            color: #00e5ff;
-        }
+        .btn-volver:hover { background: #374151; color: #00e5ff; }
 
         .btn-download-all {
             display: inline-flex;
@@ -140,7 +135,7 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .categoria-titulo {
@@ -153,20 +148,31 @@
             margin: 0;
         }
 
+        /* 🆕 Contenedor fecha + botón en la misma línea */
+        .date-and-btn-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
         .btn-capture-cat {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 8px 14px;
+            padding: 6px 12px;
             background: #f1c40f;
             color: #000;
             border: none;
             border-radius: 6px;
             font-weight: bold;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: background 0.3s;
             white-space: nowrap;
+            flex-shrink: 0;
         }
         .btn-capture-cat:hover { background: #d4ac0d; }
         .btn-capture-cat:disabled { opacity: 0.7; cursor: wait; }
@@ -254,15 +260,18 @@
             <p>Tabla de posiciones oficial | Dark Unity eSports</p>
         </header>
 
+        <!-- ================= CATEGORÍA ROOKIE ================= -->
         <div class="categoria-section" id="seccion-rocky">
             <div class="categoria-header">
-                <h2 class="categoria-titulo">🛡️ Cat. Rookie</h2>
-                <button class="btn-capture-cat" onclick="descargarCategoria('rocky', 'Rookie')">
-                    <i class="fa-solid fa-camera"></i> <span>Descargar HD</span>
-                </button>
+                <h2 class="categoria-titulo">🛡️ CATEGORÍA ROOKIE</h2>
             </div>
             <div class="ranking-dates" id="wrapper-fecha-rocky">
-                <span class="date-badge">📅 <span id="texto-fecha-rocky"></span></span>
+                <div class="date-and-btn-row">
+                    <span class="date-badge">📅 <span id="texto-fecha-rocky"></span></span>
+                    <button class="btn-capture-cat" onclick="descargarCategoria('rocky', 'Rookie')">
+                        <i class="fa-solid fa-camera"></i> <span>Descargar HD</span>
+                    </button>
+                </div>
             </div>
             <div class="tabla-container">
                 <table>
@@ -281,15 +290,18 @@
             </div>
         </div>
 
+        <!-- ================= CATEGORÍA BEGINNER ================= -->
         <div class="categoria-section" id="seccion-beginner">
             <div class="categoria-header">
-                <h2 class="categoria-titulo">⚡ Cat. Beginner</h2>
-                <button class="btn-capture-cat" onclick="descargarCategoria('beginner', 'Beginner')">
-                    <i class="fa-solid fa-camera"></i> <span>Descargar HD</span>
-                </button>
+                <h2 class="categoria-titulo">⚡ CATEGORÍA BEGINNER</h2>
             </div>
             <div class="ranking-dates" id="wrapper-fecha-beginner">
-                <span class="date-badge">📅 <span id="texto-fecha-beginner"></span></span>
+                <div class="date-and-btn-row">
+                    <span class="date-badge">📅 <span id="texto-fecha-beginner"></span></span>
+                    <button class="btn-capture-cat" onclick="descargarCategoria('beginner', 'Beginner')">
+                        <i class="fa-solid fa-camera"></i> <span>Descargar HD</span>
+                    </button>
+                </div>
             </div>
             <div class="tabla-container">
                 <table>
@@ -308,15 +320,18 @@
             </div>
         </div>
       
+        <!-- ================= CATEGORÍA MASTER ================= -->
         <div class="categoria-section" id="seccion-master">
             <div class="categoria-header">
-                <h2 class="categoria-titulo">🔥 Cat. ELITE / Master</h2>
-                <button class="btn-capture-cat" onclick="descargarCategoria('master', 'Master')">
-                    <i class="fa-solid fa-camera"></i> <span>Descargar HD</span>
-                </button>
+                <h2 class="categoria-titulo">🔥 CATEGORÍA ÉLITE / MASTER</h2>
             </div>
             <div class="ranking-dates" id="wrapper-fecha-master">
-                <span class="date-badge">📅 <span id="texto-fecha-master"></span></span>
+                <div class="date-and-btn-row">
+                    <span class="date-badge">📅 <span id="texto-fecha-master"></span></span>
+                    <button class="btn-capture-cat" onclick="descargarCategoria('master', 'Master')">
+                        <i class="fa-solid fa-camera"></i> <span>Descargar HD</span>
+                    </button>
+                </div>
             </div>
             <div class="tabla-container">
                 <table>
@@ -346,6 +361,9 @@
             "https://sheetdb.io/api/v1/pstmhlvzvjwwp",
         ];
 
+        // ═══════════════════════════════════════════════════
+        // CARGA DE DATOS
+        // ═══════════════════════════════════════════════════
         async function cargarRankingDinamico() {
             let datos = null;
             const urlsMezcladas = [...APIS_SHEETDB].sort(() => Math.random() - 0.5);
@@ -425,17 +443,21 @@
             if (cuerpoBeginner) cuerpoBeginner.innerHTML = htmlBeginner || `<tr><td colspan="6" style="text-align:center; color:#94a3b8;">No hay equipos registrados</td></tr>`;
             if (cuerpoMaster) cuerpoMaster.innerHTML = htmlMaster || `<tr><td colspan="6" style="text-align:center; color:#94a3b8;">No hay equipos registrados</td></tr>`;
 
-            if (fechaRocky) {
-                document.getElementById("texto-fecha-rocky").textContent = fechaRocky;
-                document.getElementById("wrapper-fecha-rocky").style.display = "block";
-            }
-            if (fechaBeginner) {
-                document.getElementById("texto-fecha-beginner").textContent = fechaBeginner;
-                document.getElementById("wrapper-fecha-beginner").style.display = "block";
-            }
-            if (fechaMaster) {
-                document.getElementById("texto-fecha-master").textContent = fechaMaster;
-                document.getElementById("wrapper-fecha-master").style.display = "block";
+            // 🔑 Siempre mostrar el bloque (fecha + botón), incluso si no hay fecha
+            mostrarBloqueFecha('rocky', fechaRocky);
+            mostrarBloqueFecha('beginner', fechaBeginner);
+            mostrarBloqueFecha('master', fechaMaster);
+        }
+
+        // 🔑 Función auxiliar: siempre muestra el bloque con fecha y botón
+        function mostrarBloqueFecha(catId, textoFecha) {
+            const wrapper = document.getElementById('wrapper-fecha-' + catId);
+            const texto = document.getElementById('texto-fecha-' + catId);
+            if (wrapper) {
+                wrapper.style.display = 'block';
+                if (texto) {
+                    texto.textContent = textoFecha || 'Sin fecha';
+                }
             }
         }
 
@@ -473,7 +495,7 @@
         async function prepararClon(elemento, anchoReal) {
             const clon = elemento.cloneNode(true);
 
-            // 🔑 Quitar el botón de captura del clon (que NO aparezca en la imagen)
+            // 🔑 Quitar el botón de captura del clon
             const btnCopia = clon.querySelector('.btn-capture-cat');
             if (btnCopia) btnCopia.remove();
 
@@ -488,7 +510,7 @@
                 console.warn('No se pudo convertir el fondo:', e);
             }
 
-            // Expandir tablas para que no se corten
+            // Expandir tablas
             clon.querySelectorAll('.tabla-container').forEach(tc => {
                 tc.style.overflow = 'visible';
                 tc.style.overflowX = 'visible';
@@ -530,9 +552,7 @@
 
                 await new Promise(r => setTimeout(r, 100));
 
-                // 🔑 Ancho fijo de 900px (independiente del viewport móvil)
                 const anchoReal = 900;
-
                 const clon = await prepararClon(elemento, anchoReal);
 
                 const canvas = await html2canvas(clon, {
