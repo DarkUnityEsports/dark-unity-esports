@@ -491,34 +491,62 @@
         let response = await fetch(WEB_APP_URL);
         let data = await response.json();
 
+        // PASO 1: Actualizar TEXTOS (nombres y scores) inmediatamente
+        const logosPendientes = [];
+
         for (let key in data) {
-            let nameSpan = document.getElementById('name_' + key);
-            let scoreSpan = document.getElementById('score_' + key);
-            let logoImg = document.getElementById('logo_' + key);
+            const nameSpan = document.getElementById('name_' + key);
+            const scoreSpan = document.getElementById('score_' + key);
+            const logoImg = document.getElementById('logo_' + key);
 
             if (nameSpan) nameSpan.textContent = data[key].name;
             if (scoreSpan) scoreSpan.textContent = data[key].score;
+
             if (logoImg && data[key].logo) {
-                // Extraer el ID del link de Drive
                 const match = data[key].logo.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
                 if (match && match[1]) {
-                    const idLogo = match[1];
-                    // Evitar recargar si ya está cargado
-                    if (logoImg.dataset.logoId !== idLogo) {
-                        logoImg.dataset.logoId = idLogo;
-                        try {
-                            const resp = await fetch(`${WEB_APP_URL}?img=${idLogo}`);
-                            const json = await resp.json();
-                            if (json.success) {
-                                logoImg.src = json.data; // Asignar Base64 directamente
-                            }
-                        } catch (e) {
-                            console.warn('Error cargando logo:', key, e);
-                        }
-                    }
+                    logosPendientes.push({
+                        img: logoImg,
+                        id: match[1],
+                        key: key
+                    });
                 }
             }
         }
+
+        // PASO 2: Cargar TODOS los logos EN PARALELO
+        await Promise.all(logosPendientes.map(async (item) => {
+            if (item.img.dataset.logoId === item.id && item.img.src.startsWith('data:')) {
+                return;
+            }
+
+            // 1) Intentar desde caché del navegador
+            const cacheKey = 'logo_' + item.id;
+            const cache = localStorage.getItem(cacheKey);
+            if (cache) {
+                item.img.src = cache;
+                item.img.dataset.logoId = item.id;
+                return;
+            }
+
+            // 2) Descargar del endpoint
+            try {
+                const resp = await fetch(`${WEB_APP_URL}?img=${item.id}`);
+                const json = await resp.json();
+                if (json.success) {
+                    item.img.src = json.data;
+                    item.img.dataset.logoId = item.id;
+                    try {
+                        localStorage.setItem(cacheKey, json.data);
+                    } catch (e) {
+                        console.warn('No se pudo cachear el logo:', item.key);
+                    }
+                }
+            } catch (e) {
+                console.warn('Error cargando logo:', item.key, e);
+            }
+        }));
+
     } catch (error) {
         console.error('Error al sincronizar con Google Sheets:', error);
     }
