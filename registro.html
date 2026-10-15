@@ -688,31 +688,30 @@
             const f6 = obtenerBanderaDiscord(getValueByName('p6_pais'));
             const f7 = obtenerBanderaDiscord(getValueByName('p7_pais'));
 
-           const discordPayload = {
+          const discordPayload = {
                 content: null,
                 embeds: [{
                     title: `🚨 NUEVO EQUIPO INSCRITO 🚨`,
-                    description: `## 🛡️ ${nombreEquipo}\n\n\u200B\n🏆 **Tier:** ${tierEquipo || "No especificado"} • 🌍 **Servidor:** ${servidorTextoDiscord}`,
+                    description: `## 🛡️ ${nombreEquipo}\n\u200B\n🏆 **Tier:** ${tierEquipo || "No especificado"} • 🌍 **Servidor:** ${servidorTextoDiscord}`,
                     color: 2434305,
                     fields: [
                         {
-                            name: "Manager de Equipo",
-                            value: `👤 **"${managerNombre || "No especificado"}"**\n\u200B\n\u200B`,
+                            name: `\u200B\n👤 Manager del Equipo: "${managerNombre || "No especificado"}"`,
+                            value: `\u200B\n\u200B\n⚔️ **Lineup Titulares**\n\u200B`,
                             inline: false
                         },
                         {
-                            name: "Lineup Titulares",
+                            name: `\u200B\n1️⃣ **${getValueByName('p1_nick')}** • 🆔 \`${getValueByName('p1_uid')}\`\n└ 🎮 <@${getValueByName('p1_discord')}> • ${f1} ${getValueByName('p1_pais')}`,
                             value: 
-                                `\u200B\n\n1️⃣ **${getValueByName('p1_nick')}** • 🆔 \`${getValueByName('p1_uid')}\`\n└ 🎮 <@${getValueByName('p1_discord')}> • ${f1} ${getValueByName('p1_pais')}\n\n` +
-                                `2️⃣ **${getValueByName('p2_nick')}** • 🆔 \`${getValueByName('p2_uid')}\`\n└ 🎮 <@${getValueByName('p2_discord')}> • ${f2} ${getValueByName('p2_pais')}\n\n` +
-                                `3️⃣ **${getValueByName('p3_nick')}** • 🆔 \`${getValueByName('p3_uid')}\`\n└ 🎮 <@${getValueByName('p3_discord')}> • ${f3} ${getValueByName('p3_pais')}\n\n` +
-                                `4️⃣ **${getValueByName('p4_nick')}** • 🆔 \`${getValueByName('p4_uid')}\`\n└ 🎮 <@${getValueByName('p4_discord')}> • ${f4} ${getValueByName('p4_pais')}\n\n` +
+                                `\u200B\n2️⃣ **${getValueByName('p2_nick')}** • 🆔 \`${getValueByName('p2_uid')}\`\n└ 🎮 <@${getValueByName('p2_discord')}> • ${f2} ${getValueByName('p2_pais')}\n\u200B\n` +
+                                `3️⃣ **${getValueByName('p3_nick')}** • 🆔 \`${getValueByName('p3_uid')}\`\n└ 🎮 <@${getValueByName('p3_discord')}> • ${f3} ${getValueByName('p3_pais')}\n\u200B\n` +
+                                `4️⃣ **${getValueByName('p4_nick')}** • 🆔 \`${getValueByName('p4_uid')}\`\n└ 🎮 <@${getValueByName('p4_discord')}> • ${f4} ${getValueByName('p4_pais')}\n\u200B\n` +
                                 `5️⃣ **${getValueByName('p5_nick')}** • 🆔 \`${getValueByName('p5_uid')}\`\n└ 🎮 <@${getValueByName('p5_discord')}> • ${f5} ${getValueByName('p5_pais')}`,
                             inline: false
                         },
                         {
-                            name: "Suplentes",
-                            value: `\u200B\n\n` + (getValueByName('p6_nick') ? `1️⃣ **${getValueByName('p6_nick')}** • 🆔 \`${getValueByName('p6_uid')}\`\n└ 🎮 <@${getValueByName('p6_discord')}> • ${f6} ${getValueByName('p6_pais')}\n\n` : '') +
+                            name: `\u200B\nSuplentes\n\u200B`,
+                            value: (getValueByName('p6_nick') ? `1️⃣ **${getValueByName('p6_nick')}** • 🆔 \`${getValueByName('p6_uid')}\`\n└ 🎮 <@${getValueByName('p6_discord')}> • ${f6} ${getValueByName('p6_pais')}\n\u200B\n` : '') +
                                    (getValueByName('p7_nick') ? `2️⃣ **${getValueByName('p7_nick')}** • 🆔 \`${getValueByName('p7_uid')}\`\n└ 🎮 <@${getValueByName('p7_discord')}> • ${f7} ${getValueByName('p7_pais')}` : '') +
                                    (!getValueByName('p6_nick') && !getValueByName('p7_nick') ? '*Ninguno*' : ''),
                             inline: false
