@@ -692,16 +692,16 @@
                 content: null,
                 embeds: [{
                     title: `🚨 NUEVO EQUIPO INSCRITO 🚨`,
-                    description: `## 🛡️ ${nombreEquipo}\n\n🏆 **Tier:** ${tierEquipo || "No especificado"} • 🌍 **Servidor:** ${servidorTextoDiscord}`,
+                    description: `## 🛡️ ${nombreEquipo}\n\n\u200B\n🏆 **Tier:** ${tierEquipo || "No especificado"} • 🌍 **Servidor:** ${servidorTextoDiscord}`,
                     color: 2434305,
                     fields: [
                         {
-                            name: "👤 Manager del Equipo",
-                            value: `👤 **"${managerNombre || "No especificado"}"**`,
+                            name: "Manager de Equipo",
+                            value: `🧑‍💼 **"${managerNombre || "No especificado"}"**\n\u200B`,
                             inline: false
                         },
                         {
-                            name: "⚔️ Lineup Titulares",
+                            name: "👥Lineup Titulares",
                             value: 
                                 `1️⃣ **${getValueByName('p1_nick')}** • 🆔 \`${getValueByName('p1_uid')}\`\n└ 🎮 <@${getValueByName('p1_discord')}> • ${f1} ${getValueByName('p1_pais')}\n\n` +
                                 `2️⃣ **${getValueByName('p2_nick')}** • 🆔 \`${getValueByName('p2_uid')}\`\n└ 🎮 <@${getValueByName('p2_discord')}> • ${f2} ${getValueByName('p2_pais')}\n\n` +
