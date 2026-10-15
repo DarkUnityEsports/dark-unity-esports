@@ -697,7 +697,7 @@
                     fields: [
                         {
                             name: "👤 Manager del Equipo",
-                            value: `👤 Manager: **"${managerNombre || "No especificado"}"** •\n🆔 <@${managerDiscord}> • ${fManager} ${managerPais || "No especificado"}`,
+                            value: `👤 **"${managerNombre || "No especificado"}"**`,
                             inline: false
                         },
                         {
@@ -711,9 +711,9 @@
                             inline: false
                         },
                         {
-                            name: "🔄 Suplentes",
-                            value: (getValueByName('p6_nick') ? `S1️⃣ **${getValueByName('p6_nick')}** • 🆔 \`${getValueByName('p6_uid')}\`\n└ 🎮 <@${getValueByName('p6_discord')}> • ${f6} ${getValueByName('p6_pais')}\n\n` : '') +
-                                   (getValueByName('p7_nick') ? `S2️⃣ **${getValueByName('p7_nick')}** • 🆔 \`${getValueByName('p7_uid')}\`\n└ 🎮 <@${getValueByName('p7_discord')}> • ${f7} ${getValueByName('p7_pais')}` : '') +
+                            name: "Suplentes",
+                            value: (getValueByName('p6_nick') ? `1️⃣ **${getValueByName('p6_nick')}** • 🆔 \`${getValueByName('p6_uid')}\`\n└ 🎮 <@${getValueByName('p6_discord')}> • ${f6} ${getValueByName('p6_pais')}\n\n` : '') +
+                                   (getValueByName('p7_nick') ? `2️⃣ **${getValueByName('p7_nick')}** • 🆔 \`${getValueByName('p7_uid')}\`\n└ 🎮 <@${getValueByName('p7_discord')}> • ${f7} ${getValueByName('p7_pais')}` : '') +
                                    (!getValueByName('p6_nick') && !getValueByName('p7_nick') ? '*Ninguno*' : ''),
                             inline: false
                         }
