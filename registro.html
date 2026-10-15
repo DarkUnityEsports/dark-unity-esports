@@ -688,7 +688,7 @@
             const f6 = obtenerBanderaDiscord(getValueByName('p6_pais'));
             const f7 = obtenerBanderaDiscord(getValueByName('p7_pais'));
 
-          const discordPayload = {
+            const discordPayload = {
                 content: null,
                 embeds: [{
                     title: `🚨 NUEVO EQUIPO INSCRITO 🚨`,
@@ -720,18 +720,32 @@
                     timestamp: new Date().toISOString()
                 }]
             };
-            Promise.all([
-                fetch(scriptURL, {
-                    method: 'POST',
-                    body: JSON.stringify(formData)
-                }).then(res => res.json()),
 
-                fetch(discordWebhookURL, {
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify(formData)
+            })
+            .then(res => res.json())
+            .then(responseAppsScript => {
+                let logoUrl = responseAppsScript.logoUrl || "";
+                
+                if (logoUrl) {
+                    const match = logoUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+                    if (match && match[1]) {
+                        logoUrl = `https://lh3.googleusercontent.com/d/${match[1]}`;
+                    }
+                }
+                
+                if (logoUrl) {
+                    discordPayload.embeds[0].thumbnail = { url: logoUrl };
+                }
+                
+                return fetch(discordWebhookURL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(discordPayload)
-                })
-            ])
+                });
+            })
             .then(() => {
                 alert('¡Inscripción exitosa! El clan ha quedado registrado correctamente y notificado en Discord.');
                 document.getElementById('registroForm').reset();
