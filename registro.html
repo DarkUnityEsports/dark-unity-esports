@@ -701,9 +701,9 @@
                             inline: false
                         },
                         {
-                            name: "👥Lineup Titulares",
+                            name: "Lineup Titulares",
                             value: 
-                                `1️⃣ **${getValueByName('p1_nick')}** • 🆔 \`${getValueByName('p1_uid')}\`\n└ 🎮 <@${getValueByName('p1_discord')}> • ${f1} ${getValueByName('p1_pais')}\n\n` +
+                                `\u200B\n\n1️⃣ **${getValueByName('p1_nick')}** • 🆔 \`${getValueByName('p1_uid')}\`\n└ 🎮 <@${getValueByName('p1_discord')}> • ${f1} ${getValueByName('p1_pais')}\n\n` +
                                 `2️⃣ **${getValueByName('p2_nick')}** • 🆔 \`${getValueByName('p2_uid')}\`\n└ 🎮 <@${getValueByName('p2_discord')}> • ${f2} ${getValueByName('p2_pais')}\n\n` +
                                 `3️⃣ **${getValueByName('p3_nick')}** • 🆔 \`${getValueByName('p3_uid')}\`\n└ 🎮 <@${getValueByName('p3_discord')}> • ${f3} ${getValueByName('p3_pais')}\n\n` +
                                 `4️⃣ **${getValueByName('p4_nick')}** • 🆔 \`${getValueByName('p4_uid')}\`\n└ 🎮 <@${getValueByName('p4_discord')}> • ${f4} ${getValueByName('p4_pais')}\n\n` +
@@ -712,7 +712,7 @@
                         },
                         {
                             name: "Suplentes",
-                            value: (getValueByName('p6_nick') ? `1️⃣ **${getValueByName('p6_nick')}** • 🆔 \`${getValueByName('p6_uid')}\`\n└ 🎮 <@${getValueByName('p6_discord')}> • ${f6} ${getValueByName('p6_pais')}\n\n` : '') +
+                            value: `\u200B\n\n` + (getValueByName('p6_nick') ? `1️⃣ **${getValueByName('p6_nick')}** • 🆔 \`${getValueByName('p6_uid')}\`\n└ 🎮 <@${getValueByName('p6_discord')}> • ${f6} ${getValueByName('p6_pais')}\n\n` : '') +
                                    (getValueByName('p7_nick') ? `2️⃣ **${getValueByName('p7_nick')}** • 🆔 \`${getValueByName('p7_uid')}\`\n└ 🎮 <@${getValueByName('p7_discord')}> • ${f7} ${getValueByName('p7_pais')}` : '') +
                                    (!getValueByName('p6_nick') && !getValueByName('p7_nick') ? '*Ninguno*' : ''),
                             inline: false
@@ -721,7 +721,6 @@
                     timestamp: new Date().toISOString()
                 }]
             };
-
             Promise.all([
                 fetch(scriptURL, {
                     method: 'POST',
