@@ -528,7 +528,7 @@
             "https://sheetdb.io/api/v1/pkuzmnzlb0jqb", // carlewiscortez33@gmail.com (500 peticiones por mes)
 
             "https://sheetdb.io/api/v1/xc2qxb7i4lgts", // superminecraft121198@gmail.com (500 peticiones por mes)
-            
+
             "https://sheetdb.io/api/v1/m8m1egc3mo7o4", // soportepcvenezuela1@gmail.com (500 peticiones por mes)
         ];
 
@@ -539,37 +539,47 @@
         // ═══════════════════════════════════════════════════
         // Carga inicial del calendario (con redundancia en cascada)
         // ═══════════════════════════════════════════════════
+        
         async function cargarCalendario() {
-            const container = document.getElementById('matchesContainer');
-            container.innerHTML = '<p style="text-align:center; color:#64748b;">Cargando partidos...</p>';
+        const container = document.getElementById('matchesContainer');
+        container.innerHTML = '<p style="text-align:center; color:#64748b;">Cargando partidos...</p>';
 
-            let datosObtenidos = false;
+        let datosObtenidos = false;
+    
+        // 🆕 MEJORA 2: Rotación aleatoria de URLs
+        const urlsMezcladas = [...SHEETDB_URLS].sort(() => Math.random() - 0.5);
 
-            // Mezclar URLs para distribuir la carga (rotación aleatoria)
-            const urlsMezcladas = [...SHEETDB_URLS].sort(() => Math.random() - 0.5);
+         for (let i = 0; i < urlsMezcladas.length; i++) {
+        try {
+            // 🆕 MEJORA 3: Timeout de 5 segundos por URL
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-            for (let i = 0; i < urlsMezcladas.length; i++) {
-                try {
-                    const response = await fetch(urlsMezcladas[i]);
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                    
-                    const data = await response.json();
-                    
-                    if (Array.isArray(data) && data.length > 0) {
-                        allMatchesData = data;
-                        datosObtenidos = true;
-                        await aplicarFiltros();
-                        break;
-                    }
-                } catch (error) {
-                    console.warn(`El enlace de respaldo #${i + 1} falló. Intentando con el siguiente...`);
-                }
+            const response = await fetch(urlsMezcladas[i], { signal: controller.signal });
+            clearTimeout(timeoutId);
+
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            
+            const data = await response.json();
+            
+            // 🆕 MEJORA 1: Validación de datos
+            if (Array.isArray(data) && data.length > 0) {
+                allMatchesData = data;
+                datosObtenidos = true;
+                await aplicarFiltros();
+                break;
+            } else {
+                console.warn(`API #${i + 1} respondió vacío. Probando siguiente...`);
             }
-
-            if (!datosObtenidos) {
-                container.innerHTML = '<p style="text-align:center; color:#ef4444;">Error al conectar con la base de datos o se agotaron las cuotas de las APIs.</p>';
-            }
+        } catch (error) {
+            console.warn(`API #${i + 1} falló o tardó demasiado. Probando siguiente...`);
         }
+    }
+
+    if (!datosObtenidos) {
+        container.innerHTML = '<p style="text-align:center; color:#ef4444;">Error al conectar con la base de datos o se agotaron las cuotas de las APIs.</p>';
+    }
+    }
 
         // ═══════════════════════════════════════════════════
         // Filtros
