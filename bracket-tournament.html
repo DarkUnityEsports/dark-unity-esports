@@ -301,22 +301,34 @@
         .btn-download { background: #f1c40f; color: #000; }
         .btn-download:hover { background: #d4ac0d; color: #000; }
 
-        @media (max-width: 768px) {
+                @media (max-width: 768px) {
             .header-title {
-                gap: 10px;
+                gap: 8px;
+                flex-wrap: nowrap;
             }
             .logo-brand {
-                width: 85px;
-                height: 85px;
+                width: 55px;
+                height: 55px;
+            }
+            .header-text-center {
+                text-align: left;
+                padding-left: 4px;
             }
             .header-title h1 {
-                font-size: 1.15rem;
+                font-size: 1.1rem;
                 white-space: normal;
-                line-height: 1.2;
+                line-height: 1.1;
+                letter-spacing: 0.5px;
             }
             .subtitle {
-                font-size: 0.65rem;
-                letter-spacing: 1px;
+                font-size: 0.6rem;
+                letter-spacing: 0.5px;
+                display: block;
+                line-height: 1.1;
+            }
+            .header-text-center p {
+                font-size: 0.6rem !important;
+                line-height: 1.1;
             }
         }
     </style>
@@ -614,69 +626,86 @@
     // ============================================
     // NUEVO: Convierte todas las imágenes y el fondo a Base64
     // ============================================
-    async function prepararClonParaCaptura(elemento, anchoReal, altoReal) {
-    const clon = elemento.cloneNode(true);
+        async function prepararClonParaCaptura(elemento, anchoReal, altoReal) {
+        const clon = elemento.cloneNode(true);
 
-    const imgsOriginales = elemento.querySelectorAll('img');
-    const imgsClon = clon.querySelectorAll('img');
+        const imgsOriginales = elemento.querySelectorAll('img');
+        const imgsClon = clon.querySelectorAll('img');
 
-    console.log(`🔍 Convirtiendo ${imgsOriginales.length} imágenes a Base64...`);
+        console.log(`🔍 Convirtiendo ${imgsOriginales.length} imágenes a Base64...`);
 
-    for (let i = 0; i < imgsOriginales.length; i++) {
-        const srcOriginal = imgsOriginales[i].src;
-        const idImg = imgsOriginales[i].id || `(sin id, posición ${i})`;
-        
-        if (!srcOriginal || srcOriginal.startsWith('data:')) {
-            console.log(`⏭️ ${idImg}: ya es Base64 o vacía, se omite`);
-            continue;
+        for (let i = 0; i < imgsOriginales.length; i++) {
+            const srcOriginal = imgsOriginales[i].src;
+            const idImg = imgsOriginales[i].id || `(sin id, posición ${i})`;
+            
+            if (!srcOriginal || srcOriginal.startsWith('data:')) {
+                console.log(`⏭️ ${idImg}: ya es Base64 o vacía, se omite`);
+                continue;
+            }
+            
+            try {
+                const base64 = await urlABase64(srcOriginal);
+                imgsClon[i].src = base64;
+                imgsClon[i].onerror = null;
+                imgsClon[i].removeAttribute('onerror');
+                console.log(`✅ ${idImg}: convertida (${base64.length} chars)`);
+            } catch (e) {
+                console.error(`❌ ${idImg}: FALLÓ la conversión`, srcOriginal, e);
+                imgsClon[i].onerror = null;
+                imgsClon[i].removeAttribute('onerror');
+            }
         }
-        
+
+        const bgUrl = "FONDO-BRACKET.jpg";
         try {
-            const base64 = await urlABase64(srcOriginal);
-            imgsClon[i].src = base64;
-            imgsClon[i].onerror = null;
-            imgsClon[i].removeAttribute('onerror');
-            console.log(`✅ ${idImg}: convertida (${base64.length} chars)`);
+            const bgBase64 = await urlABase64(bgUrl);
+            clon.style.backgroundImage = `linear-gradient(rgba(11, 15, 25, 0.56), rgba(11, 15, 25, 0.65)), url('${bgBase64}')`;
+            clon.style.backgroundSize = 'cover';
+            clon.style.backgroundPosition = 'center';
+            clon.style.backgroundRepeat = 'no-repeat';
+            console.log('✅ Fondo convertido a Base64');
         } catch (e) {
-            console.error(`❌ ${idImg}: FALLÓ la conversión`, srcOriginal, e);
-            imgsClon[i].onerror = null;
-            imgsClon[i].removeAttribute('onerror');
+            console.warn('⚠️ No se pudo convertir el fondo a Base64:', e);
         }
+
+        // 🆕 FIX: Forzar proporción 1:1 en los logos de equipos
+        clon.querySelectorAll('.team-logo').forEach(img => {
+            img.style.aspectRatio = '1 / 1';
+            img.style.objectFit = 'cover';
+            img.style.borderRadius = '50%';
+            img.style.minWidth = '28px';
+            img.style.minHeight = '28px';
+        });
+
+        // 🆕 FIX: Forzar proporción en los logos del header
+        clon.querySelectorAll('.logo-brand').forEach(img => {
+            img.style.aspectRatio = '1 / 1';
+            img.style.objectFit = 'contain';
+            img.style.minWidth = '110px';
+            img.style.minHeight = '110px';
+        });
+
+        clon.style.position = 'fixed';
+        clon.style.left = '-99999px';
+        clon.style.top = '0';
+        clon.style.width = anchoReal + 'px';
+        clon.style.minWidth = anchoReal + 'px';
+        clon.style.maxWidth = 'none';
+        clon.style.height = 'auto';
+        clon.style.zIndex = '-1';
+        clon.style.overflow = 'visible';
+
+        const scrollClon = clon.querySelector('#bracket-scroll-box');
+        if (scrollClon) {
+            scrollClon.style.width = 'max-content';
+            scrollClon.style.overflowX = 'visible';
+            scrollClon.style.overflow = 'visible';
+        }
+
+        document.body.appendChild(clon);
+
+        return clon;
     }
-
-    const bgUrl = "FONDO-BRACKET.jpg";
-    try {
-        const bgBase64 = await urlABase64(bgUrl);
-        clon.style.backgroundImage = `linear-gradient(rgba(11, 15, 25, 0.56), rgba(11, 15, 25, 0.65)), url('${bgBase64}')`;
-        clon.style.backgroundSize = 'cover';
-        clon.style.backgroundPosition = 'center';
-        clon.style.backgroundRepeat = 'no-repeat';
-        console.log('✅ Fondo convertido a Base64');
-    } catch (e) {
-        console.warn('⚠️ No se pudo convertir el fondo a Base64:', e);
-    }
-
-    clon.style.position = 'fixed';
-    clon.style.left = '-99999px';
-    clon.style.top = '0';
-    clon.style.width = anchoReal + 'px';
-    clon.style.minWidth = anchoReal + 'px';
-    clon.style.maxWidth = 'none';
-    clon.style.height = 'auto';
-    clon.style.zIndex = '-1';
-    clon.style.overflow = 'visible';
-
-    const scrollClon = clon.querySelector('#bracket-scroll-box');
-    if (scrollClon) {
-        scrollClon.style.width = 'max-content';
-        scrollClon.style.overflowX = 'visible';
-        scrollClon.style.overflow = 'visible';
-    }
-
-    document.body.appendChild(clon);
-
-    return clon;
-}
 
     // ============================================
     // FUNCIÓN DE DESCARGA HD MEJORADA
@@ -719,8 +748,10 @@
             grid ? grid.offsetHeight : 0,
             elemento.offsetHeight
         );
+        
 
         console.log('Dimensiones calculadas:', anchoReal, 'x', altoReal);
+        
 
         const clon = await prepararClonParaCaptura(elemento, anchoReal, altoReal);
 
