@@ -313,9 +313,32 @@
         }
 
         /* RESPONSIVE MÓVIL CON MENÚ HAMBURGUESA PLEGABLE */
-        @media (max-width: 768px) {
+               @media (max-width: 768px) {
             .menu-toggle {
                 display: block;
+            }
+
+            /* 🆕 FIX: Ajustar el header para móviles */
+            .nav-container {
+                padding: 0.6rem 1rem;
+            }
+
+            .logo-container {
+                gap: 8px;
+                flex: 1;
+                min-width: 0;
+            }
+
+            .logo-img {
+                height: 35px;
+            }
+
+            .logo-text {
+                font-size: 1.15rem;
+                letter-spacing: 0.5px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             nav {
