@@ -368,18 +368,28 @@
             let datos = null;
             const urlsMezcladas = [...APIS_SHEETDB].sort(() => Math.random() - 0.5);
 
-            for (let i = 0; i < urlsMezcladas.length; i++) {
-                try {
-                    const respuesta = await fetch(urlsMezcladas[i]);
-                    if (!respuesta.ok) throw new Error(`Error HTTP: ${respuesta.status}`);
-                    const json = await respuesta.json();
-                    if (Array.isArray(json) && json.length > 0) {
-                        datos = json;
-                        break;
-                    }
-                } catch (error) {
-                    console.warn(`La API #${i + 1} falló. Probando siguiente...`);
-                }
+         for (let i = 0; i < urlsMezcladas.length; i++) {
+        try {
+            // 🆕 Timeout de 8 segundos por URL
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+            const respuesta = await fetch(urlsMezcladas[i], { signal: controller.signal });
+            clearTimeout(timeoutId);
+
+            if (!respuesta.ok) throw new Error(`Error HTTP: ${respuesta.status}`);
+            
+            const json = await respuesta.json();
+            
+            if (Array.isArray(json) && json.length > 0) {
+                datos = json;
+                break;
+            }
+        } catch (error) {
+            console.warn(`La API #${i + 1} falló o tardó demasiado. Probando siguiente...`);
+        }
+    
+    
             }
 
             if (!datos) {
