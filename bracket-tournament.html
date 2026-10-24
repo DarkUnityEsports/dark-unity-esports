@@ -302,47 +302,46 @@
         .btn-download:hover { background: #d4ac0d; color: #000; }
 
                        @media (max-width: 768px) {
-            /* 1. Apilamos el encabezado en vertical para que quepa */
-            .header-title {
-                flex-direction: column;
-                gap: 12px;
-                text-align: center;
-            }
+    /* Mantenemos la estructura horizontal (logos a los lados) */
+    .header-title {
+        flex-direction: row;
+        gap: 8px; /* Espacio entre logos y texto */
+        align-items: center;
+    }
 
-            /* 2. Agrandamos los logos un poco para que se vean bien */
-            .logo-brand {
-                width: 90px;
-                height: 90px;
-                aspect-ratio: 1 / 1;
-                object-fit: contain;
-            }
+    /* Logos un poco más pequeños para dar espacio al texto */
+    .logo-brand {
+        width: 60px;
+        height: 60px;
+    }
 
-            /* 3. Centramos el texto y le damos un tamaño legible */
-            .header-text-center {
-                text-align: center;
-                padding: 0;
-                width: 100%;
-            }
+    /* El texto central */
+    .header-text-center {
+        text-align: center;
+        padding: 0 5px;
+    }
 
-            .header-title h1 {
-                font-size: 1.6rem;
-                white-space: normal;
-                line-height: 1.2;
-                letter-spacing: 1px;
-                margin-bottom: 5px;
-            }
+    .header-title h1 {
+        font-size: 1.1rem; /* Tamaño equilibrado */
+        white-space: normal;
+        line-height: 1.1;
+        letter-spacing: 0.5px;
+        margin-top: 10px; /* 🆕 Baja un poco el texto para que no choque */
+        margin-bottom: 2px;
+    }
 
-            .subtitle {
-                font-size: 0.8rem;
-                letter-spacing: 1.5px;
-                display: block;
-                margin-bottom: 5px;
-            }
+    .subtitle {
+        font-size: 0.6rem;
+        letter-spacing: 0.5px;
+        display: block;
+        line-height: 1.1;
+    }
 
-            .header-text-center p {
-                font-size: 0.75rem !important;
-            }
-        }
+    .header-text-center p {
+        font-size: 0.55rem !important;
+        line-height: 1.1;
+    }
+    }
     </style>
 </head>
 <body>
