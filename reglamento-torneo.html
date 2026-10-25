@@ -1,13 +1,19 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dark Unity Esports | Reglamento</title>
+    
+    <!-- FAVICONS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+
     <style>
         /* =========================================
-           ESTILOS GENERALES DE LA PÁGINA (DARK THEME)
+           ESTILOS GENERALES
            ========================================= */
         :root {
             --bg-dark: #090a0f;
@@ -16,7 +22,7 @@
             --text-muted: #8892b0;
             --accent-blue: #00a8ff;
             --border-color: #1f3a5f;
-            --discord-purple: #5865F2; /* Color oficial de Discord */
+            --discord-purple: #5865F2;
         }
 
         * {
@@ -57,23 +63,21 @@
         }
 
         .logo {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-            letter-spacing: 1px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            text-decoration: none;
         }
 
-        .logo span {
-            color: var(--accent-blue);
+        .logo img {
+            height: 35px; 
+            width: auto;
+            object-fit: contain;
         }
 
         .nav-links {
             display: flex;
             gap: 20px;
+            align-items: center;
         }
 
         .nav-links a {
@@ -189,7 +193,7 @@
         }
 
         /* =========================================
-           BOTÓN DE DISCORD (MORADO OFICIAL)
+           BOTÓN DE DISCORD
            ========================================= */
         .discord-cta-container {
             text-align: center;
@@ -235,7 +239,7 @@
         }
 
         .discord-btn:hover {
-            background-color: #4752C4; /* Morado un poco más oscuro al pasar el mouse */
+            background-color: #4752C4;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(88, 101, 242, 0.6);
         }
@@ -259,8 +263,13 @@
         /* Responsive */
         @media (max-width: 768px) {
             .nav-container {
-                flex-direction: column;
-                gap: 15px;
+                flex-direction: row;
+            }
+            .nav-links {
+                display: none;
+            }
+            .logo img {
+                height: 28px;
             }
             .reglamento-header h1 {
                 font-size: 1.8rem;
@@ -277,9 +286,9 @@
     <header>
         <div class="nav-container">
             <a href="index.html" class="logo">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
-                DARK UNITY <span>ESPORTS</span>
+                <img src="logo2026.png" alt="Dark Unity Esports">
             </a>
+            <!-- Modificación respetada: Enlace a biografia.html -->
             <nav class="nav-links">
                 <a href="index.html">Inicio</a>
                 <a href="bracket-tournament.html">Bracket</a>
@@ -446,7 +455,7 @@
                 </div>
             </details>
 
-            <!-- BOTÓN DE DISCORD -->
+            <!-- BOTÓN DE DISCORD (Con tu modificación del título) -->
             <div class="discord-cta-container">
                 <h3>SERVIDOR DARK UNITY ESPORTS</h3>
                 <p>Únete a nuestra comunidad en Discord, participa en nuestros eventos y entérate de las próximas inscripciones de scrims.</p>
