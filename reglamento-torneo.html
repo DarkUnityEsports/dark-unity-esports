@@ -42,7 +42,7 @@
         }
 
         /* =========================================
-           NAVBAR / HEADER
+           NAVBAR / HEADER (Idéntico a tu index)
            ========================================= */
         header {
             background-color: #0b0e14;
@@ -62,25 +62,48 @@
             padding: 0 20px;
         }
 
-        .logo {
+        .logo-container {
             display: flex;
             align-items: center;
             text-decoration: none;
+            gap: 10px;
         }
 
-        .logo img {
-            height: 35px; 
+        .logo-img {
+            height: 35px;
             width: auto;
-            object-fit: contain;
         }
 
-        .nav-links {
+        .logo-text {
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo-text span {
+            color: var(--accent-blue);
+        }
+
+        /* Botón Hamburguesa (Oculto en PC) */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Navegación */
+        #nav-menu ul {
             display: flex;
             gap: 20px;
+            list-style: none;
             align-items: center;
         }
 
-        .nav-links a {
+        .nav-link {
             color: var(--text-main);
             text-decoration: none;
             font-size: 0.9rem;
@@ -88,7 +111,7 @@
             transition: color 0.3s;
         }
 
-        .nav-links a:hover, .nav-links a.active {
+        .nav-link:hover, .nav-link.active {
             color: var(--accent-blue);
         }
 
@@ -260,40 +283,77 @@
             border-top: 1px solid #1a2235;
         }
 
-        /* Responsive */
+        /* =========================================
+           RESPONSIVE (Móviles)
+           ========================================= */
         @media (max-width: 768px) {
+            .menu-toggle {
+                display: block; /* Muestra el botón hamburguesa */
+            }
+
+            #nav-menu {
+                display: none; /* Oculta el menú por defecto */
+                width: 100%;
+                position: absolute;
+                top: 65px;
+                left: 0;
+                background-color: #0b0e14;
+                border-bottom: 1px solid #1a2235;
+                padding: 10px 0;
+            }
+
+            /* Esta clase la activa el JavaScript */
+            #nav-menu.active {
+                display: block;
+            }
+
+            #nav-menu ul {
+                flex-direction: column;
+                gap: 15px;
+                padding: 10px 20px;
+            }
+
             .nav-container {
-                flex-direction: row;
+                flex-wrap: wrap;
             }
-            .nav-links {
-                display: none;
-            }
-            .logo img {
+
+            .logo-img {
                 height: 28px;
             }
+            
+            .logo-text {
+                font-size: 1rem;
+            }
+
             .reglamento-header h1 {
                 font-size: 1.8rem;
-            }
-            .discord-cta-container h3 {
-                font-size: 1.3rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- ENCABEZADO / NAVBAR -->
+    <!-- ENCABEZADO / NAVBAR (Igual al index) -->
     <header>
         <div class="nav-container">
-            <a href="index.html" class="logo">
-                <img src="logo2026.png" alt="Dark Unity Icon">
-                <span>DARK UNITY <span style="color: var(--accent-blue);">ESPORTS</span></span>
+            <!-- Logo con texto -->
+            <a href="index.html" class="logo-container">
+                <img src="logo2026.png" alt="Dark Unity Esports Logo" class="logo-img">
+                <div class="logo-text">DARK <span>UNITY ESPORTS</span></div>
             </a>
-            <!-- Modificación respetada: Enlace a biografia.html -->
-            <nav class="nav-links">
-                <a href="index.html">Inicio</a>
-                <a href="bracket-tournament.html">Bracket</a>
-                <a href="biografia.html">Comunidad</a>
+
+            <!-- Botón Menú Móvil -->
+            <button class="menu-toggle" id="menu-btn" aria-label="Abrir Menú">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <!-- Navegación -->
+            <nav id="nav-menu">
+                <ul>
+                    <li><a href="index.html" class="nav-link">Inicio</a></li>
+                    <li><a href="bracket-tournament.html" class="nav-link">Bracket</a></li>
+                    <li><a href="biografia.html" class="nav-link">Comunidad</a></li>
+                </ul>
             </nav>
         </div>
     </header>
@@ -456,7 +516,7 @@
                 </div>
             </details>
 
-            <!-- BOTÓN DE DISCORD (Con tu modificación del título) -->
+            <!-- BOTÓN DE DISCORD -->
             <div class="discord-cta-container">
                 <h3>SERVIDOR DARK UNITY ESPORTS</h3>
                 <p>Únete a nuestra comunidad en Discord, participa en nuestros eventos y entérate de las próximas inscripciones de scrims.</p>
@@ -477,5 +537,18 @@
         <p>&copy; 2026 Dark Unity Esports. Todos los derechos reservados.</p>
     </footer>
 
+    <!-- SCRIPT PARA EL MENÚ MÓVIL -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const menuBtn = document.getElementById("menu-btn");
+            const navMenu = document.getElementById("nav-menu");
+
+            if (menuBtn && navMenu) {
+                menuBtn.addEventListener("click", function() {
+                    navMenu.classList.toggle("active");
+                });
+            }
+        });
+    </script>
 </body>
 </html>
