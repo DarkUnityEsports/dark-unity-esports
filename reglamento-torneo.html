@@ -1,1 +1,472 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Unity Esports | Reglamento</title>
+    <style>
+        /* =========================================
+           ESTILOS GENERALES DE LA PÁGINA (DARK THEME)
+           ========================================= */
+        :root {
+            --bg-dark: #090a0f;
+            --bg-card: #0d1321;
+            --text-main: #e0e0e0;
+            --text-muted: #8892b0;
+            --accent-blue: #00a8ff;
+            --border-color: #1f3a5f;
+            --discord-purple: #5865F2; /* Color oficial de Discord */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* =========================================
+           NAVBAR / HEADER
+           ========================================= */
+        header {
+            background-color: #0b0e14;
+            border-bottom: 1px solid #1a2235;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--accent-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-blue);
+        }
+
+        /* =========================================
+           CONTENIDO PRINCIPAL (REGLAMENTO)
+           ========================================= */
+        main {
+            flex: 1;
+            padding: 40px 20px;
+        }
+
+        .reglamento-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .reglamento-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .reglamento-header h1 {
+            color: #ffffff;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .reglamento-header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Estilos del Acordeón */
+        .reglamento-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .reglamento-card[open] {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 15px rgba(0, 168, 255, 0.15);
+        }
+
+        .reglamento-card summary {
+            padding: 18px 20px;
+            font-weight: bold;
+            font-size: 1.05rem;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #ffffff;
+            background-color: #131c31;
+            transition: background-color 0.2s;
+            user-select: none;
+        }
+
+        .reglamento-card summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .reglamento-card summary:hover {
+            background-color: #1a2744;
+        }
+
+        .reglamento-card summary::after {
+            content: '▼';
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            transition: transform 0.3s ease;
+        }
+
+        .reglamento-card[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        .reglamento-content {
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            background-color: #0a0f1a;
+        }
+
+        .reglamento-content p {
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .reglamento-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .reglamento-content strong {
+            color: var(--accent-blue);
+            margin-right: 5px;
+        }
+
+        /* =========================================
+           BOTÓN DE DISCORD (MORADO OFICIAL)
+           ========================================= */
+        .discord-cta-container {
+            text-align: center;
+            margin-top: 60px;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        .discord-cta-container h3 {
+            color: #ffffff;
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .discord-cta-container p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .discord-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: var(--discord-purple);
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.05rem;
+            padding: 15px 35px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+        }
+
+        .discord-btn:hover {
+            background-color: #4752C4; /* Morado un poco más oscuro al pasar el mouse */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.6);
+        }
+
+        .discord-btn svg {
+            fill: #ffffff;
+        }
+
+        /* =========================================
+           FOOTER
+           ========================================= */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #0b0e14;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid #1a2235;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .reglamento-header h1 {
+                font-size: 1.8rem;
+            }
+            .discord-cta-container h3 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ENCABEZADO / NAVBAR -->
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
+                DARK UNITY <span>ESPORTS</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html">Inicio</a>
+                <a href="#">Secciones</a>
+                <a href="#">Torneos</a>
+                <a href="#">Comunidad</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- CUERPO PRINCIPAL -->
+    <main>
+        <div class="reglamento-container">
+            <div class="reglamento-header">
+                <h1>REGLAMENTO DE TORNEO</h1>
+                <p>Sigue las normativas oficiales de los torneos de Dark Unity Esports. Inscribirse implica aceptar este reglamento.</p>
+            </div>
+
+            <!-- SECCIÓN 1 -->
+            <details class="reglamento-card">
+                <summary>📕 Sección 1 — Disposiciones Generales</summary>
+                <div class="reglamento-content">
+                    <p><strong>1.1</strong> Inscribir un equipo implica aceptar este reglamento completo. Desconocer una regla no excusa su incumplimiento.</p>
+                    <p><strong>1.2</strong> Las partidas se rigen por las reglas Champs 2026 de Call of Duty: Mobile vigentes.</p>
+                    <p><strong>1.3</strong> El staff de Dark Unity decide en situaciones no contempladas para mantener la equidad del torneo y comunica su decisión en el canal oficial.</p>
+                    <p><strong>1.4</strong> Dark Unity puede rechazar a participantes con mal historial competitivo, antecedentes de trampas, baneos o sanciones de otras organizaciones, o con nivel superior a la categoría del torneo. Esto incluye a managers y coaches.</p>
+                    <p><strong>1.5</strong> Este reglamento es público para managers, jugadores e interesados en participar, para transparencia y claridad.</p>
+                    <p><strong>1.6</strong> El equipo que no esté de acuerdo con las reglas puede retirarse antes de que empiece el torneo.</p>
+                </div>
+            </details>
+
+            <!-- SECCIÓN 2 -->
+            <details class="reglamento-card">
+                <summary>📗 Sección 2 — Formato y Calendario</summary>
+                <div class="reglamento-content">
+                    <p><strong>2.1</strong> El torneo reúne a 8 equipos en eliminación simple: cuartos de final, semifinales, final y partido por el tercer lugar.</p>
+                    <p><strong>2.2</strong> Hora oficial: 8:00 PM México (UTC-6).</p>
+                    <p><strong>2.3</strong> Serie en cuartos, semifinales y tercer lugar: al mejor de 3 mapas (Punto Caliente, Buscar y Destruir, Control).</p>
+                    <p><strong>2.4</strong> Final: al mejor de 5 mapas (Punto Caliente, Buscar y Destruir, Control, Punto Caliente, Buscar y Destruir).</p>
+                    <p><strong>2.5</strong> Mapas: el staff los define por sorteo y los publica en el canal de enfrentamientos antes de cada jornada.</p>
+                    <p><strong>2.6</strong> Rotaciones y tiempo extra de Buscar y Destruir: obligatorios en toda la edición del torneo.</p>
+                    <p><strong>2.7</strong> Hora distinta: los equipos pueden acordar otra hora el mismo día si avisan al staff. Sin acuerdo, rige la hora oficial.</p>
+                    <p><strong>2.8</strong> Fechas de cada ronda: por definir.</p>
+                </div>
+            </details>
+
+            <!-- SECCIÓN 3 -->
+            <details class="reglamento-card">
+                <summary>📘 Sección 3 — Dispositivos y Equipamiento</summary>
+                <div class="reglamento-content">
+                    <p><strong>3.1</strong> Solo se juega desde teléfonos y tablets.</p>
+                    <p><strong>3.2</strong> Prohibido: emuladores de PC y controles externos. Sanción: expulsión del equipo del torneo.</p>
+                    <p><strong>3.3</strong> VPN: expulsión inmediata. Hacks y programas de terceros: expulsión del torneo y baneo del servidor.</p>
+                    <p><strong>3.4</strong> Bugs de mapa: los sanciona la organización tras revisar las pruebas. Ambos managers son notificados cuando hay una solicitud en su contra.</p>
+                    <p><strong>3.5</strong> Equipamiento restringido por Champs 2026: DQ del mapa en que se use. Llevarlo equipado sin generar daño no se sanciona.</p>
+                    <p><strong>3.6</strong> Modo streamer activado: el equipo pierde el mapa en que participó ese jugador.</p>
+                </div>
+            </details>
+
+            <!-- SECCIÓN 4 -->
+            <details class="reglamento-card">
+                <summary>📙 Sección 4 — Registro y Roster</summary>
+                <div class="reglamento-content">
+                    <p><strong>4.1</strong> Cada equipo registra hasta 7 jugadores, 2 managers y 1 coach. El manager a cargo responde por que los datos sean correctos.</p>
+                    <p><strong>4.2</strong> Datos obligatorios: bandera de residencia, IGN, usuario de Discord y UID de cada jugador, registrados por el manager (no se aceptan terceros).</p>
+                    <p><strong>4.3</strong> Un error en la bandera, el UID o el Discord se sanciona con DQ de los mapas jugados.</p>
+                    <p><strong>4.4</strong> Si juega alguien que no está registrado como jugador, el equipo pierde todo el match. Managers y coach pueden jugar si están registrados como jugadores.</p>
+                    <p><strong>4.5</strong> Nivel mínimo: 200. Si juega una cuenta de nivel menor, el equipo pierde el mapa.</p>
+                    <p><strong>4.6</strong> Discord: la cuenta debe tener al menos 2 meses de antigüedad.</p>
+                    <p><strong>4.7</strong> Excepciones de nivel o de Discord: se piden por ticket, con evidencia, al menos 5 horas antes de la serie.</p>
+                    <p><strong>4.8</strong> Un jugador no puede estar en dos rosters. Si aparece en dos, queda inelegible hasta que ambos managers aclaren su afiliación.</p>
+                    <p><strong>4.9</strong> Cambios de alineación: máximo 3 antes de las semifinales; cuentan los jugadores nuevos y los cambios de UID.</p>
+                    <p><strong>4.10</strong> Desde las semifinales no se permiten cambios de jugadores, salvo el cambio de emergencia.</p>
+                    <p><strong>4.11</strong> Excepción: el cambio de UID por baneo comprobado, o para corregir un error de 1 o 2 dígitos, no cuenta como cambio; se pide por ticket antes del match.</p>
+                    <p><strong>4.12</strong> Los cambios de cuenta de Discord requieren aprobación del staff. Los cambios de bandera, nickname o logo no cuentan como cambio, pero se avisan.</p>
+                    <p><strong>4.13</strong> Cambio de emergencia: se permite 1 durante el torneo, solo con evidencia válida y autorizado por ticket. El roster queda con 5 jugadores.</p>
+                    <p><strong>4.14</strong> Plazo de cambios: hasta las 6:00 PM México del día de la serie.</p>
+                    <p><strong>4.15</strong> Logo: cada equipo entrega el suyo en PNG con fondo transparente al inscribirse.</p>
+                </div>
+            </details>
+
+            <!-- SECCIÓN 5 -->
+            <details class="reglamento-card">
+                <summary>📕 Sección 5 — Conducta y Verificación</summary>
+                <div class="reglamento-content">
+                    <p><strong>5.1</strong> Se exige conducta deportiva dentro y fuera de la sala: en Discord, redes sociales y transmisiones.</p>
+                    <p><strong>5.2</strong> Prohibido: sarcasmo, provocaciones, comentarios ofensivos, insultos a staff o al rival, hostigamiento, incitar a la violencia, generar especulaciones de favoritismo y mensajes fuera del propósito de cada canal. Los emotes y aerosoles provocadores en partida también están prohibidos.</p>
+                    <p><strong>5.3</strong> El suicidio intencional se sanciona con DQ del mapa afectado, con evidencia obligatoria.</p>
+                    <p><strong>5.4</strong> T-bag, bodyshooting, ejecuciones y nuclear están permitidos.</p>
+                    <p><strong>5.5</strong> Escala de sanciones según gravedad: 1. Advertencia, 2. Pérdida del mapa, 3. DQ de la serie, 4. Suspensión o expulsión del torneo.</p>
+                    <p><strong>5.6</strong> Tres DQs durante el torneo implican la expulsión del equipo.</p>
+                    <p><strong>5.7</strong> Las conductas graves contra el staff, otros equipos o jugadores se sancionan con expulsión inmediata y baneo indefinido.</p>
+                    <p><strong>5.8</strong> Hand-cam y check-device: Todos los jugadores pueden ser revisados por staff sin aviso. La revisión es solo de lo que compete al juego, nunca de mensajería ni galería. Quien se niegue queda suspendido; si persiste, su equipo es expulsado.</p>
+                    <p><strong>5.9</strong> Un jugador detectado con hacks es expulsado del torneo y baneado del servidor; el staff decide la situación de su equipo.</p>
+                    <p><strong>5.10</strong> Smurfing comprobado: DQ automático y expulsión del jugador; si el equipo lo sabía, es expulsado del torneo.</p>
+                    <p><strong>5.11</strong> Veredictos: el manager que reaccione de forma insistente, grosera o tóxica ante una decisión de staff será sancionado o expulsado. Lo mismo aplica a jugadores y coaches.</p>
+                </div>
+            </details>
+
+            <!-- SECCIÓN 6 -->
+            <details class="reglamento-card">
+                <summary>📗 Sección 6 — Salas, Host y Tolerancias</summary>
+                <div class="reglamento-content">
+                    <p><strong>6.1</strong> El host es el equipo ubicado arriba en el bracket; el invitado es el de abajo. Los tiempos se cuentan con capturas que muestren la hora.</p>
+                    <p><strong>6.2</strong> TOLERANCIA HOST (desde 8:00 PM MX): Min 0-9 (tiempo para publicar código sin sanción), Min 10-14 (DQ del primer mapa), Min 15+ (DQ del match).</p>
+                    <p><strong>6.3</strong> TOLERANCIA INVITADO (desde que el host publica el código): Min 0-9 (entra sin sanción), Min 10-14 (DQ del primer mapa), Min 15+ (DQ del match).</p>
+                    <p><strong>6.4</strong> Prórroga: si un equipo avisa antes de los 15 minutos que llegará tarde por un incidente, recibe hasta 5 minutos más.</p>
+                    <p><strong>6.5</strong> Configuración: el host crea la sala y configura modo, tiempo, mapa, puntaje, rotaciones y tiempo extra, y publica el código mencionando a los managers rivales.</p>
+                    <p><strong>6.6</strong> Ambos equipos son responsables de la sala: si ven un error, lo avisan. Un error de configuración del host se sanciona con DQ del mapa afectado (salvo que se corrija con reinicio); si es error de staff, se repite sin sanción.</p>
+                    <p><strong>6.7</strong> Reinicio: solo uno por modo, y solo si no hubo bajas, tiempo en punto ni bombas plantadas.</p>
+                    <p><strong>6.8</strong> Entre mapas: máximo 5 minutos. Pasado ese tiempo, el mapa se otorga al rival con video y capturas.</p>
+                    <p><strong>6.9</strong> Jugar 5c4: se permite si se avisa al rival y al staff antes de empezar. Con menos de 4 jugadores, el equipo pierde el match.</p>
+                    <p><strong>6.10</strong> Desconexiones: si un jugador se desconecta, la partida no se detiene. Si afecta a 3 o más jugadores (ping/conexión), el staff puede reprogramar con evidencia clara.</p>
+                    <p><strong>6.11</strong> Espectadores: en la sala solo puede haber staff y casters.</p>
+                </div>
+            </details>
+
+            <!-- SECCIÓN 7 -->
+            <details class="reglamento-card">
+                <summary>📘 Sección 7 — Canales de Voz</summary>
+                <div class="reglamento-content">
+                    <p><strong>7.1</strong> Todos los jugadores deben estar en el servidor de Discord del torneo y en su canal de voz asignado durante toda la serie.</p>
+                    <p><strong>7.2</strong> En el canal hablan solo los 5 jugadores en sala, con el micrófono encendido y sin mutearse en partida activa.</p>
+                    <p><strong>7.3</strong> Si un jugador se mutea menos de 30 segundos, recibe advertencia; si se mutea más de 30 segundos sin permiso del staff, el equipo pierde el mapa.</p>
+                    <p><strong>7.4</strong> Pueden entrar en silencio (micrófono apagado): suplentes, managers, coach y un miembro del staff.</p>
+                    <p><strong>7.5</strong> Si un manager o suplente habla con el micrófono activo durante una partida activa sin permiso del staff, el equipo pierde el mapa afectado.</p>
+                    <p><strong>7.6</strong> Rivales: ningún jugador ni manager rival puede entrar al canal del otro equipo durante la partida. El staff decide la sanción.</p>
+                    <p><strong>7.7</strong> Ausencia: si no están en su canal, rigen los mismos tiempos que en sala: DQ del primer mapa a los 10 min de enviado el código y DQ del match a los 15 min.</p>
+                    <p><strong>7.8</strong> Roster y privacidad: quienes están en el canal deben coincidir con el roster registrado. Quien no esté registrado es expulsado del canal; si además juega, el equipo pierde el mapa.</p>
+                </div>
+            </details>
+
+            <!-- SECCIÓN 8 -->
+            <details class="reglamento-card">
+                <summary>📙 Sección 8 — Transmisiones y Casters</summary>
+                <div class="reglamento-content">
+                    <p><strong>8.1</strong> Los casters afiliados pueden transmitir y publicar contenido de cualquier match; el staff los anuncia en el canal de enfrentamientos hasta 1 hora antes.</p>
+                    <p><strong>8.2</strong> Jugadores: pueden transmitir su propia partida solo si no están en modo espectador. No pueden transmitir los matchs casteados ni las semifinales y la final.</p>
+                    <p><strong>8.3</strong> Caster no afiliado: un equipo puede pedirlo si el rival está de acuerdo. El acuerdo y el enlace de transmisión se publican en el canal de acuerdos antes de las 6:00 PM México.</p>
+                    <p><strong>8.4</strong> Responsabilidad: cada caster responde por lo que ocurra en su transmisión. La organización solo interviene con los casters afiliados.</p>
+                    <p><strong>8.5</strong> Semifinales y final: los canales de voz se transmiten y los equipos deben colaborar.</p>
+                </div>
+            </details>
+
+            <!-- SECCIÓN 9 -->
+            <details class="reglamento-card">
+                <summary>📕 Sección 9 — Resultados, Reclamos y Apelaciones</summary>
+                <div class="reglamento-content">
+                    <p><strong>9.1</strong> El manager sube las capturas del marcador de cada mapa al canal de resultados, hasta las 11:59 PM hora de México del día de la serie. Deben ser capturas directas del juego.</p>
+                    <p><strong>9.2</strong> Sin reporte: si ningún equipo reporta ni reclama dentro del plazo, se revisa el canal de acuerdos; si no hay reprogramación escrita, ambos equipos son sancionados.</p>
+                    <p><strong>9.3</strong> Reclamos: en el canal de resultados, nunca por mensaje privado, y hasta las 11:00 AM hora de México del día siguiente al encuentro. Solo se toma en cuenta la evidencia publicada en esos canales.</p>
+                    <p><strong>9.4</strong> Quién reclama: cualquier manager afectado, sea o no el host. Debe indicar la serie, los equipos, la regla infringida, la sanción que se solicita, y adjuntar capturas o video.</p>
+                    <p><strong>9.5</strong> Veredicto: el staff decide según este reglamento y las pruebas; si la regla no está escrita, la decisión será tomada por Dark Unity.</p>
+                    <p><strong>9.6</strong> Reconsideración: se puede pedir una vez, por ticket, solo si hay un error del staff o pruebas presentadas a tiempo que no se revisaron.</p>
+                </div>
+            </details>
+
+            <!-- SECCIÓN 10 -->
+            <details class="reglamento-card">
+                <summary>📗 Sección 10 — Premios y Pagos</summary>
+                <div class="reglamento-content">
+                    <p><strong>10.1</strong> Hay premios para los primeros puestos. Los montos los confirma la organización antes de abrir inscripciones (por definir).</p>
+                    <p><strong>10.2</strong> Los premios se pagan por PayPal o Binance, en un plazo máximo de 15 días desde que termina el torneo, y no incluyen comisiones de transferencia ni de cambio de moneda.</p>
+                    <p><strong>10.3</strong> Un equipo que pierde por DQ su match final o el del tercer lugar por no presentarse mantiene su puesto, pero no recibe el premio en dinero. Si ninguno de los dos equipos puede jugar la final, los puestos se definen por sorteo entre los organizadores.</p>
+                    <p><strong>10.4</strong> La organización puede reducir o retener el premio de un equipo sancionado. El premio que no se reclame en 15 días, o que se retenga, se usa en una próxima edición.</p>
+                </div>
+            </details>
+
+            <!-- BOTÓN DE DISCORD -->
+            <div class="discord-cta-container">
+                <h3>¿BUSCAS CLAN O COMPETENCIA?</h3>
+                <p>Únete a nuestra comunidad en Discord, participa en nuestros eventos y entérate de las próximas inscripciones de scrims.</p>
+                
+                <a href="https://discord.gg/39JTUxSBY" target="_blank" class="discord-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4C14.84 4.3 14.65 4.69 14.51 5.02C12.93 4.78 11.35 4.78 9.8 5.02C9.66 4.69 9.46 4.3 9.3 4C7.8 4.26 6.36 4.71 5.03 5.33C2.38 9.34 1.65 13.24 2.02 17.09C3.81 18.42 5.54 19.23 7.22 19.77C7.58 19.29 7.9 18.78 8.17 18.24C7.66 18.05 7.17 17.81 6.71 17.54C6.84 17.44 6.96 17.34 7.08 17.23C10.48 18.82 14.16 18.82 17.52 17.23C17.64 17.34 17.76 17.44 17.89 17.54C17.43 17.81 16.94 18.05 16.43 18.24C16.7 18.78 17.02 19.29 17.38 19.77C19.06 19.23 20.79 18.42 22.58 17.09C23.01 12.63 21.85 8.77 19.27 5.33ZM8.41 14.66C7.52 14.66 6.79 13.85 6.79 12.86C6.79 11.87 7.5 11.06 8.41 11.06C9.32 11.06 10.05 11.87 10.03 12.86C10.03 13.85 9.3 14.66 8.41 14.66ZM15.59 14.66C14.7 14.66 13.97 13.85 13.97 12.86C13.97 11.87 14.68 11.06 15.59 11.06C16.5 11.06 17.23 11.87 17.21 12.86C17.21 13.85 16.5 14.66 15.59 14.66Z" />
+                    </svg>
+                    IR AL DISCORD OFICIAL
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer>
+        <p>&copy; 2026 Dark Unity Esports. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>
