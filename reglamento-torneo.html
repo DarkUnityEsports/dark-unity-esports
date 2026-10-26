@@ -10,6 +10,9 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
+    
+    <!-- FontAwesome para el icono del menú -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         /* =========================================
@@ -42,7 +45,7 @@
         }
 
         /* =========================================
-           NAVBAR / HEADER (Idéntico a tu index)
+           NAVBAR / HEADER
            ========================================= */
         header {
             background-color: #0b0e14;
@@ -60,6 +63,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 20px;
+            position: relative; /* 🆕 CRUCIAL: Para el menú móvil */
         }
 
         .logo-container {
@@ -74,14 +78,13 @@
             width: auto;
         }
 
-                .logo-text {
+        .logo-text {
             color: #ffffff;
             font-size: 1.2rem;
-            font-family: Arial, Helvetica, sans-serif; /* Iguala la fuente base */
-            font-weight: 900; /* Hace la letra mucho más gruesa (Black) */
-            letter-spacing: -0.5px; /* Junta las letras un poco */
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 900;
+            letter-spacing: -0.5px;
         }
-        
 
         .logo-text span {
             color: var(--accent-blue);
@@ -290,33 +293,34 @@
            ========================================= */
         @media (max-width: 768px) {
             .menu-toggle {
-                display: block; /* Muestra el botón hamburguesa */
+                display: block;
             }
 
             #nav-menu {
-                display: none; /* Oculta el menú por defecto */
-                width: 100%;
                 position: absolute;
-                top: 65px;
+                top: 100%;
                 left: 0;
+                width: 100%;
                 background-color: #0b0e14;
                 border-bottom: 1px solid #1a2235;
-                padding: 10px 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-in-out;
+                display: block;
             }
 
-            /* Esta clase la activa el JavaScript */
             #nav-menu.active {
-                display: block;
+                max-height: 250px;
             }
 
             #nav-menu ul {
                 flex-direction: column;
                 gap: 15px;
-                padding: 10px 20px;
+                padding: 1.5rem 20px;
             }
 
             .nav-container {
-                flex-wrap: wrap;
+                flex-wrap: nowrap;
             }
 
             .logo-img {
@@ -335,7 +339,7 @@
 </head>
 <body>
 
-    <!-- ENCABEZADO / NAVBAR (Igual al index) -->
+    <!-- ENCABEZADO / NAVBAR -->
     <header>
         <div class="nav-container">
             <!-- Logo con texto -->
@@ -548,6 +552,14 @@
             if (menuBtn && navMenu) {
                 menuBtn.addEventListener("click", function() {
                     navMenu.classList.toggle("active");
+                    const icon = menuBtn.querySelector('i');
+                    if (navMenu.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-xmark');
+                    } else {
+                        icon.classList.remove('fa-xmark');
+                        icon.classList.add('fa-bars');
+                    }
                 });
             }
         });
