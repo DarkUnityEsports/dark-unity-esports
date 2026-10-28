@@ -44,7 +44,9 @@
             letter-spacing: 1px;
         }
 
-        /* HEADER & NAV */
+        /* =========================================
+           HEADER & NAV (Idéntico al index)
+           ========================================= */
         header {
             background-color: rgba(10, 12, 16, 0.95);
             position: fixed;
@@ -61,6 +63,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 0.8rem 2rem;
+            position: relative;
         }
 
         .logo-container {
@@ -88,20 +91,31 @@
             color: var(--accent-blue-light);
         }
 
-        nav ul {
+        /* Botón Hamburguesa (Oculto en PC) */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-white);
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* Navegación */
+        #nav-menu ul {
             display: flex;
             list-style: none;
             gap: 2rem;
         }
 
-        nav a {
+        #nav-menu a {
             color: var(--text-gray-light);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
         }
 
-        nav a:hover {
+        #nav-menu a:hover {
             color: var(--accent-blue-light);
         }
 
@@ -208,7 +222,6 @@
             margin-bottom: 1rem;
         }
 
-        /* REGLA GENERAL PARA DESTACAR LOS SUBTÍTULOS / NEGRITAS EN LAS LISTAS */
         .content-section li strong {
             color: var(--text-white);
             font-weight: 700;
@@ -230,10 +243,45 @@
             font-size: 0.9rem;
         }
 
+        /* =========================================
+           RESPONSIVE (Móviles)
+           ========================================= */
         @media (max-width: 768px) {
-            nav ul {
-                display: none;
+            .menu-toggle {
+                display: block;
             }
+
+            #nav-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: rgba(10, 12, 16, 0.98);
+                border-bottom: 1px solid var(--accent-blue-dark);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-in-out;
+            }
+
+            #nav-menu.active {
+                max-height: 250px;
+            }
+
+            #nav-menu ul {
+                flex-direction: column;
+                align-items: center;
+                padding: 1.5rem 0;
+                gap: 1.2rem;
+            }
+
+            .logo-img {
+                height: 35px;
+            }
+            
+            .logo-text {
+                font-size: 1.3rem;
+            }
+
             .normativa-container {
                 margin: 90px 1rem 2rem 1rem;
                 padding: 1.5rem;
@@ -253,12 +301,19 @@
                 <img src="logo2026.png" alt="Dark Unity Esports Logo" class="logo-img" onerror="this.style.display='none'">
                 <div class="logo-text">DARK <span>UNITY ESPORTS</span></div>
             </a>
-            <nav>
+            
+            <!-- 🆕 BOTÓN HAMBURGUESA -->
+            <button class="menu-toggle" id="menu-btn" aria-label="Abrir Menú">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <!-- 🆕 MENÚ DE NAVEGACIÓN -->
+            <nav id="nav-menu">
                 <ul>
-                    <li><a href="index.html#inicio">Inicio</a></li>
-                    <li><a href="index.html#rosters">Secciones</a></li>
-                    <li><a href="index.html#torneos">Torneos</a></li>
-                    <li><a href="index.html#contacto">Comunidad</a></li>
+                    <li><a href="index.html#inicio" class="nav-link">Inicio</a></li>
+                    <li><a href="index.html#rosters" class="nav-link">Secciones</a></li>
+                    <li><a href="index.html#torneos" class="nav-link">Torneos</a></li>
+                    <li><a href="index.html#contacto" class="nav-link">Comunidad</a></li>
                 </ul>
             </nav>
         </div>
@@ -383,6 +438,28 @@
     <footer>
         <p>&copy; 2026 Dark Unity Esports. Todos los derechos reservados. | Diseñado para la comunidad de CODM.</p>
     </footer>
+
+    <!-- 🆕 SCRIPT PARA EL MENÚ MÓVIL -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const menuBtn = document.getElementById("menu-btn");
+            const navMenu = document.getElementById("nav-menu");
+
+            if (menuBtn && navMenu) {
+                menuBtn.addEventListener("click", function() {
+                    navMenu.classList.toggle("active");
+                    const icon = menuBtn.querySelector('i');
+                    if (navMenu.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-xmark');
+                    } else {
+                        icon.classList.remove('fa-xmark');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>
