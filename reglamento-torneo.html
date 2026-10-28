@@ -11,13 +11,12 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
     
-    <!-- FontAwesome para el icono del menú -->
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* =========================================
-           ESTILOS GENERALES
-           ========================================= */
         :root {
             --bg-dark: #090a0f;
             --bg-card: #0d1321;
@@ -342,18 +341,15 @@
     <!-- ENCABEZADO / NAVBAR -->
     <header>
         <div class="nav-container">
-            <!-- Logo con texto -->
             <a href="index.html" class="logo-container">
                 <img src="logo2026.png" alt="Dark Unity Esports Logo" class="logo-img">
                 <div class="logo-text">DARK <span>UNITY ESPORTS</span></div>
             </a>
 
-            <!-- Botón Menú Móvil -->
             <button class="menu-toggle" id="menu-btn" aria-label="Abrir Menú">
                 <i class="fa-solid fa-bars"></i>
             </button>
 
-            <!-- Navegación -->
             <nav id="nav-menu">
                 <ul>
                     <li><a href="index.html" class="nav-link">Inicio</a></li>
@@ -391,8 +387,8 @@
                 <div class="reglamento-content">
                     <p><strong>2.1</strong> El torneo reúne a 8 equipos en eliminación simple: cuartos de final, semifinales, final y partido por el tercer lugar.</p>
                     <p><strong>2.2</strong> Hora oficial: 8:00 PM México (UTC-6).</p>
-                    <p><strong>2.3</strong> Serie en cuartos, semifinales y tercer lugar: al mejor de 3 mapas (Punto Caliente, Buscar y Destruir, Control).</p>
-                    <p><strong>2.4</strong> Final: al mejor de 5 mapas (Punto Caliente, Buscar y Destruir, Control, Punto Caliente, Buscar y Destruir).</p>
+                    <p><strong>2.3</strong> Serie en cuartos de final, semifinales y tercer lugar: al mejor de 3 mapas, en este orden: Punto Caliente, Buscar y Destruir y Control.</p>
+                    <p><strong>2.4</strong> Final: al mejor de 5 mapas, en este orden: Punto Caliente, Buscar y Destruir, Control, Punto Caliente y Buscar y Destruir.</p>
                     <p><strong>2.5</strong> Mapas: el staff los define por sorteo y los publica en el canal de enfrentamientos antes de cada jornada.</p>
                     <p><strong>2.6</strong> Rotaciones y tiempo extra de Buscar y Destruir: obligatorios en toda la edición del torneo.</p>
                     <p><strong>2.7</strong> Hora distinta: los equipos pueden acordar otra hora el mismo día si avisan al staff. Sin acuerdo, rige la hora oficial.</p>
@@ -432,6 +428,8 @@
                     <p><strong>4.13</strong> Cambio de emergencia: se permite 1 durante el torneo, solo con evidencia válida y autorizado por ticket. El roster queda con 5 jugadores.</p>
                     <p><strong>4.14</strong> Plazo de cambios: hasta las 6:00 PM México del día de la serie.</p>
                     <p><strong>4.15</strong> Logo: cada equipo entrega el suyo en PNG con fondo transparente al inscribirse.</p>
+                    <p><strong>4.16</strong> Equipo: Una vez inscritos, los jugadores deberán unirse al servidor oficial de Dark Unity Esports.</p>
+                    <p><strong>4.17</strong> Distintivo: Todos los jugadores deben poseer "TAG" para representar a la organización durante el torneo.</p>
                 </div>
             </details>
 
@@ -442,7 +440,7 @@
                     <p><strong>5.1</strong> Se exige conducta deportiva dentro y fuera de la sala: en Discord, redes sociales y transmisiones.</p>
                     <p><strong>5.2</strong> Prohibido: sarcasmo, provocaciones, comentarios ofensivos, insultos a staff o al rival, hostigamiento, incitar a la violencia, generar especulaciones de favoritismo y mensajes fuera del propósito de cada canal. Los emotes y aerosoles provocadores en partida también están prohibidos.</p>
                     <p><strong>5.3</strong> El suicidio intencional se sanciona con DQ del mapa afectado, con evidencia obligatoria.</p>
-                    <p><strong>5.4</strong> T-bag, bodyshooting, ejecuciones y nuclear están permitidos.</p>
+                    <p><strong>5.4</strong> T-bag, bodyshooting, no están permitidos.</p>
                     <p><strong>5.5</strong> Escala de sanciones según gravedad: 1. Advertencia, 2. Pérdida del mapa, 3. DQ de la serie, 4. Suspensión o expulsión del torneo.</p>
                     <p><strong>5.6</strong> Tres DQs durante el torneo implican la expulsión del equipo.</p>
                     <p><strong>5.7</strong> Las conductas graves contra el staff, otros equipos o jugadores se sancionan con expulsión inmediata y baneo indefinido.</p>
@@ -519,6 +517,18 @@
                     <p><strong>10.2</strong> Los premios se pagan por PayPal o Binance, en un plazo máximo de 15 días desde que termina el torneo, y no incluyen comisiones de transferencia ni de cambio de moneda.</p>
                     <p><strong>10.3</strong> Un equipo que pierde por DQ su match final o el del tercer lugar por no presentarse mantiene su puesto, pero no recibe el premio en dinero. Si ninguno de los dos equipos puede jugar la final, los puestos se definen por sorteo entre los organizadores.</p>
                     <p><strong>10.4</strong> La organización puede reducir o retener el premio de un equipo sancionado. El premio que no se reclame en 15 días, o que se retenga, se usa en una próxima edición.</p>
+                </div>
+            </details>
+
+            <!-- NOTAS FINALES (Como nueva sección al final) -->
+            <details class="reglamento-card" style="border-color: var(--accent-blue);">
+                <summary>✅ Notas Finales</summary>
+                <div class="reglamento-content">
+                    <p>Cualquier situación no contemplada será resuelta por el staff de Dark Unity.</p>
+                    <p>📌 <strong>Inscribirse</strong> = aceptar este reglamento completo.</p>
+                    <p>📌 <strong>Dudas o excepciones:</strong> abrir ticket en el servidor.</p>
+                    <p>📌 <strong>Cambios y reclamos:</strong> solo por los canales indicados.</p>
+                    <p style="text-align: center; font-size: 1.1rem; margin-top: 20px;"><strong>¡Éxito a todos los equipos! 🏆</strong></p>
                 </div>
             </details>
 
