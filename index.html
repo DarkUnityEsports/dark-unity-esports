@@ -169,6 +169,72 @@
             box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
         }
 
+        /* 🆕 ESTILOS DEL CARRUSEL */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 2rem auto 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--accent-blue-dark);
+        }
+
+        .slider-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 7; /* Proporción de banner apaisado */
+            background-color: var(--bg-card);
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            pointer-events: none;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Puntitos de navegación */
+        .slider-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .dot.active {
+            background-color: var(--accent-blue-light);
+            transform: scale(1.2);
+        }
+
         /* SECTIONS GENERAL */
         section {
             padding: 5rem 2rem;
@@ -313,12 +379,11 @@
         }
 
         /* RESPONSIVE MÓVIL CON MENÚ HAMBURGUESA PLEGABLE */
-               @media (max-width: 768px) {
+        @media (max-width: 768px) {
             .menu-toggle {
                 display: block;
             }
 
-            /* 🆕 FIX: Ajustar el header para móviles */
             .nav-container {
                 padding: 0.6rem 1rem;
             }
@@ -367,6 +432,12 @@
             .hero-content h1 {
                 font-size: 2.5rem;
             }
+
+            /* Ajuste del carrusel para móviles */
+            .slider-container {
+                margin: 1rem auto 0 auto;
+                aspect-ratio: 16 / 9; 
+            }
         }
     </style>
 </head>
@@ -380,7 +451,6 @@
                 <div class="logo-text">DARK <span>UNITY ESPORTS</span></div>
             </a>
             
-            <!-- Botón Hamburguesa -->
             <button class="menu-toggle" id="menu-btn" aria-label="Abrir Menú">
                 <i class="fa-solid fa-bars"></i>
             </button>
@@ -397,21 +467,43 @@
     </header>
 
     <!-- HERO -->
-        <section id="inicio" class="hero">
-            <div class="hero-content" style="margin-top: -90px;">
-                <h1>Dark Unity <span>Esports</span></h1>
-                <p>Comunidad competitiva de Call of Duty Mobile, estrategia y dedicación en cada partida.</p>
-                <a href="#contacto" class="btn">Únete al Servidor</a>
+    <section id="inicio" class="hero">
+        <div class="hero-content" style="margin-top: -90px;">
+            <h1>Dark Unity <span>Esports</span></h1>
+            <p>Comunidad competitiva de Call of Duty Mobile, estrategia y dedicación en cada partida.</p>
+            <a href="#contacto" class="btn">Únete al Servidor</a>
+        </div>
+    </section>
+
+    <!-- 🆕 CARRUSEL DE IMÁGENES DINÁMICO -->
+    <div class="slider-container">
+        <div class="slider-wrapper">
+            <!-- Recuerda subir estas imágenes a tu repositorio -->
+            <div class="slide active">
+                <img src="BANNER-1.jpg" alt="Banner 1">
             </div>
-        </section>
+            <div class="slide">
+                <img src="BANNER-2.jpg" alt="Banner 2">
+            </div>
+            <div class="slide">
+                <img src="BANNER-3.jpg" alt="Banner 3">
+            </div>
+        </div>
+        
+        <!-- Puntitos de navegación -->
+        <div class="slider-dots">
+            <span class="dot active" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+    </div>
 
     <!-- ACCESOS Y GESTIÓN -->
     <section id="rosters">
         <h2 class="section-title">Accesos y <span>Gestión</span></h2>
         <div class="grid-rosters">
             
-          <!-- TARJETA: DARK UNITY ESPORTS -->
-          <a href="biografia.html" style="text-decoration: none; color: inherit; display: block;">
+            <a href="biografia.html" style="text-decoration: none; color: inherit; display: block;">
                 <div class="card" style="cursor: pointer;">
                     <i class="fa-solid fa-trophy"></i>
                     <h3>Dark Unity Esports</h3>
@@ -419,7 +511,6 @@
                 </div>
             </a>
             
-            <!-- TARJETA: NORMATIVAS INTERNAS (AHORA EN EL MEDIO) -->
             <a href="normativas.html" style="text-decoration: none; color: inherit; display: block;">
                 <div class="card" style="cursor: pointer;">
                     <i class="fa-solid fa-book-bookmark"></i>
@@ -428,7 +519,6 @@
                 </div>
             </a>
 
-            <!-- TARJETA: REGISTRA TU EQUIPO (AHORA DE ÚLTIMO) -->
             <a href="registro.html" style="text-decoration: none; color: inherit; display: block;">
                 <div class="card" style="cursor: pointer;">
                     <i class="fa-solid fa-file-pen"></i>
@@ -440,12 +530,11 @@
         </div>
     </section>
     
-  <!-- RANKING SEMANAL -->
+    <!-- RANKING SEMANAL -->
     <section id="torneos">
         <h2 class="section-title">Ranking <span>Semanal</span></h2>
         <div class="grid-rosters">
             
-            <!-- TARJETA 1: SORTEO / AGENDA SEMANAL -->
             <a href="sorteo.html" style="text-decoration: none; color: inherit; display: block;">
                 <div class="card" style="cursor: pointer;">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
@@ -454,7 +543,6 @@
                 </div>
             </a>
 
-            <!-- TARJETA 2: CALENDARIO MATCHDAY -->
             <a href="calendario.html" style="text-decoration: none; color: inherit; display: block;">
                 <div class="card" style="cursor: pointer;">
                     <i class="fa-solid fa-calendar-days"></i>
@@ -463,7 +551,6 @@
                 </div>
             </a>
             
-            <!-- TARJETA 3: MARCADOR RANKING SEMANAL -->
             <a href="ranking.html" style="text-decoration: none; color: inherit; display: block;">
                 <div class="card" style="cursor: pointer;">
                     <i class="fa-solid fa-medal"></i>
@@ -480,7 +567,6 @@
         <h2 class="section-title">Torneo <span>Dark Unity</span></h2>
         <div class="grid-rosters">
             
-            <!-- TARJETA: BRACKET-TOURNAMENT S1 (MOVIDA AQUÍ) -->
             <a href="bracket-tournament.html" style="text-decoration: none; color: inherit; display: block;">
                 <div class="card" style="cursor: pointer;">
                     <i class="fa-solid fa-crosshairs"></i>
@@ -489,7 +575,6 @@
                 </div>
             </a>
 
-            <!-- TARJETA: REGLAMENTO TORNEO -->
             <a href="reglamento-torneo.html" style="text-decoration: none; color: inherit; display: block;">
                 <div class="card">
                     <i class="fa-solid fa-trophy"></i>
@@ -498,7 +583,6 @@
                 </div>
             </a>
 
-            <!-- TARJETA: REGISTRA A TU EQUIPO EN TORNEO -->
             <a href="registro-torneo.html" style="text-decoration: none; color: inherit; display: block;">
                 <div class="card" style="cursor: pointer;">
                     <i class="fa-solid fa-shield-halved"></i>
@@ -523,7 +607,6 @@
             </div>
             </a>
 
-            <!-- Patrocinador 3: Partner Oficial -->
             <div class="sponsor-card">
                 <i class="fa-solid fa-handshake"></i>
                 <h4>Partner Oficial</h4>
@@ -574,6 +657,34 @@
                 icon.classList.add('fa-bars');
             });
         });
+    </script>
+
+    <!-- 🆕 SCRIPT DEL CARRUSEL -->
+    <script>
+        let slideIndex = 0;
+        let slides = document.querySelectorAll(".slide");
+        let dots = document.querySelectorAll(".dot");
+        let interval;
+
+        function showSlides() {
+            slides.forEach(slide => slide.classList.remove("active"));
+            dots.forEach(dot => dot.classList.remove("active"));
+
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1; }
+
+            slides[slideIndex - 1].classList.add("active");
+            dots[slideIndex - 1].classList.add("active");
+        }
+
+        function currentSlide(n) {
+            clearInterval(interval); 
+            slideIndex = n - 1;
+            showSlides();
+            interval = setInterval(showSlides, 4000); 
+        }
+
+        interval = setInterval(showSlides, 4000); 
     </script>
 </body>
 </html>
