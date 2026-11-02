@@ -163,20 +163,29 @@
         }
 
         /* SECCIONES EN LÍNEA */
-        .player-row, .manager-row {
+        .player-row {
             background-color: rgba(10, 12, 16, 0.5);
             border: 1px solid rgba(23, 37, 84, 0.6);
             padding: 1.2rem;
             border-radius: 8px;
             margin-bottom: 1.2rem;
             display: grid;
-            grid-template-columns: 2fr 2fr 2fr 1.5fr;
+            /* 🆕 CAMBIO: 3 columnas en lugar de 4 para llenar el espacio */
+            grid-template-columns: 2fr 2fr 1.5fr;
             gap: 12px;
             align-items: center;
         }
 
         .manager-row {
+            background-color: rgba(10, 12, 16, 0.5);
+            border: 1px solid rgba(23, 37, 84, 0.6);
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 1.2rem;
+            display: grid;
             grid-template-columns: 2fr 1.8fr 1.8fr 1.5fr;
+            gap: 12px;
+            align-items: center;
         }
 
         .player-row-title, .manager-row-title {
@@ -213,7 +222,10 @@
         }
 
         @media (max-width: 900px) {
-            .player-row, .manager-row {
+            .player-row {
+                grid-template-columns: 1fr 1fr;
+            }
+            .manager-row {
                 grid-template-columns: 1fr 1fr;
             }
         }
@@ -320,10 +332,6 @@
                     <input type="text" name="p1_uid" required placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
                 </div>
                 <div>
-                    <label style="font-size: 0.75rem;">Discord ID</label>
-                    <input type="text" name="p1_discord" maxlength="20" placeholder="Ej. 123456789">
-                </div>
-                <div>
                     <label style="font-size: 0.75rem;">País</label>
                     <select name="p1_pais" required class="glass-select pais-select">
                         <option value="" disabled selected>Selecciona</option>
@@ -341,10 +349,6 @@
                 <div>
                     <label style="font-size: 0.75rem;">UID (Juego)</label>
                     <input type="text" name="p2_uid" required placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
-                </div>
-                <div>
-                    <label style="font-size: 0.75rem;">Discord ID</label>
-                    <input type="text" name="p2_discord" maxlength="20" placeholder="Ej. 123456789">
                 </div>
                 <div>
                     <label style="font-size: 0.75rem;">País</label>
@@ -366,10 +370,6 @@
                     <input type="text" name="p3_uid" required placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
                 </div>
                 <div>
-                    <label style="font-size: 0.75rem;">Discord ID</label>
-                    <input type="text" name="p3_discord" maxlength="20" placeholder="Ej. 123456789">
-                </div>
-                <div>
                     <label style="font-size: 0.75rem;">País</label>
                     <select name="p3_pais" required class="glass-select pais-select">
                         <option value="" disabled selected>Selecciona</option>
@@ -387,10 +387,6 @@
                 <div>
                     <label style="font-size: 0.75rem;">UID (Juego)</label>
                     <input type="text" name="p4_uid" required placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
-                </div>
-                <div>
-                    <label style="font-size: 0.75rem;">Discord ID</label>
-                    <input type="text" name="p4_discord" maxlength="20" placeholder="Ej. 123456789">
                 </div>
                 <div>
                     <label style="font-size: 0.75rem;">País</label>
@@ -412,10 +408,6 @@
                     <input type="text" name="p5_uid" required placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
                 </div>
                 <div>
-                    <label style="font-size: 0.75rem;">Discord ID</label>
-                    <input type="text" name="p5_discord" maxlength="20" placeholder="Ej. 123456789">
-                </div>
-                <div>
                     <label style="font-size: 0.75rem;">País</label>
                     <select name="p5_pais" required class="glass-select pais-select">
                         <option value="" disabled selected>Selecciona</option>
@@ -435,10 +427,6 @@
                     <input type="text" name="p6_uid" placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
                 </div>
                 <div>
-                    <label style="font-size: 0.75rem;">Discord ID</label>
-                    <input type="text" name="p6_discord" maxlength="20" placeholder="Ej. 123456789">
-                </div>
-                <div>
                     <label style="font-size: 0.75rem;">País</label>
                     <select name="p6_pais" class="glass-select pais-select">
                         <option value="" disabled selected>Selecciona</option>
@@ -456,10 +444,6 @@
                 <div>
                     <label style="font-size: 0.75rem;">UID (Juego)</label>
                     <input type="text" name="p7_uid" placeholder="Ej. 6748392019" maxlength="19" minlength="19" pattern="[0-9]{19}">
-                </div>
-                <div>
-                    <label style="font-size: 0.75rem;">Discord ID</label>
-                    <input type="text" name="p7_discord" maxlength="20" placeholder="Ej. 123456789">
                 </div>
                 <div>
                     <label style="font-size: 0.75rem;">País</label>
@@ -505,14 +489,12 @@
     function validarDuplicados() {
         const setNicknames = new Set();
         const setUids = new Set();
-        const setDiscords = new Set();
 
         for (let i = 1; i <= 7; i++) {
             let nick = getValueByName(`p${i}_nick`).trim().toLowerCase();
             let uid = getValueByName(`p${i}_uid`).trim();
-            let discord = getValueByName(`p${i}_discord`).trim();
 
-            if (!nick && !uid && !discord) continue;
+            if (!nick && !uid) continue;
 
             if (nick) {
                 if (setNicknames.has(nick)) {
@@ -528,14 +510,6 @@
                     return false;
                 }
                 setUids.add(uid);
-            }
-
-            if (discord) {
-                if (setDiscords.has(discord)) {
-                    alert(`Error: El Discord ID "${discord}" está repetido entre los jugadores.`);
-                    return false;
-                }
-                setDiscords.add(discord);
             }
         }
         return true;
@@ -612,6 +586,7 @@
             const managerWhatsapp = getValueByName('manager_whatsapp');
             const managerPais = getValueByName('manager_pais');
 
+            // 🆕 Limpiamos el formData para que no envíe los discords de los jugadores
             const formData = {
                 nombreEquipo: nombreEquipo,
                 imageBytes: base64Data,
@@ -629,43 +604,36 @@
                 // Jugador 1
                 p1_nick: getValueByName('p1_nick'),
                 p1_uid: getValueByName('p1_uid'),
-                p1_discord: getValueByName('p1_discord'),
                 p1_pais: getValueByName('p1_pais'),
 
                 // Jugador 2
                 p2_nick: getValueByName('p2_nick'),
                 p2_uid: getValueByName('p2_uid'),
-                p2_discord: getValueByName('p2_discord'),
                 p2_pais: getValueByName('p2_pais'),
 
                 // Jugador 3
                 p3_nick: getValueByName('p3_nick'),
                 p3_uid: getValueByName('p3_uid'),
-                p3_discord: getValueByName('p3_discord'),
                 p3_pais: getValueByName('p3_pais'),
 
                 // Jugador 4
                 p4_nick: getValueByName('p4_nick'),
                 p4_uid: getValueByName('p4_uid'),
-                p4_discord: getValueByName('p4_discord'),
                 p4_pais: getValueByName('p4_pais'),
 
                 // Jugador 5
                 p5_nick: getValueByName('p5_nick'),
                 p5_uid: getValueByName('p5_uid'),
-                p5_discord: getValueByName('p5_discord'),
                 p5_pais: getValueByName('p5_pais'),
 
                 // Jugador 6 (Suplente 1)
                 p6_nick: getValueByName('p6_nick'),
                 p6_uid: getValueByName('p6_uid'),
-                p6_discord: getValueByName('p6_discord'),
                 p6_pais: getValueByName('p6_pais'),
 
                 // Jugador 7 (Suplente 2)
                 p7_nick: getValueByName('p7_nick'),
                 p7_uid: getValueByName('p7_uid'),
-                p7_discord: getValueByName('p7_discord'),
                 p7_pais: getValueByName('p7_pais')
             };
 
@@ -681,7 +649,7 @@
                 servidorTextoDiscord = rawServidor || "No especificado";
             }
 
-            // Capturar banderas para el mensaje de Discord (Incluyendo el manager)
+            // Capturar banderas para el mensaje de Discord
             const fManager = obtenerBanderaDiscord(managerPais);
             const f1 = obtenerBanderaDiscord(getValueByName('p1_pais'));
             const f2 = obtenerBanderaDiscord(getValueByName('p2_pais'));
@@ -691,6 +659,7 @@
             const f6 = obtenerBanderaDiscord(getValueByName('p6_pais'));
             const f7 = obtenerBanderaDiscord(getValueByName('p7_pais'));
 
+            // 🆕 Payload del embed (SIN discords de jugadores)
             const discordPayload = {
                 content: null,
                 embeds: [{
@@ -704,18 +673,18 @@
                             inline: false
                         },
                         {
-                            name: `\u200B\n1️⃣ **${getValueByName('p1_nick')}** • 🆔 \`${getValueByName('p1_uid')}\`\n└ 🎮 <@${getValueByName('p1_discord')}> • ${f1} ${getValueByName('p1_pais')}`,
+                            name: `\u200B\n1️⃣ **${getValueByName('p1_nick')}** • 🆔 \`${getValueByName('p1_uid')}\`\n└ ${f1} ${getValueByName('p1_pais')}`,
                             value: 
-                                `\u200B\n2️⃣ **${getValueByName('p2_nick')}** • 🆔 \`${getValueByName('p2_uid')}\`\n└ 🎮 <@${getValueByName('p2_discord')}> • ${f2} ${getValueByName('p2_pais')}\n\u200B\n` +
-                                `3️⃣ **${getValueByName('p3_nick')}** • 🆔 \`${getValueByName('p3_uid')}\`\n└ 🎮 <@${getValueByName('p3_discord')}> • ${f3} ${getValueByName('p3_pais')}\n\u200B\n` +
-                                `4️⃣ **${getValueByName('p4_nick')}** • 🆔 \`${getValueByName('p4_uid')}\`\n└ 🎮 <@${getValueByName('p4_discord')}> • ${f4} ${getValueByName('p4_pais')}\n\u200B\n` +
-                                `5️⃣ **${getValueByName('p5_nick')}** • 🆔 \`${getValueByName('p5_uid')}\`\n└ 🎮 <@${getValueByName('p5_discord')}> • ${f5} ${getValueByName('p5_pais')}`,
+                                `\u200B\n2️⃣ **${getValueByName('p2_nick')}** • 🆔 \`${getValueByName('p2_uid')}\`\n└ ${f2} ${getValueByName('p2_pais')}\n\u200B\n` +
+                                `3️⃣ **${getValueByName('p3_nick')}** • 🆔 \`${getValueByName('p3_uid')}\`\n└ ${f3} ${getValueByName('p3_pais')}\n\u200B\n` +
+                                `4️⃣ **${getValueByName('p4_nick')}** • 🆔 \`${getValueByName('p4_uid')}\`\n└ ${f4} ${getValueByName('p4_pais')}\n\u200B\n` +
+                                `5️⃣ **${getValueByName('p5_nick')}** • 🆔 \`${getValueByName('p5_uid')}\`\n└ ${f5} ${getValueByName('p5_pais')}`,
                             inline: false
                         },
                         {
                             name: `\u200B\nSuplentes\n\u200B`,
-                            value: (getValueByName('p6_nick') ? `1️⃣ **${getValueByName('p6_nick')}** • 🆔 \`${getValueByName('p6_uid')}\`\n└ 🎮 <@${getValueByName('p6_discord')}> • ${f6} ${getValueByName('p6_pais')}\n\u200B\n` : '') +
-                                   (getValueByName('p7_nick') ? `2️⃣ **${getValueByName('p7_nick')}** • 🆔 \`${getValueByName('p7_uid')}\`\n└ 🎮 <@${getValueByName('p7_discord')}> • ${f7} ${getValueByName('p7_pais')}` : '') +
+                            value: (getValueByName('p6_nick') ? `1️⃣ **${getValueByName('p6_nick')}** • 🆔 \`${getValueByName('p6_uid')}\`\n└ ${f6} ${getValueByName('p6_pais')}\n\u200B\n` : '') +
+                                   (getValueByName('p7_nick') ? `2️⃣ **${getValueByName('p7_nick')}** • 🆔 \`${getValueByName('p7_uid')}\`\n└ ${f7} ${getValueByName('p7_pais')}` : '') +
                                    (!getValueByName('p6_nick') && !getValueByName('p7_nick') ? '*Ninguno*' : ''),
                             inline: false
                         }
@@ -764,7 +733,7 @@
         };
     });
 
-    document.querySelectorAll('input[name*="uid"], input[name*="discord"]').forEach(input => {
+    document.querySelectorAll('input[name*="uid"]').forEach(input => {
         input.setAttribute('maxlength', '19');
         input.setAttribute('inputmode', 'numeric');
 
