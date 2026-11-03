@@ -493,13 +493,12 @@
             </div>
         </div>
         
-        <!-- Puntitos de navegación -->
+                <!-- Puntitos de navegación -->
         <div class="slider-dots">
             <span class="dot active" onclick="currentSlide(1)"></span>
             <span class="dot" onclick="currentSlide(2)"></span>
             <span class="dot" onclick="currentSlide(3)"></span>
         </div>
-    </div>
 
     <!-- ACCESOS Y GESTIÓN -->
     <section id="rosters">
@@ -662,32 +661,57 @@
         });
     </script>
 
-    <!-- 🆕 SCRIPT DEL CARRUSEL -->
+        <!-- 🆕 SCRIPT DEL CARRUSEL DINÁMICO -->
     <script>
+        const slides = document.querySelectorAll(".slide");
+        const dotsContainer = document.getElementById("slider-dots");
         let slideIndex = 0;
-        let slides = document.querySelectorAll(".slide");
-        let dots = document.querySelectorAll(".dot");
         let interval;
 
-        function showSlides() {
+        // 1. Generar los puntos dinámicamente según la cantidad de slides
+        slides.forEach((_, i) => {
+            const dot = document.createElement("span");
+            dot.classList.add("dot");
+            if (i === 0) dot.classList.add("active");
+            
+            // Asignar el evento clic a cada punto
+            dot.addEventListener("click", () => {
+                clearInterval(interval);
+                slideIndex = i;
+                updateSlides();
+                startAutoplay();
+            });
+            
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll(".dot");
+
+        // 2. Función para actualizar la imagen y el punto activo
+        function updateSlides() {
             slides.forEach(slide => slide.classList.remove("active"));
             dots.forEach(dot => dot.classList.remove("active"));
 
+            if (slideIndex >= slides.length) slideIndex = 0;
+            if (slideIndex < 0) slideIndex = slides.length - 1;
+
+            slides[slideIndex].classList.add("active");
+            dots[slideIndex].classList.add("active");
+        }
+
+        // 3. Función para avanzar al siguiente slide
+        function nextSlide() {
             slideIndex++;
-            if (slideIndex > slides.length) { slideIndex = 1; }
-
-            slides[slideIndex - 1].classList.add("active");
-            dots[slideIndex - 1].classList.add("active");
+            updateSlides();
         }
 
-        function currentSlide(n) {
-            clearInterval(interval); 
-            slideIndex = n - 1;
-            showSlides();
-            interval = setInterval(showSlides, 4000); 
+        // 4. Función para iniciar el autoplay
+        function startAutoplay() {
+            interval = setInterval(nextSlide, 4000); // Cambia cada 4 segundos
         }
 
-        interval = setInterval(showSlides, 4000); 
+        // Iniciar el carrusel
+        startAutoplay();
     </script>
 </body>
 </html>
