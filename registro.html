@@ -692,7 +692,6 @@
                     timestamp: new Date().toISOString()
                 }]
             };
-
             fetch(scriptURL, {
                 method: 'POST',
                 body: JSON.stringify(formData)
@@ -712,10 +711,21 @@
                     discordPayload.embeds[0].thumbnail = { url: logoUrl };
                 }
                 
+                // 🆕 ENVIAR A DISCORD Y VERIFICAR RESPUESTA
                 return fetch(discordWebhookURL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(discordPayload)
+                })
+                .then(respuestaDiscord => {
+                    console.log('Status de Discord:', respuestaDiscord.status);
+                    if (respuestaDiscord.status === 204 || respuestaDiscord.status === 200) {
+                        console.log('✅ Mensaje enviado a Discord correctamente.');
+                    } else {
+                        console.error('❌ Error al enviar a Discord. Status:', respuestaDiscord.status);
+                        throw new Error('Error de Discord: ' + respuestaDiscord.status);
+                    }
+                    return respuestaDiscord;
                 });
             })
             .then(() => {
@@ -726,7 +736,11 @@
             })
             .catch(error => {
                 console.error('Error!', error);
-                alert('Hubo un error al registrar. Inténtalo de nuevo.');
+                if (error.message.includes('Error de Discord')) {
+                    alert('El registro se guardó en Google Sheets, pero NO se pudo notificar a Discord. Revisa la consola (F12).');
+                } else {
+                    alert('Hubo un error al registrar. Inténtalo de nuevo.');
+                }
                 btn.innerText = originalText;
                 btn.disabled = false;
             });
