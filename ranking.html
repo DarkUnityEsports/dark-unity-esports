@@ -362,7 +362,6 @@
 
          for (let i = 0; i < urlsMezcladas.length; i++) {
         try {
-            // 🆕 Timeout de 8 segundos por URL
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 8000);
 
@@ -495,7 +494,6 @@
             const btnCopia = clon.querySelector('.btn-capture-cat');
             if (btnCopia) btnCopia.remove();
 
-            // Fondo Base64
             try {
                 const bgBase64 = await urlABase64('FONDO-MARCADOR.jpg');
                 clon.style.backgroundImage = `linear-gradient(rgba(11, 15, 25, 0.50), rgba(11, 15, 25, 0.65)), url('${bgBase64}')`;
@@ -506,7 +504,6 @@
                 console.warn('No se pudo convertir el fondo:', e);
             }
 
-            // Expandir tablas
             clon.querySelectorAll('.tabla-container').forEach(tc => {
                 tc.style.overflow = 'visible';
                 tc.style.overflowX = 'visible';
