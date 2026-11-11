@@ -65,7 +65,6 @@
             margin: 0 auto;
         }
         
-        /* 🆕 Navegación: 3 botones en una línea */
         .nav-buttons {
             display: flex;
             gap: 8px;
@@ -123,7 +122,6 @@
             .btn-download-all .texto-corto { display: none; }
         }
 
-        /* Estilos por Categoría */
         .categoria-section {
             margin-bottom: 45px;
             position: relative;
@@ -147,8 +145,6 @@
             padding-left: 10px;
             margin: 0;
         }
-
-        /* 🆕 Contenedor fecha + botón en la misma línea */
         .date-and-btn-row {
             display: flex;
             justify-content: space-between;
@@ -261,7 +257,6 @@
             <p>Tabla de posiciones oficial | Dark Unity eSports</p>
         </header>
 
-        <!-- ================= CATEGORÍA ROOKIE ================= -->
         <div class="categoria-section" id="seccion-rocky">
             <div class="categoria-header">
                 <h2 class="categoria-titulo">🛡️ CATEGORÍA ROOKIE</h2>
@@ -291,7 +286,6 @@
             </div>
         </div>
 
-        <!-- ================= CATEGORÍA BEGINNER ================= -->
         <div class="categoria-section" id="seccion-beginner">
             <div class="categoria-header">
                 <h2 class="categoria-titulo">⚡ CATEGORÍA BEGINNER</h2>
@@ -321,7 +315,6 @@
             </div>
         </div>
       
-        <!-- ================= CATEGORÍA MASTER ================= -->
         <div class="categoria-section" id="seccion-master">
             <div class="categoria-header">
                 <h2 class="categoria-titulo">🔥 CATEGORÍA ÉLITE / MASTER</h2>
@@ -363,9 +356,6 @@
             "https://sheetdb.io/api/v1/ssstatumca9ia", //s*************jax@gmail.com
         ];
 
-        // ═══════════════════════════════════════════════════
-        // CARGA DE DATOS
-        // ═══════════════════════════════════════════════════
         async function cargarRankingDinamico() {
             let datos = null;
             const urlsMezcladas = [...APIS_SHEETDB].sort(() => Math.random() - 0.5);
@@ -455,13 +445,11 @@
             if (cuerpoBeginner) cuerpoBeginner.innerHTML = htmlBeginner || `<tr><td colspan="6" style="text-align:center; color:#94a3b8;">No hay equipos registrados</td></tr>`;
             if (cuerpoMaster) cuerpoMaster.innerHTML = htmlMaster || `<tr><td colspan="6" style="text-align:center; color:#94a3b8;">No hay equipos registrados</td></tr>`;
 
-            // 🔑 Siempre mostrar el bloque (fecha + botón), incluso si no hay fecha
             mostrarBloqueFecha('rocky', fechaRocky);
             mostrarBloqueFecha('beginner', fechaBeginner);
             mostrarBloqueFecha('master', fechaMaster);
         }
 
-        // 🔑 Función auxiliar: siempre muestra el bloque con fecha y botón
         function mostrarBloqueFecha(catId, textoFecha) {
             const wrapper = document.getElementById('wrapper-fecha-' + catId);
             const texto = document.getElementById('texto-fecha-' + catId);
@@ -473,9 +461,6 @@
             }
         }
 
-        // ═══════════════════════════════════════════════════
-        // CAPTURA HD
-        // ═══════════════════════════════════════════════════
         function urlABase64(url) {
             return new Promise((resolve, reject) => {
                 const intentar = (conCORS) => {
@@ -507,7 +492,6 @@
         async function prepararClon(elemento, anchoReal) {
             const clon = elemento.cloneNode(true);
 
-            // 🔑 Quitar el botón de captura del clon
             const btnCopia = clon.querySelector('.btn-capture-cat');
             if (btnCopia) btnCopia.remove();
 
