@@ -475,10 +475,9 @@
         </div>
     </section>
 
-    <!-- 🆕 CARRUSEL DE IMÁGENES DINÁMICO -->
-    <div class="slider-container">
+    <!-- 🆕 PRIMER CARRUSEL (Banners principales) -->
+    <div class="slider-container" id="slider-main">
         <div class="slider-wrapper">
-            <!-- Recuerda subir estas imágenes a tu repositorio -->
             <div class="slide active">
                 <img src="BANNER-1.jpg" alt="Banner 1">
             </div>
@@ -506,7 +505,7 @@
         </div>
         
         <div class="slider-dots" id="slider-dots"></div>
-        </div>
+    </div>
 
     <!-- ACCESOS Y GESTIÓN -->
     <section id="rosters">
@@ -604,9 +603,12 @@
         </div>
     </section>
 
+    <!-- SECCIÓN: LOOT BOX STORE (CON SU PROPIO CARRUSEL) -->
     <section id="sponsors">
         <h4 class="section-title">LOOT BOX<span> STORE</span></h4>
-                <div class="slider-container" id="slider-store" style="margin-top: 1rem; margin-bottom: 2rem;">
+        
+        <!-- 🆕 SEGUNDO CARRUSEL (Loot Box) -->
+        <div class="slider-container" id="slider-store" style="margin-top: 1rem; margin-bottom: 2rem;">
             <div class="slider-wrapper">
                 <div class="slide active">
                     <img src="STORE-1.jpg" alt="Store 1">
@@ -620,6 +622,7 @@
             </div>
             <div class="slider-dots" id="slider-dots-store"></div>
         </div>
+
         <div class="sponsors-grid">
             
             <a href="lootboxstore.html" style="text-decoration: none; color: inherit; display: block;">
@@ -682,9 +685,10 @@
         });
     </script>
 
-        <!-- 🆕 SCRIPT DEL CARRUSEL DINÁMICO -->
+    <!-- 🆕 SCRIPT DEL PRIMER CARRUSEL (Banners) -->
     <script>
-        const slides = document.querySelectorAll(".slide");
+        // 🔑 CORRECCIÓN: Selecciona SOLO las imágenes del carrusel principal
+        const slides = document.querySelectorAll("#slider-main .slide");
         const dotsContainer = document.getElementById("slider-dots");
         let slideIndex = 0;
         let interval;
@@ -695,7 +699,6 @@
             dot.classList.add("dot");
             if (i === 0) dot.classList.add("active");
             
-            // Asignar el evento clic a cada punto
             dot.addEventListener("click", () => {
                 clearInterval(interval);
                 slideIndex = i;
@@ -706,7 +709,8 @@
             dotsContainer.appendChild(dot);
         });
 
-        const dots = document.querySelectorAll(".dot");
+        // 🔑 CORRECCIÓN: Selecciona SOLO los puntitos del carrusel principal
+        const dots = dotsContainer.querySelectorAll(".dot");
 
         // 2. Función para actualizar la imagen y el punto activo
         function updateSlides() {
@@ -734,7 +738,8 @@
         // Iniciar el carrusel
         startAutoplay();
     </script>
-        <!-- 🆕 SCRIPT DEL SEGUNDO CARRUSEL (Loot Box) -->
+
+    <!-- 🆕 SCRIPT DEL SEGUNDO CARRUSEL (Loot Box) -->
     <script>
         // 1. Seleccionar las imágenes del segundo carrusel usando su ID único
         const slidesStore = document.querySelectorAll("#slider-store .slide");
@@ -748,7 +753,6 @@
             dot.classList.add("dot");
             if (i === 0) dot.classList.add("active");
             
-            // Asignar evento clic a cada punto
             dot.addEventListener("click", () => {
                 clearInterval(intervalStore);
                 slideIndexStore = i;
