@@ -604,9 +604,22 @@
         </div>
     </section>
 
-    <!-- SECCIÓN NUEVA: PATROCINADORES Y PARTNERS -->
     <section id="sponsors">
         <h4 class="section-title">LOOT BOX<span> STORE</span></h4>
+                <div class="slider-container" id="slider-store" style="margin-top: 1rem; margin-bottom: 2rem;">
+            <div class="slider-wrapper">
+                <div class="slide active">
+                    <img src="STORE-1.jpg" alt="Store 1">
+                </div>
+                <div class="slide">
+                    <img src="STORE-2.jpg" alt="Store 2">
+                </div>
+                <div class="slide">
+                    <img src="STORE-3.jpg" alt="Store 3">
+                </div>
+            </div>
+            <div class="slider-dots" id="slider-dots-store"></div>
+        </div>
         <div class="sponsors-grid">
             
             <a href="lootboxstore.html" style="text-decoration: none; color: inherit; display: block;">
@@ -720,6 +733,59 @@
 
         // Iniciar el carrusel
         startAutoplay();
+    </script>
+        <!-- 🆕 SCRIPT DEL SEGUNDO CARRUSEL (Loot Box) -->
+    <script>
+        // 1. Seleccionar las imágenes del segundo carrusel usando su ID único
+        const slidesStore = document.querySelectorAll("#slider-store .slide");
+        const dotsContainerStore = document.getElementById("slider-dots-store");
+        let slideIndexStore = 0;
+        let intervalStore;
+
+        // 2. Generar los puntos dinámicamente para la tienda
+        slidesStore.forEach((_, i) => {
+            const dot = document.createElement("span");
+            dot.classList.add("dot");
+            if (i === 0) dot.classList.add("active");
+            
+            // Asignar evento clic a cada punto
+            dot.addEventListener("click", () => {
+                clearInterval(intervalStore);
+                slideIndexStore = i;
+                updateSlidesStore();
+                startAutoplayStore();
+            });
+            
+            dotsContainerStore.appendChild(dot);
+        });
+
+        const dotsStore = dotsContainerStore.querySelectorAll(".dot");
+
+        // 3. Función para actualizar la imagen y el punto activo
+        function updateSlidesStore() {
+            slidesStore.forEach(slide => slide.classList.remove("active"));
+            dotsStore.forEach(dot => dot.classList.remove("active"));
+
+            if (slideIndexStore >= slidesStore.length) slideIndexStore = 0;
+            if (slideIndexStore < 0) slideIndexStore = slidesStore.length - 1;
+
+            slidesStore[slideIndexStore].classList.add("active");
+            dotsStore[slideIndexStore].classList.add("active");
+        }
+
+        // 4. Función para avanzar
+        function nextSlideStore() {
+            slideIndexStore++;
+            updateSlidesStore();
+        }
+
+        // 5. Función de autoplay
+        function startAutoplayStore() {
+            intervalStore = setInterval(nextSlideStore, 4000); // Cambia cada 4 segundos
+        }
+
+        // Iniciar el carrusel de la tienda
+        startAutoplayStore();
     </script>
 </body>
 </html>
