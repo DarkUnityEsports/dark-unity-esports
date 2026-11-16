@@ -439,6 +439,16 @@
                 aspect-ratio: 16 / 9; 
             }
         }
+
+        /* 🆕 Ajuste de botones en móvil para que queden en una sola línea */
+        @media (max-width: 768px) {
+            #publicidad .btn {
+                padding: 0.6rem 0.8rem !important;
+                font-size: 0.8rem !important;
+                flex-shrink: 1;
+                width: auto;
+            }
+        }
     </style>
 </head>
 <body>
@@ -533,14 +543,14 @@
                 Si quieres formar parte de Emperium Esports únete a nuestra comunidad, ¡te esperamos!
             </p>
             
-            <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+            <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: nowrap;">
                 <!-- Botón de Discord (Morado) -->
-                <a href="https://discord.gg/TU_ENLACE_AQUI" target="_blank" class="btn" style="background: #5865F2; display: inline-flex; align-items: center; gap: 8px; padding: 0.8rem 2rem;">
+                <a href="https://discord.gg/TU_ENLACE_AQUI" target="_blank" class="btn" style="background: #5865F2; display: inline-flex; align-items: center; gap: 5px; padding: 0.8rem 2rem;">
                     <i class="fa-brands fa-discord"></i> Unirse al Discord
                 </a>
                 
                 <!-- Botón de WhatsApp (Verde) -->
-                <a href="https://chat.whatsapp.com/TU_ENLACE_AQUI" target="_blank" class="btn" style="background: #25D366; color: #000; display: inline-flex; align-items: center; gap: 8px; padding: 0.8rem 2rem;">
+                <a href="https://chat.whatsapp.com/TU_ENLACE_AQUI" target="_blank" class="btn" style="background: #25D366; color: #000; display: inline-flex; align-items: center; gap: 5px; padding: 0.8rem 2rem;">
                     <i class="fa-brands fa-whatsapp"></i> Unirse al WhatsApp
                 </a>
             </div>
