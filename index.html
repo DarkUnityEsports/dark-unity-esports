@@ -507,6 +507,30 @@
         <div class="slider-dots" id="slider-dots"></div>
     </div>
 
+    <!-- 🆕 SECCIÓN DE PUBLICIDAD (Novedades y Promociones) -->
+    <section id="publicidad" style="padding-top: 2rem; padding-bottom: 2rem;">
+        
+        <!-- Título de la sección -->
+        <h2 class="section-title">NOVEDADES</h2>
+        
+        <!-- Tercer Carrusel (Banners Publicitarios) -->
+        <div class="slider-container" id="slider-ads" style="margin-top: 1rem; margin-bottom: 2rem;">
+            <div class="slider-wrapper">
+                <!-- Imágenes de publicidad -->
+                <div class="slide active">
+                    <img src="PUBLICIDAD-1.jpg" alt="Publicidad 1">
+                </div>
+                <div class="slide">
+                    <img src="PUBLICIDAD-2.jpg" alt="Publicidad 2">
+                </div>
+                <div class="slide">
+                    <img src="PUBLICIDAD-3.jpg" alt="Publicidad 3">
+                </div>
+            </div>
+            <div class="slider-dots" id="slider-dots-ads"></div>
+        </div>
+    </section>
+
     <!-- ACCESOS Y GESTIÓN -->
     <section id="rosters">
         <h2 class="section-title">Accesos y <span>Gestión</span></h2>
@@ -684,13 +708,11 @@
 
     <!-- 🆕 SCRIPT DEL PRIMER CARRUSEL (Banners) -->
     <script>
-        // 🔑 CORRECCIÓN: Selecciona SOLO las imágenes del carrusel principal
         const slides = document.querySelectorAll("#slider-main .slide");
         const dotsContainer = document.getElementById("slider-dots");
         let slideIndex = 0;
         let interval;
 
-        // 1. Generar los puntos dinámicamente según la cantidad de slides
         slides.forEach((_, i) => {
             const dot = document.createElement("span");
             dot.classList.add("dot");
@@ -706,10 +728,8 @@
             dotsContainer.appendChild(dot);
         });
 
-        // 🔑 CORRECCIÓN: Selecciona SOLO los puntitos del carrusel principal
         const dots = dotsContainer.querySelectorAll(".dot");
 
-        // 2. Función para actualizar la imagen y el punto activo
         function updateSlides() {
             slides.forEach(slide => slide.classList.remove("active"));
             dots.forEach(dot => dot.classList.remove("active"));
@@ -721,30 +741,25 @@
             dots[slideIndex].classList.add("active");
         }
 
-        // 3. Función para avanzar al siguiente slide
         function nextSlide() {
             slideIndex++;
             updateSlides();
         }
 
-        // 4. Función para iniciar el autoplay
         function startAutoplay() {
-            interval = setInterval(nextSlide, 4000); // Cambia cada 4 segundos
+            interval = setInterval(nextSlide, 4000); 
         }
 
-        // Iniciar el carrusel
         startAutoplay();
     </script>
 
     <!-- 🆕 SCRIPT DEL SEGUNDO CARRUSEL (Loot Box) -->
     <script>
-        // 1. Seleccionar las imágenes del segundo carrusel usando su ID único
         const slidesStore = document.querySelectorAll("#slider-store .slide");
         const dotsContainerStore = document.getElementById("slider-dots-store");
         let slideIndexStore = 0;
         let intervalStore;
 
-        // 2. Generar los puntos dinámicamente para la tienda
         slidesStore.forEach((_, i) => {
             const dot = document.createElement("span");
             dot.classList.add("dot");
@@ -762,7 +777,6 @@
 
         const dotsStore = dotsContainerStore.querySelectorAll(".dot");
 
-        // 3. Función para actualizar la imagen y el punto activo
         function updateSlidesStore() {
             slidesStore.forEach(slide => slide.classList.remove("active"));
             dotsStore.forEach(dot => dot.classList.remove("active"));
@@ -774,19 +788,63 @@
             dotsStore[slideIndexStore].classList.add("active");
         }
 
-        // 4. Función para avanzar
         function nextSlideStore() {
             slideIndexStore++;
             updateSlidesStore();
         }
 
-        // 5. Función de autoplay
         function startAutoplayStore() {
-            intervalStore = setInterval(nextSlideStore, 4000); // Cambia cada 4 segundos
+            intervalStore = setInterval(nextSlideStore, 4000); 
         }
 
-        // Iniciar el carrusel de la tienda
         startAutoplayStore();
+    </script>
+
+    <!-- 🆕 SCRIPT DEL TERCER CARRUSEL (Publicidad) -->
+    <script>
+        const slidesAds = document.querySelectorAll("#slider-ads .slide");
+        const dotsContainerAds = document.getElementById("slider-dots-ads");
+        let slideIndexAds = 0;
+        let intervalAds;
+
+        slidesAds.forEach((_, i) => {
+            const dot = document.createElement("span");
+            dot.classList.add("dot");
+            if (i === 0) dot.classList.add("active");
+            
+            dot.addEventListener("click", () => {
+                clearInterval(intervalAds);
+                slideIndexAds = i;
+                updateSlidesAds();
+                startAutoplayAds();
+            });
+            
+            dotsContainerAds.appendChild(dot);
+        });
+
+        const dotsAds = dotsContainerAds.querySelectorAll(".dot");
+
+        function updateSlidesAds() {
+            slidesAds.forEach(slide => slide.classList.remove("active"));
+            dotsAds.forEach(dot => dot.classList.remove("active"));
+
+            if (slideIndexAds >= slidesAds.length) slideIndexAds = 0;
+            if (slideIndexAds < 0) slideIndexAds = slidesAds.length - 1;
+
+            slidesAds[slideIndexAds].classList.add("active");
+            dotsAds[slideIndexAds].classList.add("active");
+        }
+
+        function nextSlideAds() {
+            slideIndexAds++;
+            updateSlidesAds();
+        }
+
+        function startAutoplayAds() {
+            intervalAds = setInterval(nextSlideAds, 5000); 
+        }
+
+        startAutoplayAds();
     </script>
 </body>
 </html>
