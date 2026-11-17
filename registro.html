@@ -170,7 +170,7 @@
             border-radius: 8px;
             margin-bottom: 1.2rem;
             display: grid;
-            /* 🆕 CAMBIO: 3 columnas en lugar de 4 para llenar el espacio */
+            /* 3 columnas para llenar el espacio */
             grid-template-columns: 2fr 2fr 1.5fr;
             gap: 12px;
             align-items: center;
@@ -316,7 +316,30 @@
                         <option value="" disabled selected>Selecciona</option>
                     </select>
                 </div>
-            </div>
+            </div> <!-- ✅ CIERRE DEL MANAGER-ROW -->
+
+            <!-- 🆕 INFORMACIÓN DEL CO-MANAGER -->
+            <div class="manager-row" style="margin-top: -1rem;">
+                <div class="manager-row-title" style="color: #f1c40f;">Información del Co-Manager</div>
+                <div>
+                    <label style="font-size: 0.75rem;">Nombre del Co-Manager</label>
+                    <input type="text" name="comanager_nombre" placeholder="Nombre o Nick">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">Discord ID (Co-Manager)</label>
+                    <input type="text" name="comanager_discord" maxlength="20" placeholder="Ej. 123456789">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">WhatsApp / Contacto</label>
+                    <input type="text" name="comanager_whatsapp" placeholder="Ej. +584120000000">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">País</label>
+                    <select name="comanager_pais" class="glass-select pais-select">
+                        <option value="" disabled selected>Selecciona</option>
+                    </select>
+                </div>
+            </div> <!-- ✅ CIERRE DEL CO-MANAGER-ROW -->
 
             <label style="margin-bottom: 1.5rem; font-size: 1.3rem;"><i class="fa-solid fa-users"></i> EQUIPO DE 7 JUGADORES</label>
 
@@ -585,8 +608,7 @@
             const managerDiscord = getValueByName('manager_discord');
             const managerWhatsapp = getValueByName('manager_whatsapp');
             const managerPais = getValueByName('manager_pais');
-
-            // 🆕 Limpiamos el formData para que no envíe los discords de los jugadores
+            
             const formData = {
                 nombreEquipo: nombreEquipo,
                 imageBytes: base64Data,
@@ -600,6 +622,12 @@
                 manager_discord: managerDiscord,
                 manager_whatsapp: managerWhatsapp,
                 manager_pais: managerPais,
+
+                // Co-Manager
+                comanager_nombre: getValueByName('comanager_nombre'),
+                comanager_discord: getValueByName('comanager_discord'),
+                comanager_whatsapp: getValueByName('comanager_whatsapp'),
+                comanager_pais: getValueByName('comanager_pais'),
 
                 // Jugador 1
                 p1_nick: getValueByName('p1_nick'),
@@ -659,7 +687,7 @@
             const f6 = obtenerBanderaDiscord(getValueByName('p6_pais'));
             const f7 = obtenerBanderaDiscord(getValueByName('p7_pais'));
 
-            // 🆕 Payload del embed (SIN discords de jugadores)
+            // 🆕 Payload del embed (SIN discords de jugadores, CON Co-Manager)
             const discordPayload = {
                 content: null,
                 embeds: [{
@@ -668,8 +696,12 @@
                     color: 2434305,
                     fields: [
                         {
-                            name: `\u200B\n👤 Manager del Equipo: "${managerNombre || "No especificado"}"`,
-                            value: `\u200B\n\u200B\n⚔️ **Lineup Titulares**\n\u200B`,
+                            name: `\u200B\n👤 Manager y Co-Manager`,
+                            value: `
+                                **Manager:** ${managerNombre || "No especificado"} • 🎮 <@${managerDiscord}> • ${fManager} ${managerPais || "N/E"}
+                                \n**Co-Manager:** ${getValueByName('comanager_nombre') || "No especificado"} • 🎮 <@${getValueByName('comanager_discord')}> • ${obtenerBanderaDiscord(getValueByName('comanager_pais'))} ${getValueByName('comanager_pais') || "N/E"}
+                                \n\u200B\n⚔️ **Lineup Titulares**\n\u200B
+                            `,
                             inline: false
                         },
                         {
@@ -711,7 +743,7 @@
                     discordPayload.embeds[0].thumbnail = { url: logoUrl };
                 }
                 
-                // 🆕 ENVIAR A DISCORD Y VERIFICAR RESPUESTA
+                // ENVIAR A DISCORD Y VERIFICAR RESPUESTA
                 return fetch(discordWebhookURL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
